@@ -2,4 +2,11 @@
     <string name="app_name">"Эллой BT"</string>
     <string name="www_alloynn_com">www.alloynn.com</string>
     <string name="inverter_technology">INVERTER TECHNOLOGY</string>
+    <string name="app_version">v1.0.0</string>
+    <string name="fb_description">search BT devices</string>
+    <string name="default_model_string">MC-315T2 AC/DC</string>
+    <string name="default_mac_address">1F:3G:5G:12:34:6F</string>
+    <string name="default_series_number">013400002102007</string>
+    <string name="mac_address_hint">MAC-адрес</string>
+    <string name="series_number_hint">Серийный №</string>
 </resources>

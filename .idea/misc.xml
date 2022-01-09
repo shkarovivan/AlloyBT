@@ -4,9 +4,19 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/79101/Desktop/Bluetooth/AlloyBT/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2759259259259259" />
+        <entry key="..\:/Users/79101/Desktop/Bluetooth/AlloyBT/app/src/main/res/drawable-v24/ic_signal_0_bar.xml" value="0.290625" />
+        <entry key="..\:/Users/79101/Desktop/Bluetooth/AlloyBT/app/src/main/res/drawable-v24/ic_signal_1_bar.xml" value="0.290625" />
+        <entry key="..\:/Users/79101/Desktop/Bluetooth/AlloyBT/app/src/main/res/drawable-v24/ic_signal_2_bar.xml" value="0.290625" />
+        <entry key="..\:/Users/79101/Desktop/Bluetooth/AlloyBT/app/src/main/res/drawable-v24/ic_signal_3_bar.xml" value="0.290625" />
+        <entry key="..\:/Users/79101/Desktop/Bluetooth/AlloyBT/app/src/main/res/drawable-v24/ic_signal_4_bar.xml" value="0.290625" />
+        <entry key="..\:/Users/79101/Desktop/Bluetooth/AlloyBT/app/src/main/res/drawable/ic_bluetooth_searching.xml" value="0.225" />
         <entry key="..\:/Users/79101/Desktop/Bluetooth/AlloyBT/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2759259259259259" />
         <entry key="..\:/Users/79101/Desktop/Bluetooth/AlloyBT/app/src/main/res/layout/activity_main.xml" value="0.20885416666666667" />
         <entry key="..\:/Users/79101/Desktop/Bluetooth/AlloyBT/app/src/main/res/layout/activity_splash_screen.xml" value="0.33" />
+        <entry key="..\:/Users/79101/Desktop/Bluetooth/AlloyBT/app/src/main/res/layout/fragment_device_control.xml" value="0.20520833333333333" />
+        <entry key="..\:/Users/79101/Desktop/Bluetooth/AlloyBT/app/src/main/res/layout/fragment_search_devices.xml" value="0.33" />
+        <entry key="..\:/Users/79101/Desktop/Bluetooth/AlloyBT/app/src/main/res/layout/fragment_splash_screen.xml" value="0.22" />
+        <entry key="..\:/Users/79101/Desktop/Bluetooth/AlloyBT/app/src/main/res/layout/item_bluetooth_device.xml" value="0.5" />
         <entry key="..\:/Users/79101/Desktop/Bluetooth/AlloyBT/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.2759259259259259" />
         <entry key="..\:/Users/79101/Desktop/Bluetooth/AlloyBT/app/src/main/res/mipmap-anydpi-v26/ic_launcher_alloy_round.xml" value="0.225" />
       </map>
