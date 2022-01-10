@@ -1,5 +1,6 @@
 package com.example.alloybt.adapter
 
+import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -35,10 +36,11 @@ abstract class BtDevicesHolder(
 		macAddressTextView.text = macAddress
 		seriesNumberTextView.text = seriesNumber
 
-		//val signalLevelPerCent = ((100.0f * (127.0f + btSignalLevel) / (127.0f + 20.0f))).toInt()
-		rssi.setImageLevel(btSignalLevel)
-	//	rssi.setImageLevel(signalLevelPerCent)
+		val signalLevelPerCent = ((100.0f * (127.0f + btSignalLevel) / (127.0f + 20.0f))).toInt()
+		//rssi.setImageLevel(btSignalLevel)
+		rssi.setImageLevel(signalLevelPerCent)
 
+		Log.e("BluetoothRSSI", "RSSI:  ${btSignalLevel} - $signalLevelPerCent ")
 		Glide.with(itemView)
 			//.load(modelImageLink)
 			.load(R.drawable.t3acdc)

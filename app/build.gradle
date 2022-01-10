@@ -38,7 +38,7 @@ android {
 
 dependencies {
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.5.31"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.6.10"
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.4.0'
     implementation 'com.google.android.material:material:1.4.0'
@@ -60,6 +60,16 @@ dependencies {
     // JatPack Navigation
     implementation "androidx.navigation:navigation-fragment-ktx:2.3.5"
 
+    // Brings the new BluetoothLeScanner API to older platforms
+    implementation 'no.nordicsemi.android.support.v18:scanner:1.6.0'
+
+    implementation 'no.nordicsemi.android:ble:2.3.1'
+
+    // Log Bluetooth LE events in nRF Logger
+    implementation 'no.nordicsemi.android:log:2.3.0'
+
+    // BLE library
+    implementation 'no.nordicsemi.android:ble-livedata:2.3.1'
 
     testImplementation 'junit:junit:'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

@@ -1,5 +1,6 @@
 package com.example.alloybt.viewmodel
 
+import android.bluetooth.BluetoothDevice
 import com.example.alloybt.BtDevice
 import kotlin.random.Random
 
@@ -28,14 +29,19 @@ class BtDevicesRepository {
 			modelImageLink = ""
 		),
 
-	)
+		)
 
-	fun initBtDevicesList(): List<BtDevice> {
-		var initPhones: List<BtDevice> = emptyList()
+	fun initBtDevicesList(): List <BtDevice> = listOf()
+//	{
+//		var initBtDevices: List<BtDevice> = emptyList()
+////
+////		for (i in 1..10) {
+////			initBtDevices = initBtDevices + initBtDevicesBase.random().copy(seriesNumber = Random.nextInt(1342000000,1902112999).toString(), btSignalLevel = Random.nextInt(0,100))
+////		}
+//		return initBtDevices
+//	}
 
-		for (i in 1..10) {
-			initPhones = initPhones + initBtDevicesBase.random().copy(seriesNumber = Random.nextInt(1342000000,1902112999).toString(), btSignalLevel = Random.nextInt(0,100))
-		}
-		return initPhones
+	fun addBtDevice(model: String, macAddress: String, btSignalLevel: Int): BtDevice {
+		return BtDevice (model, macAddress, "", btSignalLevel, "")
 	}
 }
