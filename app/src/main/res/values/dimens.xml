@@ -6,7 +6,7 @@
     <dimen name="text_margin">16dp</dimen>
     <dimen name="main_fragment_margin">50dp</dimen>
     <dimen name="sale_image_size">40dp</dimen>
-    <dimen name="normal_text_size">15sp</dimen>
-    <dimen name="large_text_size">20sp</dimen>
-    <dimen name="small_text_size">10sp</dimen>
+    <dimen name="normal_text_size">20sp</dimen>
+    <dimen name="large_text_size">30sp</dimen>
+    <dimen name="small_text_size">15sp</dimen>
 </resources>
