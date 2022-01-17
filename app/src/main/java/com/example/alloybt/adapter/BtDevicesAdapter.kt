@@ -16,7 +16,7 @@ class BtDevicesAdapter(
 
 	class PhonesDiffUtilCallBack : DiffUtil.ItemCallback<BtDevice>() {
 		override fun areItemsTheSame(oldItem: BtDevice, newItem: BtDevice): Boolean {
-			return oldItem.macAddress == newItem.macAddress && oldItem.seriesNumber == newItem.seriesNumber
+			return oldItem.macAddress == newItem.macAddress
 		}
 
 		override fun areContentsTheSame(oldItem: BtDevice, newItem: BtDevice): Boolean {

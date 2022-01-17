@@ -5,6 +5,43 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
+    <com.sdsmdg.harjot.crollerTest.Croller
+        android:id="@+id/croller"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="100dp"
+        app:back_circle_color="@color/black"
+        app:indicator_color="@color/dark_yellow"
+        app:indicator_width="15"
+        app:is_continuous="false"
+        app:label_color="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:main_circle_color="@color/black"
+        app:max="315"
+        app:min="0"
+        app:progress_primary_circle_size="20"
+        app:progress_primary_color="@color/dark_yellow"
+        app:progress_primary_stroke_width="30"
+        app:progress_secondary_color="@color/dark_yellow"
+        app:start_offset="45" />
+
+    <TextView
+        android:id="@+id/currentTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:textColor="@color/dark_yellow"
+        android:textSize="50sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/croller"
+        app:layout_constraintEnd_toEndOf="@+id/croller"
+        app:layout_constraintStart_toStartOf="@+id/croller"
+        app:layout_constraintTop_toTopOf="@+id/croller" />
+
     <TextView
         android:id="@+id/seriesNumberTestTextView"
         android:layout_width="wrap_content"
@@ -14,10 +51,8 @@
         android:textSize="34sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.705" />
+        app:layout_constraintTop_toBottomOf="@+id/macAdressTestTextView" />
 
     <TextView
         android:id="@+id/modelTestTextView"
@@ -26,22 +61,48 @@
         android:text="TextView"
         android:textColor="@color/dark_yellow"
         android:textSize="34sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/macAdressTestTextView" />
+
+    <TextView
+        android:id="@+id/curкentHintTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ток, А"
+        android:textColor="@color/dark_yellow"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/croller"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/macAdressTestTextView"
+        app:layout_constraintVertical_bias="0.653" />
 
     <TextView
         android:id="@+id/macAdressTestTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/main_margin"
         android:text="TextView"
         android:textColor="@color/dark_yellow"
         android:textSize="34sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/seriesNumberTestTextView" />
+
+    <TextView
+        android:id="@+id/readTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textColor="@color/dark_yellow"
+        android:textSize="34sp"
+        app:layout_constraintBottom_toTopOf="@+id/croller"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.612" />
+        app:layout_constraintTop_toBottomOf="@+id/macAdressTestTextView"
+        app:layout_constraintVertical_bias="0.245" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

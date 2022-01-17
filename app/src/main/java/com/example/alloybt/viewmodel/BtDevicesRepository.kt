@@ -6,30 +6,30 @@ import kotlin.random.Random
 
 class BtDevicesRepository {
 
-	private val initBtDevicesBase: List<BtDevice> = listOf(
-		BtDevice(
-			model = "MC-315T2 AC/DC",
-			macAddress = "DF:JF:JD:23:JF:56:DG",
-			seriesNumber = "1342206052\"",
-			btSignalLevel = 10,
-			modelImageLink = ""
-		),
-		BtDevice(
-			model = "MC-501MX Adaptive",
-			macAddress = "DF:JF:JD:23:JF:56:DG",
-			seriesNumber = "1802206052",
-			btSignalLevel = 30,
-			modelImageLink = ""
-		),
-		BtDevice(
-			model = "MC-350MX Pulse",
-			macAddress = "DF:JF:JD:23:JF:56:DG",
-			seriesNumber = "1592106112",
-			btSignalLevel = 1000,
-			modelImageLink = ""
-		),
-
-		)
+//	private val initBtDevicesBase: List<BtDevice> = listOf(
+//		BtDevice(
+//			model = "MC-315T2 AC/DC",
+//			macAddress = "DF:JF:JD:23:JF:56:DG",
+//			seriesNumber = "1342206052\"",
+//			btSignalLevel = 10,
+//			modelImageLink = ""
+//		),
+//		BtDevice(
+//			model = "MC-501MX Adaptive",
+//			macAddress = "DF:JF:JD:23:JF:56:DG",
+//			seriesNumber = "1802206052",
+//			btSignalLevel = 30,
+//			modelImageLink = ""
+//		),
+//		BtDevice(
+//			model = "MC-350MX Pulse",
+//			macAddress = "DF:JF:JD:23:JF:56:DG",
+//			seriesNumber = "1592106112",
+//			btSignalLevel = 1000,
+//			modelImageLink = ""
+//		),
+//
+//		)
 
 	fun initBtDevicesList(): List <BtDevice> = listOf()
 //	{
@@ -41,7 +41,7 @@ class BtDevicesRepository {
 //		return initBtDevices
 //	}
 
-	fun addBtDevice(model: String, macAddress: String, btSignalLevel: Int): BtDevice {
-		return BtDevice (model, macAddress, "", btSignalLevel, "")
+	fun addBtDevice(model: String, macAddress: String, number: String, btSignalLevel: Int, btDevice: BluetoothDevice): BtDevice {
+		return BtDevice (model, macAddress, number, btSignalLevel, "", btDevice)
 	}
 }

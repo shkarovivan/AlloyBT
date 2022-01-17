@@ -85,6 +85,7 @@ class SearchDevicesFragment : Fragment(R.layout.fragment_search_devices) {
 			btDevicesListViewModel.startScan()
 		}
 	}
+
 	private fun observeViewModelState() {
 		btDevicesListViewModel.btDevicesList
 			.observe(viewLifecycleOwner) { btDevices -> btDevicesAdapter?.items = btDevices }
