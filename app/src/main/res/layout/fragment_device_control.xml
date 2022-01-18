@@ -6,6 +6,17 @@
     android:layout_height="match_parent">
 
 
+    <TextView
+        android:id="@+id/btStateTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/dark_yellow"
+        android:textSize="34sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <com.sdsmdg.harjot.crollerTest.Croller
         android:id="@+id/croller"
         android:layout_width="300dp"
@@ -43,80 +54,54 @@
         app:layout_constraintTop_toTopOf="@+id/croller" />
 
     <TextView
-        android:id="@+id/seriesNumberTestTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        android:textColor="@color/dark_yellow"
-        android:textSize="34sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/macAdressTestTextView" />
-
-    <TextView
-        android:id="@+id/modelTestTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        android:textColor="@color/dark_yellow"
-        android:textSize="34sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/macAdressTestTextView" />
-
-    <TextView
         android:id="@+id/currentHintTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Уставка тока, А"
+        android:text="@string/set_current_text"
         android:textColor="@color/dark_yellow"
         android:textSize="34sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/croller"
+        app:layout_constraintTop_toBottomOf="@+id/croller"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/macAdressTestTextView"
-        app:layout_constraintVertical_bias="0.653" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/macAdressTestTextView"
+        android:id="@+id/realCurrentTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/main_margin"
-        android:text="TextView"
-        android:textColor="@color/dark_yellow"
-        android:textSize="34sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/seriesNumberTestTextView" />
-
-    <TextView
-        android:id="@+id/readTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
+        android:layout_marginBottom="@dimen/main_fragment_margin"
+        android:text="@string/real_current_init_text"
         android:textColor="@color/dark_yellow"
         android:textSize="50sp"
-        app:layout_constraintBottom_toTopOf="@+id/croller"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/macAdressTestTextView"
-        app:layout_constraintVertical_bias="0.337" />
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/readTextView2"
+        android:id="@+id/realCurrentTitleTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Реальный ток, А"
+        android:text="@string/real_current_text"
         android:textColor="@color/dark_yellow"
         android:textSize="34sp"
-        app:layout_constraintBottom_toTopOf="@+id/croller"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/realCurrentTextView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.473"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/stateProgressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/main_fragment_margin"
+        app:layout_constraintBottom_toTopOf="@+id/btStateTextView"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/macAdressTestTextView"
-        app:layout_constraintVertical_bias="0.417" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

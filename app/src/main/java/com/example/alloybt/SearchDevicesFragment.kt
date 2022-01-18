@@ -1,10 +1,12 @@
 package com.example.alloybt
 
 import android.Manifest
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -29,7 +31,11 @@ class SearchDevicesFragment : Fragment(R.layout.fragment_search_devices) {
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 		initList()
-		searchFAB.setOnClickListener {  checkLocation.launch(Manifest.permission.ACCESS_FINE_LOCATION)}
+		checkLocation.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+		searchFAB.setOnClickListener {
+			btDevicesListViewModel.refreshList()
+			checkLocation.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+		}
 	}
 
 	override fun onResume() {
@@ -42,9 +48,12 @@ class SearchDevicesFragment : Fragment(R.layout.fragment_search_devices) {
 		btDevicesAdapter = null
 	}
 
+	@RequiresApi(Build.VERSION_CODES.N)
 	override fun onStart() {
 		super.onStart()
 		observeViewModelState()
+		searchProgressBar.setProgress(50,true)
+		searchProgressBar.visibility = View.GONE
 	}
 
 	override fun onStop() {
@@ -73,9 +82,6 @@ class SearchDevicesFragment : Fragment(R.layout.fragment_search_devices) {
 		val btDeviceInformation = btDevicesListViewModel.btDevicesList.value?.get(position)!!
 		val action = SearchDevicesFragmentDirections.actionSearchDevicesFragmentToBtDeviceControl(btDeviceInformation)
 		findNavController().navigate(action)
-	//	findNavController().navigate(R.id.action_searchDevicesFragment_to_btDeviceControl)
-
-
 	}
 
 	private val checkLocation = registerForActivityResult(

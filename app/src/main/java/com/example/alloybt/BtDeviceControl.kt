@@ -11,6 +11,7 @@ import androidx.navigation.fragment.navArgs
 import com.example.alloybt.control.ControlManager
 import com.example.alloybt.viewmodel.ControlViewModel
 import kotlinx.android.synthetic.main.fragment_device_control.*
+import no.nordicsemi.android.ble.livedata.state.ConnectionState
 
 class BtDeviceControl : Fragment(R.layout.fragment_device_control) {
 
@@ -26,10 +27,9 @@ class BtDeviceControl : Fragment(R.layout.fragment_device_control) {
         super.onViewCreated(view, savedInstanceState)
         val btDeviceInformation: BtDevice = args.btDeviceInformation
 
-        modelTestTextView.text = btDeviceInformation.model
-        macAdressTestTextView.text = btDeviceInformation.macAddress
-        seriesNumberTestTextView.text = btDeviceInformation.seriesNumber
         btDevice = btDeviceInformation.device
+        showConnectingBar()
+        hideControlViews()
 
         (activity as AppCompatActivity?)!!.supportActionBar!!.title = "Эллой "+
             btDeviceInformation.model + " №" + btDeviceInformation.seriesNumber
@@ -44,13 +44,44 @@ class BtDeviceControl : Fragment(R.layout.fragment_device_control) {
                 }
             }
         }
-        readTextView.visibility = View.VISIBLE
+
+        realCurrentTextView.visibility = View.VISIBLE
         controlViewModel.buttonState.observe(
             this
         ) { btDataReceived ->
             if (btDataReceived.length <= 3){
-                readTextView.text = btDataReceived}
+                realCurrentTextView.text = btDataReceived}
             }
+
+        controlViewModel.connectionState.observe(this){
+            when (it.state){
+                ConnectionState.State.CONNECTING -> {
+                    showConnectingBar()
+                    hideControlViews()
+                    btStateTextView.text = resources.getText(R.string.connecting_state)}
+                ConnectionState.State.INITIALIZING -> {
+                    showConnectingBar()
+                    hideControlViews()
+                    btStateTextView.text = resources.getText(R.string.initialization_state)}
+                ConnectionState.State.READY -> {
+                    showControlViews()
+                    btStateTextView.text = ""
+                }
+                ConnectionState.State.DISCONNECTED -> {
+                    showConnectingBar()
+                    hideControlViews()
+                    btStateTextView.text = resources.getText(R.string.disconnected_state)
+                }
+                ConnectionState.State.DISCONNECTING-> {
+                    showConnectingBar()
+                    hideControlViews()
+                    btStateTextView.text = resources.getText(R.string.disconnecting_state)
+                }
+                else-> btStateTextView.visibility = View.INVISIBLE
+            }
+
+
+        }
     }
 
     override fun onAttach(context: Context) {
@@ -67,4 +98,28 @@ class BtDeviceControl : Fragment(R.layout.fragment_device_control) {
     private fun sendText(current: String) {
         controlViewModel.setWeldCurrent(current)
     }
+
+    private fun showConnectingBar(){
+        btStateTextView.visibility = View.VISIBLE
+        stateProgressBar.visibility = View.VISIBLE
+    }
+
+    private fun hideControlViews(){
+        croller.visibility = View.INVISIBLE
+        currentTextView.visibility = View.INVISIBLE
+        currentHintTextView.visibility = View.INVISIBLE
+        realCurrentTitleTextView.visibility = View.INVISIBLE
+        realCurrentTextView.visibility = View.INVISIBLE
+    }
+
+    private fun showControlViews(){
+        btStateTextView.visibility = View.INVISIBLE
+        stateProgressBar.visibility = View.INVISIBLE
+        croller.visibility = View.VISIBLE
+        currentTextView.visibility = View.VISIBLE
+        currentHintTextView.visibility = View.VISIBLE
+        realCurrentTitleTextView.visibility = View.VISIBLE
+        realCurrentTextView.visibility = View.VISIBLE
+    }
+
 }

@@ -9,4 +9,11 @@
     <string name="default_series_number">013400002102007</string>
     <string name="mac_address_hint">MAC-адрес</string>
     <string name="series_number_hint">Серийный №</string>
+    <string name="connecting_state">Соединение</string>
+    <string name="initialization_state">Инициализация</string>
+    <string name="disconnected_state">Отключено</string>
+    <string name="disconnecting_state">Отключение</string>
+    <string name="real_current_text">Реальный ток, А</string>
+    <string name="real_current_init_text">0</string>
+    <string name="set_current_text">Уставка тока, А</string>
 </resources>

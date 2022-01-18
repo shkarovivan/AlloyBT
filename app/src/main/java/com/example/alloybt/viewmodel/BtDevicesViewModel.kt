@@ -29,7 +29,6 @@ class BtDevicesViewModel(adapterProvider: BluetoothAdapterProvider) : ViewModel(
 
     private val foundDevices = HashMap<String, BluetoothDevice>()
 
-
     val btDevicesList: LiveData<List<BtDevice>>
         get() = btDevicesLiveData
 
@@ -56,6 +55,9 @@ class BtDevicesViewModel(adapterProvider: BluetoothAdapterProvider) : ViewModel(
 
     fun isListEmpty(): Boolean = btDevices.isEmpty()
 
+    fun refreshList() {
+        btDevicesLiveData.postValue(repository.initBtDevicesList())
+    }
 
     private fun buildSettings() =
         ScanSettings.Builder()
@@ -94,7 +96,7 @@ class BtDevicesViewModel(adapterProvider: BluetoothAdapterProvider) : ViewModel(
         btSignalLevel: Int,
         btDevice: BluetoothDevice
     ) {
-        val newBtDevice = repository.addBtDevice(model, macAddress,number, btSignalLevel, btDevice)
+        val newBtDevice = repository.addBtDevice(model, macAddress, number, btSignalLevel, btDevice)
         var sameBtDevice = false
         val oldList = btDevicesLiveData.value.orEmpty()
         oldList.forEach {
@@ -113,34 +115,34 @@ class BtDevicesViewModel(adapterProvider: BluetoothAdapterProvider) : ViewModel(
 
             var btDeviceName: String = result.device.name ?: "Unknown"
             if (btDeviceName.contains(" N")) {
-                val startIndex = btDeviceName.indexOf('N',0,false)
+                val startIndex = btDeviceName.indexOf('N', 0, false)
                 val endIndex = btDeviceName.length
-                val number = btDeviceName.substring(startIndex+1,endIndex-1)
-                btDeviceName = btDeviceName.substring(0,startIndex)
-            addBtDevice(btDeviceName, result.device.address, number, result.rssi, result.device)
+                val number = btDeviceName.substring(startIndex + 1, endIndex - 1)
+                btDeviceName = btDeviceName.substring(0, startIndex)
+                addBtDevice(btDeviceName, result.device.address, number, result.rssi, result.device)
+            }
+
+            Log.e("BluetoothScanner", "Scan result:  ${result.rssi}.")
+            //	_devices.postValue(foundDevices.values.toList())
         }
 
-        Log.e("BluetoothScanner", "Scan result:  ${result.rssi}.")
-        //	_devices.postValue(foundDevices.values.toList())
-    }
-
-    override fun onBatchScanResults(results: MutableList<ScanResult>) {
-        results.forEach { result ->
-            foundDevices[result.device.address] = result.device
+        override fun onBatchScanResults(results: MutableList<ScanResult>) {
+            results.forEach { result ->
+                foundDevices[result.device.address] = result.device
+            }
+            Log.e("BluetoothScanner", "Scan result:  ")
+            //	_devices.postValue(foundDevices.values.toList())
         }
-        Log.e("BluetoothScanner", "Scan result:  ")
-        //	_devices.postValue(foundDevices.values.toList())
+
+        override fun onScanFailed(errorCode: Int) {
+            Log.e("BluetoothScanner", "onScanFailed:  scan error $errorCode")
+        }
     }
 
-    override fun onScanFailed(errorCode: Int) {
-        Log.e("BluetoothScanner", "onScanFailed:  scan error $errorCode")
+    companion object {
+        val FILTER_UUID: ParcelUuid =
+            ParcelUuid.fromString("0000fff0-0000-1000-8000-00805f9b34fb")//"6f59f19e-2f39-49de-8525-5d2045f4d999")
     }
-}
-
-companion object {
-    val FILTER_UUID: ParcelUuid =
-        ParcelUuid.fromString("0000fff0-0000-1000-8000-00805f9b34fb")//"6f59f19e-2f39-49de-8525-5d2045f4d999")
-}
 }
 
 
