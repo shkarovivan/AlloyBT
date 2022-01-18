@@ -65,10 +65,10 @@
         app:layout_constraintTop_toBottomOf="@+id/macAdressTestTextView" />
 
     <TextView
-        android:id="@+id/curкentHintTextView"
+        android:id="@+id/currentHintTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Ток, А"
+        android:text="Уставка тока, А"
         android:textColor="@color/dark_yellow"
         android:textSize="34sp"
         android:textStyle="bold"
@@ -97,12 +97,26 @@
         android:layout_height="wrap_content"
         android:text="TextView"
         android:textColor="@color/dark_yellow"
+        android:textSize="50sp"
+        app:layout_constraintBottom_toTopOf="@+id/croller"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/macAdressTestTextView"
+        app:layout_constraintVertical_bias="0.337" />
+
+    <TextView
+        android:id="@+id/readTextView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Реальный ток, А"
+        android:textColor="@color/dark_yellow"
         android:textSize="34sp"
         app:layout_constraintBottom_toTopOf="@+id/croller"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/macAdressTestTextView"
-        app:layout_constraintVertical_bias="0.245" />
+        app:layout_constraintVertical_bias="0.417" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

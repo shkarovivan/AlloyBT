@@ -35,7 +35,7 @@ class BtDeviceControl : Fragment(R.layout.fragment_device_control) {
             btDeviceInformation.model + " №" + btDeviceInformation.seriesNumber
         croller.setOnProgressChangedListener { current ->
             val now = System.currentTimeMillis()
-            if (now - lastTimeStamp > 200) {
+            if (now - lastTimeStamp > 50) {
                 if (lastCurrent != current) {
                     currentTextView.text = current.toString()
                     sendText(current.toString())
@@ -44,10 +44,13 @@ class BtDeviceControl : Fragment(R.layout.fragment_device_control) {
                 }
             }
         }
-        readTextView.visibility = View.INVISIBLE
+        readTextView.visibility = View.VISIBLE
         controlViewModel.buttonState.observe(
             this
-        ) { pressed -> readTextView.text = if (pressed) "5 букв" else "3 буквы" }
+        ) { btDataReceived ->
+            if (btDataReceived.length <= 3){
+                readTextView.text = btDataReceived}
+            }
     }
 
     override fun onAttach(context: Context) {

@@ -21,19 +21,13 @@
  */
 
 package com.example.alloybt.control;
-
 import android.bluetooth.BluetoothDevice;
-import android.util.Log;
-
 import androidx.annotation.NonNull;
-
 import no.nordicsemi.android.ble.callback.profile.ProfileDataCallback;
 import no.nordicsemi.android.ble.data.Data;
 
 @SuppressWarnings("ConstantConditions")
-public abstract class BlinkyButtonDataCallback implements ProfileDataCallback, BlinkyButtonCallback {
-    private static final int STATE_RELEASED = 0x43;
-    private static final int STATE_PRESSED = 0x42;
+public abstract class BlinkyButtonDataCallback implements ProfileDataCallback, BtReceivedDataCallback {
 
     @Override
     public void onDataReceived(@NonNull final BluetoothDevice device, @NonNull final Data data) {
@@ -43,27 +37,6 @@ public abstract class BlinkyButtonDataCallback implements ProfileDataCallback, B
         }
 
         final String state = data.getStringValue(0);
-        //final int state = getIntValue(Data.FORMAT_UINT8, 0);
-//        if (state == STATE_PRESSED) {
-//            onButtonStateChanged(device, true);
-//        } else if (state == STATE_RELEASED) {
-//            onButtonStateChanged(device, false);
-//        } else {
-//            onInvalidDataReceived(device, data);
-//        }
-        Log.d("Text", "onDataReceived: " + state);
-        if (state.getBytes().length>5) {
-            onButtonStateChanged(device, true);
-            Log.d("Text", "onDataReceived: " + state);
-        }
-        else if (state.getBytes().length>2) {
-            onButtonStateChanged(device, false);
-            Log.d("Text", "onDataReceived: " + state);
-        }
-        else {
-            Log.d("Text", "onDataReceived: " + state);
-        }
-//            onInvalidDataReceived(device, data);
-//        }
+        onDataReceived(device, state);
     }
 }

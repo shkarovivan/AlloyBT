@@ -51,7 +51,7 @@ public class ControlManager extends ObservableBleManager {
 	private final static UUID LBS_UUID_LED_CHAR = UUID.fromString("0000fff2-0000-1000-8000-00805f9b34fb");
 
 	private final MutableLiveData<Boolean> ledState = new MutableLiveData<>();
-	private final MutableLiveData<Boolean> buttonState = new MutableLiveData<>();
+	private final MutableLiveData<String> btReceivedData = new MutableLiveData<>();
 
 	private BluetoothGattCharacteristic buttonCharacteristic, ledCharacteristic;
 	private LogSession logSession;
@@ -66,14 +66,14 @@ public class ControlManager extends ObservableBleManager {
 		return ledState;
 	}
 
-	public final LiveData<Boolean> getButtonState() {
-		return buttonState;
+	public final LiveData<String> getBtReceivedData() {
+		return btReceivedData;
 	}
 
 	@NonNull
 	@Override
 	protected BleManagerGattCallback getGattCallback() {
-		return new BlinkyBleManagerGattCallback();
+		return new ControlBleManagerGattCallback();
 	}
 
 	/**
@@ -103,16 +103,16 @@ public class ControlManager extends ObservableBleManager {
 	 * has been received, or its data was read.
 	 * <p>
 	 * If the data received are valid (single byte equal to 0x00 or 0x01), the
-	 * {@link BlinkyButtonDataCallback#onButtonStateChanged} will be called.
+	 * {@link BlinkyButtonDataCallback#onDataReceived} will be called.
 	 * Otherwise, the {@link BlinkyButtonDataCallback#onInvalidDataReceived(BluetoothDevice, Data)}
 	 * will be called with the data received.
 	 */
 	private	final BlinkyButtonDataCallback buttonCallback = new BlinkyButtonDataCallback() {
 		@Override
-		public void onButtonStateChanged(@NonNull final BluetoothDevice device,
-										 final boolean pressed) {
-			log(LogContract.Log.Level.APPLICATION, "Button " + (pressed ? "pressed" : "released"));
-			buttonState.setValue(pressed);
+		public void onDataReceived(@NonNull final BluetoothDevice device,
+								   final String data) {
+		//	log(LogContract.Log.Level.APPLICATION, "Button " + (pressed ? "pressed" : "released"));
+			btReceivedData.setValue(data);
 		}
 
 		@Override
@@ -153,7 +153,7 @@ public class ControlManager extends ObservableBleManager {
 	/**
 	 * BluetoothGatt callbacks object.
 	 */
-	private class BlinkyBleManagerGattCallback extends BleManagerGattCallback {
+	private class ControlBleManagerGattCallback extends BleManagerGattCallback {
 		@Override
 		protected void initialize() {
 			setNotificationCallback(buttonCharacteristic).with(buttonCallback);
@@ -190,7 +190,7 @@ public class ControlManager extends ObservableBleManager {
 	/**
 	 * Sends a request to the device to turn the LED on or off.
 	 *
-	 * @param on true to turn the LED on, false to turn it off.
+	 * @param current true to turn the LED on, false to turn it off.
 	 */
 	public void setWeldCurrent(final String current) {
 		// Are we connected?
@@ -200,7 +200,7 @@ public class ControlManager extends ObservableBleManager {
 		//log(Log.VERBOSE, "Turning LED " + (on ? "ON" : "OFF") + "...");
 		writeCharacteristic(
 				ledCharacteristic,
-				BlinkyLED.setWeldCurrent(current),
+				btDataSend.setWeldCurrent(current),
 				BluetoothGattCharacteristic.WRITE_TYPE_DEFAULT
 		).with(ledCallback).enqueue();
 	}

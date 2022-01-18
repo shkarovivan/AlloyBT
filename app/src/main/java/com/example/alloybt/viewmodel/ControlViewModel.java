@@ -24,7 +24,6 @@ package com.example.alloybt.viewmodel;
 
 import android.app.Application;
 import android.bluetooth.BluetoothDevice;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -54,8 +53,8 @@ public class ControlViewModel extends AndroidViewModel {
 		return controlManager.state;
 	}
 
-	public LiveData<Boolean> getButtonState() {
-		return controlManager.getButtonState();
+	public LiveData<String> getButtonState() {
+		return controlManager.getBtReceivedData();
 	}
 
 	public LiveData<Boolean> getLedState() {

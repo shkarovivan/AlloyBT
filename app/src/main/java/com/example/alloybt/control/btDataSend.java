@@ -26,23 +26,10 @@ import androidx.annotation.NonNull;
 
 import no.nordicsemi.android.ble.data.Data;
 
-public final class BlinkyLED {
-    private static final byte STATE_OFF = 0x42;
-    private static final byte STATE_ON = 0x41;
-
-    @NonNull
+public final class btDataSend {
+       @NonNull
     public static Data setWeldCurrent(final String current) {
         return Data.from(current);
     }
 
-    @NonNull
-    public static Data turnOn() {
-        //return Data.opCode(STATE_ON);
-        return Data.from("ABCD");
-    }
-
-    @NonNull
-    public static Data turnOff() {
-        return Data.opCode(STATE_OFF);
-    }
 }
