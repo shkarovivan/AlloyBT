@@ -43,7 +43,7 @@ abstract class BtDevicesHolder(
 		Log.e("BluetoothRSSI", "RSSI:  ${btSignalLevel} - $signalLevelPerCent ")
 		Glide.with(itemView)
 			//.load(modelImageLink)
-			.load(R.drawable.t3acdc)
+			.load(R.drawable.t3acdc_logo)
 			.placeholder(R.drawable.ic_image_not_supported)
 			.into(inverterImage)
 	}

@@ -9,50 +9,20 @@
 
     <ImageView
         android:id="@+id/logo_image_view"
-        android:layout_width="207dp"
+        android:layout_width="411dp"
         android:layout_height="170dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.53"
-        app:srcCompat="@drawable/logo_alloy" />
-
-    <TextView
-        android:id="@+id/inv_tech_textView"
-        android:layout_width="235dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="122dp"
-        android:gravity="center"
-        android:text="@string/inverter_technology"
-        android:textColor="#FFFFFF"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/logo_image_view" />
-
-    <TextView
-        android:id="@+id/www_alloynn_textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/www_alloynn_com"
-        android:textColor="#FFFFFF"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/inv_tech_textView" />
+        app:layout_constraintVertical_bias="0.35000002"
+        app:srcCompat="@drawable/alloy_logo" />
 
     <TextView
         android:id="@+id/version_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="56dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="@dimen/main_margin"
         android:gravity="center"
         android:text="@string/app_version"
         android:textColor="#FFFFFF"
@@ -60,7 +30,26 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/inv_tech_image_view"
+        android:layout_width="231dp"
+        android:layout_height="73dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/inv_tech_textView" />
+        app:layout_constraintTop_toBottomOf="@+id/logo_image_view"
+        app:srcCompat="@drawable/invertertechnology" />
+
+    <ImageView
+        android:id="@+id/www_alloynn_Imageview"
+        android:layout_width="140dp"
+        android:layout_height="31dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.8"
+        app:srcCompat="@drawable/alloynncom" />
 </androidx.constraintlayout.widget.ConstraintLayout>

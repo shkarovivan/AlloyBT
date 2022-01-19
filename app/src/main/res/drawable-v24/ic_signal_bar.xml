@@ -22,18 +22,15 @@
 
 <level-list xmlns:android="http://schemas.android.com/apk/res/android">
 	<item
-		android:drawable="@drawable/ic_signal_0_bar"
+		android:drawable="@drawable/ic_signal_1_bar"
 		android:maxLevel="10"/>
 	<item
-		android:drawable="@drawable/ic_signal_1_bar"
+		android:drawable="@drawable/ic_signal_2_bar"
 		android:maxLevel="28"/>
 	<item
-		android:drawable="@drawable/ic_signal_2_bar"
+		android:drawable="@drawable/ic_signal_3_bar"
 		android:maxLevel="45"/>
 	<item
-		android:drawable="@drawable/ic_signal_3_bar"
-		android:maxLevel="65"/>
-	<item
 		android:drawable="@drawable/ic_signal_4_bar"
-		android:maxLevel="100"/>
+		android:maxLevel="65"/>
 </level-list>

@@ -3,9 +3,15 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/AndroidStudio projects/AllotBT/AlloyBT/app/src/main/res/drawable-v24/ic_signal_0_bar.xml" value="0.21770833333333334" />
+        <entry key="..\:/AndroidStudio projects/AllotBT/AlloyBT/app/src/main/res/drawable-v24/ic_signal_1_bar.xml" value="0.21770833333333334" />
+        <entry key="..\:/AndroidStudio projects/AllotBT/AlloyBT/app/src/main/res/drawable-v24/ic_signal_2_bar.xml" value="0.21770833333333334" />
+        <entry key="..\:/AndroidStudio projects/AllotBT/AlloyBT/app/src/main/res/drawable-v24/ic_signal_3_bar.xml" value="0.21770833333333334" />
+        <entry key="..\:/AndroidStudio projects/AllotBT/AlloyBT/app/src/main/res/drawable-v24/ic_signal_4_bar.xml" value="0.21770833333333334" />
+        <entry key="..\:/AndroidStudio projects/AllotBT/AlloyBT/app/src/main/res/drawable/list_divider.xml" value="0.21770833333333334" />
         <entry key="..\:/AndroidStudio projects/AllotBT/AlloyBT/app/src/main/res/layout/fragment_device_control.xml" value="0.25" />
         <entry key="..\:/AndroidStudio projects/AllotBT/AlloyBT/app/src/main/res/layout/fragment_search_devices.xml" value="0.21458333333333332" />
-        <entry key="..\:/AndroidStudio projects/AllotBT/AlloyBT/app/src/main/res/layout/fragment_splash_screen.xml" value="0.20520833333333333" />
+        <entry key="..\:/AndroidStudio projects/AllotBT/AlloyBT/app/src/main/res/layout/fragment_splash_screen.xml" value="0.22" />
         <entry key="..\:/AndroidStudio projects/AllotBT/AlloyBT/app/src/main/res/layout/item_bluetooth_device.xml" value="0.20520833333333333" />
         <entry key="..\:/Users/79101/Desktop/Bluetooth/AlloyBT/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2759259259259259" />
         <entry key="..\:/Users/79101/Desktop/Bluetooth/AlloyBT/app/src/main/res/drawable-v24/ic_signal_0_bar.xml" value="0.290625" />
