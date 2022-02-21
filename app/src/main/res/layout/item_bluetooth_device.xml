@@ -88,7 +88,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/inverterImage"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_signal_bar"
+        app:srcCompat="@drawable/rssi_signal_bar"
         tools:src="@drawable/ic_signal_2_bar" />
 
     <androidx.constraintlayout.widget.Guideline

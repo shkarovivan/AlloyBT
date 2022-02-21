@@ -2,6 +2,8 @@ package com.example.alloybt.adapter
 
 import android.util.Log
 import android.view.View
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import kotlinx.android.extensions.LayoutContainer
@@ -16,7 +18,11 @@ abstract class BtDevicesHolder(
 ) : RecyclerView.ViewHolder(containerView), LayoutContainer {
 
 	init {
-		containerView.setOnClickListener {
+//		containerView.setOnClickListener {
+//			onItemClick(bindingAdapterPosition)
+//		}
+		val imageView = containerView.findViewById<ImageView>(R.id.inverterImage)
+		imageView.setOnClickListener {
 			onItemClick(bindingAdapterPosition)
 		}
 		containerView.setOnLongClickListener {

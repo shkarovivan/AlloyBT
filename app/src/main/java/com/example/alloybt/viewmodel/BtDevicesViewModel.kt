@@ -120,7 +120,8 @@ class BtDevicesViewModel(adapterProvider: BluetoothAdapterProvider) : ViewModel(
                 val number = btDeviceName.substring(startIndex + 1, endIndex - 1)
                 btDeviceName = btDeviceName.substring(0, startIndex)
                 addBtDevice(btDeviceName, result.device.address, number, result.rssi, result.device)
-            }
+            } else  addBtDevice(btDeviceName, result.device.address, "no number", result.rssi, result.device)
+
 
             Log.e("BluetoothScanner", "Scan result:  ${result.rssi}.")
             //	_devices.postValue(foundDevices.values.toList())
