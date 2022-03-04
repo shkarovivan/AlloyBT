@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:ignore="MissingDefaultResource">
 
     <TextView
         android:id="@+id/btStateTextView"
@@ -15,20 +15,45 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toTopOf="@id/stateProgressBar" />
 
     <com.sdsmdg.harjot.crollerTest.Croller
-        android:id="@+id/croller"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
+        android:id="@+id/crollerVoltage"
+        android:layout_width="@dimen/croller_landscape_size"
+        android:layout_height="@dimen/croller_landscape_size"
         android:layout_centerInParent="true"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="132dp"
         app:back_circle_color="@color/black"
         app:indicator_color="@color/dark_yellow"
         app:indicator_width="15"
         app:is_continuous="false"
         app:label_color="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:main_circle_color="@color/black"
+        app:max="315"
+        app:min="0"
+        app:progress_primary_circle_size="20"
+        app:progress_primary_color="@color/dark_yellow"
+        app:progress_primary_stroke_width="30"
+        app:progress_secondary_color="@color/dark_yellow"
+        app:start_offset="45" />
+
+    <com.sdsmdg.harjot.crollerTest.Croller
+        android:id="@+id/crollerCurrent"
+        android:layout_width="@dimen/croller_landscape_size"
+        android:layout_height="@dimen/croller_landscape_size"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="448dp"
+        app:back_circle_color="@color/black"
+        app:indicator_color="@color/dark_yellow"
+        app:indicator_width="15"
+        app:is_continuous="false"
+        app:label_color="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:main_circle_color="@color/black"
@@ -61,22 +86,21 @@
         android:textColor="@color/dark_yellow"
         android:textSize="34sp"
         android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@+id/croller"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintBottom_toBottomOf="@+id/croller"
+        app:layout_constraintEnd_toEndOf="@+id/croller"
+        app:layout_constraintStart_toStartOf="@+id/croller" />
 
     <TextView
         android:id="@+id/realCurrentTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/main_fragment_margin"
         android:text="@string/real_current_init_text"
         android:textColor="@color/dark_yellow"
         android:textSize="50sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/currentTextView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.77"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
@@ -87,9 +111,9 @@
         android:textColor="@color/dark_yellow"
         android:textSize="34sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/realCurrentTextView"
+        app:layout_constraintBottom_toBottomOf="@+id/croller"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.473"
+        app:layout_constraintHorizontal_bias="0.924"
         app:layout_constraintStart_toStartOf="parent" />
 
     <ProgressBar
@@ -97,11 +121,9 @@
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/main_fragment_margin"
-        app:layout_constraintBottom_toTopOf="@+id/btStateTextView"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

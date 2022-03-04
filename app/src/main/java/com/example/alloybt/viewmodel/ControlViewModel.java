@@ -53,7 +53,7 @@ public class ControlViewModel extends AndroidViewModel {
 		return controlManager.state;
 	}
 
-	public LiveData<String> getButtonState() {
+	public LiveData<String> getDataFromBtDevice() {
 		return controlManager.getBtReceivedData();
 	}
 

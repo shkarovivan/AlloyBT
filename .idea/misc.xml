@@ -8,12 +8,33 @@
         <entry key="..\:/AndroidStudio projects/AllotBT/AlloyBT/app/src/main/res/drawable-v24/ic_signal_2_bar.xml" value="0.21770833333333334" />
         <entry key="..\:/AndroidStudio projects/AllotBT/AlloyBT/app/src/main/res/drawable-v24/ic_signal_3_bar.xml" value="0.21770833333333334" />
         <entry key="..\:/AndroidStudio projects/AllotBT/AlloyBT/app/src/main/res/drawable-v24/ic_signal_4_bar.xml" value="0.21770833333333334" />
+        <entry key="..\:/AndroidStudio projects/AllotBT/AlloyBT/app/src/main/res/drawable/ic_device_error.xml" value="0.2713541666666667" />
+        <entry key="..\:/AndroidStudio projects/AllotBT/AlloyBT/app/src/main/res/drawable/ic_device_error2.xml" value="0.2713541666666667" />
+        <entry key="..\:/AndroidStudio projects/AllotBT/AlloyBT/app/src/main/res/drawable/ic_info.xml" value="0.2713541666666667" />
+        <entry key="..\:/AndroidStudio projects/AllotBT/AlloyBT/app/src/main/res/drawable/ic_param_settings.xml" value="0.2713541666666667" />
         <entry key="..\:/AndroidStudio projects/AllotBT/AlloyBT/app/src/main/res/drawable/list_divider.xml" value="0.21770833333333334" />
         <entry key="..\:/AndroidStudio projects/AllotBT/AlloyBT/app/src/main/res/drawable/rssi_signal_bar.xml" value="0.2140625" />
-        <entry key="..\:/AndroidStudio projects/AllotBT/AlloyBT/app/src/main/res/layout/fragment_device_control.xml" value="0.25" />
+        <entry key="..\:/AndroidStudio projects/AllotBT/AlloyBT/app/src/main/res/layout-land/fragment_device_control.xml" value="0.25" />
+        <entry key="..\:/AndroidStudio projects/AllotBT/AlloyBT/app/src/main/res/layout-land/fragment_device_control_land.xml" value="0.15079365079365079" />
+        <entry key="..\:/AndroidStudio projects/AllotBT/AlloyBT/app/src/main/res/layout-land/fragment_splash_screen.xml" value="0.33" />
+        <entry key="..\:/AndroidStudio projects/AllotBT/AlloyBT/app/src/main/res/layout-port/fragment_device_control.xml" value="0.18" />
+        <entry key="..\:/AndroidStudio projects/AllotBT/AlloyBT/app/src/main/res/layout-port/fragment_splash_screen.xml" value="0.19791666666666666" />
+        <entry key="..\:/AndroidStudio projects/AllotBT/AlloyBT/app/src/main/res/layout/activity_main.xml" value="0.23278985507246377" />
+        <entry key="..\:/AndroidStudio projects/AllotBT/AlloyBT/app/src/main/res/layout/activity_splash_screen.xml" value="0.2526041666666667" />
+        <entry key="..\:/AndroidStudio projects/AllotBT/AlloyBT/app/src/main/res/layout/fragment_control_param.xml" value="0.2015625" />
+        <entry key="..\:/AndroidStudio projects/AllotBT/AlloyBT/app/src/main/res/layout/fragment_device_control.xml" value="0.18" />
+        <entry key="..\:/AndroidStudio projects/AllotBT/AlloyBT/app/src/main/res/layout/fragment_device_monitor.xml" value="0.18229166666666666" />
+        <entry key="..\:/AndroidStudio projects/AllotBT/AlloyBT/app/src/main/res/layout/fragment_device_params_list.xml" value="0.20520833333333333" />
+        <entry key="..\:/AndroidStudio projects/AllotBT/AlloyBT/app/src/main/res/layout/fragment_errors_list.xml" value="0.20520833333333333" />
+        <entry key="..\:/AndroidStudio projects/AllotBT/AlloyBT/app/src/main/res/layout/fragment_info_list.xml" value="0.2671875" />
+        <entry key="..\:/AndroidStudio projects/AllotBT/AlloyBT/app/src/main/res/layout/fragment_page.xml" value="0.23278985507246377" />
         <entry key="..\:/AndroidStudio projects/AllotBT/AlloyBT/app/src/main/res/layout/fragment_search_devices.xml" value="0.21458333333333332" />
-        <entry key="..\:/AndroidStudio projects/AllotBT/AlloyBT/app/src/main/res/layout/fragment_splash_screen.xml" value="0.22" />
+        <entry key="..\:/AndroidStudio projects/AllotBT/AlloyBT/app/src/main/res/layout/fragment_splash_screen.xml" value="0.25" />
+        <entry key="..\:/AndroidStudio projects/AllotBT/AlloyBT/app/src/main/res/layout/fragment_view_pager.xml" value="0.23278985507246377" />
         <entry key="..\:/AndroidStudio projects/AllotBT/AlloyBT/app/src/main/res/layout/item_bluetooth_device.xml" value="0.22" />
+        <entry key="..\:/AndroidStudio projects/AllotBT/AlloyBT/app/src/main/res/layout/item_device_error.xml" value="0.33" />
+        <entry key="..\:/AndroidStudio projects/AllotBT/AlloyBT/app/src/main/res/layout/item_device_info.xml" value="0.33" />
+        <entry key="..\:/AndroidStudio projects/AllotBT/AlloyBT/app/src/main/res/layout/item_device_param.xml" value="0.33" />
         <entry key="..\:/Users/79101/Desktop/Bluetooth/AlloyBT/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2759259259259259" />
         <entry key="..\:/Users/79101/Desktop/Bluetooth/AlloyBT/app/src/main/res/drawable-v24/ic_signal_0_bar.xml" value="0.290625" />
         <entry key="..\:/Users/79101/Desktop/Bluetooth/AlloyBT/app/src/main/res/drawable-v24/ic_signal_1_bar.xml" value="0.290625" />

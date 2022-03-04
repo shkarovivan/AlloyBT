@@ -80,7 +80,9 @@ class SearchDevicesFragment : Fragment(R.layout.fragment_search_devices) {
 
 	private fun showDeviceControlFragment(position: Int) {
 		val btDeviceInformation = btDevicesListViewModel.btDevicesList.value?.get(position)!!
-		val action = SearchDevicesFragmentDirections.actionSearchDevicesFragmentToBtDeviceControl(btDeviceInformation)
+		BtDeviceInformation.btDeviceInformation = btDeviceInformation
+		//val action = SearchDevicesFragmentDirections.actionSearchDevicesFragmentToBtDeviceControl(btDeviceInformation)
+		val action = SearchDevicesFragmentDirections.actionSearchDevicesFragmentToViewPagerFragment(btDeviceInformation)
 		findNavController().navigate(action)
 	}
 

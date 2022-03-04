@@ -30,14 +30,40 @@
             app:popEnterAnim="@android:anim/fade_in"
             app:popExitAnim="@android:anim/fade_out"
             app:popUpTo="@id/searchDevicesFragment" />
+        <action
+            android:id="@+id/action_searchDevicesFragment_to_viewPagerFragment"
+            app:destination="@id/viewPagerFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:popUpTo="@id/searchDevicesFragment" />
     </fragment>
     <fragment
         android:id="@+id/btDeviceControl"
-        android:name="com.example.alloybt.BtDeviceControl"
+        android:name="com.example.alloybt.BtDeviceControlFragment"
         android:label="BtDeviceControl"
-        tools:layout="@layout/fragment_device_control" >
+        tools:layout="@layout/fragment_device_control">
         <argument
             android:name="bt_device_information"
             app:argType="com.example.alloybt.BtDevice" />
     </fragment>
+    <fragment
+        android:id="@+id/viewPagerFragment"
+        android:name="com.example.alloybt.viewpager.ViewPagerFragment"
+        android:label="ViewPagerFragment"
+        tools:layout="@layout/fragment_view_pager">
+        <argument
+            android:name="bt_device_information"
+            app:argType="com.example.alloybt.BtDevice" />
+        <action
+            android:id="@+id/action_viewPagerFragment_to_controlParamFragment"
+            app:destination="@id/controlParamFragment"
+            app:popUpTo="@id/viewPagerFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/controlParamFragment"
+        android:name="com.example.alloybt.viewpager.control_param.ControlParamFragment"
+        android:label="ControlParamFragment"
+        tools:layout="@layout/fragment_control_param">
+    </fragment>
+
 </navigation>

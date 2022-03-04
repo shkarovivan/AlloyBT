@@ -13,8 +13,13 @@ import androidx.appcompat.app.AppCompatActivity
 
 
 class SplashScreenFragment : Fragment(R.layout.fragment_splash_screen) {
+
+	var n = false
+
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
+		super.onResume()
+		(activity as AppCompatActivity?)!!.supportActionBar!!.hide()
 
 		val sideAnimation = AnimationUtils.loadAnimation(requireContext(), R.anim.scale)
 		logo_image_view.startAnimation(sideAnimation)
@@ -26,13 +31,19 @@ class SplashScreenFragment : Fragment(R.layout.fragment_splash_screen) {
 		www_alloynn_Imageview.startAnimation(transparencyAnimation2)
 		version_textView.startAnimation(transparencyAnimation2)
 
-		Handler(Looper.getMainLooper()).postDelayed({
-			findNavController().navigate(R.id.action_splashScreenFragment_to_searchDevicesFragment)
-		}, 3000)
 	}
+
 
 	override fun onResume() {
 		super.onResume()
-		(activity as AppCompatActivity?)!!.supportActionBar!!.hide()
+
+		Handler(Looper.getMainLooper()).postDelayed({
+			if (!n){findNavController().navigate(R.id.action_splashScreenFragment_to_searchDevicesFragment)	}
+		},3000)
+	}
+
+	override fun onSaveInstanceState(outState: Bundle) {
+		super.onSaveInstanceState(outState)
+		n= true
 	}
 }

@@ -16,4 +16,20 @@
     <string name="real_current_text">Реальный ток, А</string>
     <string name="real_current_init_text">0</string>
     <string name="set_current_text">Уставка тока, А</string>
+    <string name="page_head_text_monitor">Монитор</string>
+    <string name="page_head_text_control">Управление</string>
+    <string name="page_head_text_errors">Ошибки</string>
+    <string name="page_head_text_stat">Инфо</string>
+    <string name="default_error_text">12:03:2022 14:56</string>
+    <string name="default_info_text">26:12:34:56</string>
+    <string name="default_error_description_text">Ошибка обмена информацией между платой источника питания и платой механизма подачи проволоки</string>
+    <string name="default_info_description_text">Общее время работы аппарата</string>
+    <string name="default_param_description_text">Время стартового тока</string>
+    <string name="min_param_hint_text">MIN:</string>
+    <string name="max_param_hint_text">MAX:</string>
+    <string name="min_param_text">0.0</string>
+    <string name="max_param_text">7,0</string>
+    <string name="value_param_text">3,6</string>
+
+
 </resources>

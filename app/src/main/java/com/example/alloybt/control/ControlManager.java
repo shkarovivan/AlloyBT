@@ -111,7 +111,6 @@ public class ControlManager extends ObservableBleManager {
 		@Override
 		public void onDataReceived(@NonNull final BluetoothDevice device,
 								   final String data) {
-		//	log(LogContract.Log.Level.APPLICATION, "Button " + (pressed ? "pressed" : "released"));
 			btReceivedData.setValue(data);
 		}
 

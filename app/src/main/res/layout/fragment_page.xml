@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="top|center"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/buttonAddBadge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/main_margin"
+        android:layout_marginRight="@dimen/main_margin"
+        android:layout_marginBottom="@dimen/main_margin"
+        android:text="button" />
+
+    <TextView
+        android:id="@+id/textHeadView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/main_margin"
+        android:layout_marginTop="@dimen/main_margin"
+        android:layout_marginRight="@dimen/main_margin"
+        android:textSize="@dimen/settings_image_size"
+        android:textStyle="bold"
+        tools:text="@tools:sample/full_names" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="@dimen/item_image_size"
+        android:layout_height="@dimen/settings_image_size"
+        android:layout_marginTop="@dimen/main_margin"
+        android:scaleType="centerCrop"
+        tools:src="@tools:sample/backgrounds/scenic" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/main_margin"
+        android:layout_marginTop="@dimen/main_margin"
+        android:layout_marginRight="@dimen/main_margin"
+        android:gravity="center"
+        android:textSize="@dimen/normal_text_size"
+        tools:text="@tools:sample/full_names" />
+
+
+</LinearLayout>
