@@ -38,7 +38,7 @@
     </fragment>
     <fragment
         android:id="@+id/btDeviceControl"
-        android:name="com.example.alloybt.BtDeviceControlFragment"
+        android:name="com.example.alloybt.viewpager.device_monitor.BtDeviceMonitorFragment"
         android:label="BtDeviceControl"
         tools:layout="@layout/fragment_device_control">
         <argument

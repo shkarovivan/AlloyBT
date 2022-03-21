@@ -1,20 +1,28 @@
-package com.example.alloybt
+package com.example.alloybt.viewpager.device_monitor
 
 import android.bluetooth.BluetoothDevice
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import com.example.alloybt.BtDevice
+import com.example.alloybt.BtDeviceInformation
+import com.example.alloybt.R
 import com.example.alloybt.control.ControlManager
 import com.example.alloybt.viewmodel.ControlViewModel
+import com.example.alloybt.viewpager.AddBadge
+import com.squareup.moshi.Moshi
 import kotlinx.android.synthetic.main.fragment_device_control.*
 import no.nordicsemi.android.ble.livedata.state.ConnectionState
 
-class BtDeviceControlFragment() : Fragment(R.layout.fragment_device_control) {
+class BtDeviceMonitorFragment() : Fragment(R.layout.fragment_device_control)  {
 
-    private val controlViewModel: ControlViewModel by viewModels()
+    private val controlViewModel: ControlViewModel by activityViewModels()
 
     private lateinit var btDevice: BluetoothDevice
     private lateinit var controlManager: ControlManager
@@ -31,11 +39,12 @@ class BtDeviceControlFragment() : Fragment(R.layout.fragment_device_control) {
 
         (activity as AppCompatActivity?)!!.supportActionBar!!.title = "Эллой " +
                 btDeviceInformation.model + " №" + btDeviceInformation.seriesNumber
+
         croller.setOnProgressChangedListener { current ->
             val now = System.currentTimeMillis()
             if (now - lastTimeStamp > 50) {
                 if (lastCurrent != current) {
-                    currentTextView.text = current.toString()
+                   // currentTextView.text = current.toString()
                     sendText(current.toString())
                     lastCurrent = current
                     lastTimeStamp = System.currentTimeMillis()
@@ -43,16 +52,17 @@ class BtDeviceControlFragment() : Fragment(R.layout.fragment_device_control) {
             }
         }
 
-        realCurrentTextView.visibility = View.VISIBLE
+        voltageTextView.visibility = View.VISIBLE
         controlViewModel.dataFromBtDevice.observe(
-            this
+            viewLifecycleOwner
         ) { btDataReceived ->
-            if (btDataReceived.length <= 3) {
-                realCurrentTextView.text = btDataReceived
-            }
+//            if (btDataReceived.length in 1..3) {
+//                voltageTextView.text = btDataReceived
+//            }
+            parseMonitorData(btDataReceived)
         }
 
-        controlViewModel.connectionState.observe(this) {
+        controlViewModel.connectionState.observe(viewLifecycleOwner) {
             when (it.state) {
                 ConnectionState.State.CONNECTING -> {
                     showConnectingBar()
@@ -80,8 +90,6 @@ class BtDeviceControlFragment() : Fragment(R.layout.fragment_device_control) {
                 }
                 else -> btStateTextView.visibility = View.INVISIBLE
             }
-
-
         }
     }
 
@@ -91,18 +99,13 @@ class BtDeviceControlFragment() : Fragment(R.layout.fragment_device_control) {
 
     }
 
-    override fun onResume() {
-        super.onResume()
-        // controlViewModel.connect(btDevice)
-    }
-
     override fun onStart() {
         super.onStart()
         controlViewModel.connect(btDevice)
     }
 
-    private fun sendText(current: String) {
-        controlViewModel.setWeldCurrent(current)
+    private fun sendText(data: String) {
+        controlViewModel.setWeldData(data)
     }
 
     private fun showConnectingBar() {
@@ -112,20 +115,78 @@ class BtDeviceControlFragment() : Fragment(R.layout.fragment_device_control) {
 
     private fun hideControlViews() {
         croller.visibility = View.INVISIBLE
-        currentTextView.visibility = View.INVISIBLE
+        curTextView.visibility = View.INVISIBLE
         currentHintTextView.visibility = View.INVISIBLE
-        realCurrentTitleTextView.visibility = View.INVISIBLE
-        realCurrentTextView.visibility = View.INVISIBLE
+        voltageHintTextView.visibility = View.INVISIBLE
+        voltageTextView.isVisible = false
+
+        gasTextView.isVisible = false
+        wireDiaTextView.isVisible = false
+        weldTypeTextView.isVisible = false
+        materialTextView.isVisible = false
+        torchTextView.isVisible = false
+        weldOfImageView.isVisible = false
+        weldOnImageView.isVisible = false
+        wtOffImageView.isVisible = false
+        wtOnImageView.isVisible = false
+
     }
 
     private fun showControlViews() {
         btStateTextView.visibility = View.INVISIBLE
         stateProgressBar.visibility = View.INVISIBLE
-        croller.visibility = View.VISIBLE
-        currentTextView.visibility = View.VISIBLE
+       // croller.visibility = View.VISIBLE
+        curTextView.visibility = View.VISIBLE
         currentHintTextView.visibility = View.VISIBLE
-        realCurrentTitleTextView.visibility = View.VISIBLE
-        realCurrentTextView.visibility = View.VISIBLE
+        voltageHintTextView.visibility = View.VISIBLE
+
+        voltageTextView.isVisible = true
+        gasTextView.isVisible = true
+        wireDiaTextView.isVisible = true
+        weldTypeTextView.isVisible = true
+        materialTextView.isVisible = true
+        torchTextView.isVisible = true
+        weldOfImageView.isVisible = true
+        wtOffImageView.isVisible = true
+
+    }
+
+    private fun parseMonitorData(data:String){
+
+        val moshi = Moshi.Builder()
+            //.add(MovieCustomAdapter())
+            .build()
+
+        val weldParamsAdapter = moshi.adapter(WeldMonitorParams::class.java).nonNull()
+
+        try {
+            val weldParams = weldParamsAdapter.fromJson(data)
+            if (weldParams != null) {
+                showParams(weldParams)
+            }
+            else {
+                toast ("WeldParam = null")
+            }
+
+        } catch (e: Exception) {
+           toast(e.toString())
+        }
+    }
+
+    private fun showParams(params: WeldMonitorParams){
+        if (params.Response == "Ok") {
+            curTextView.text = params.value.currentValue
+            voltageTextView.text = params.value.voltageValue
+            materialTextView.text = params.value.material
+            wireDiaTextView.text = params.value.wireDiameter
+            gasTextView.text = params.value.gasType
+            weldTypeTextView.text = params.value.weldType
+            torchTextView.text = params.value.torchControl
+        }
+    }
+
+    private fun toast(text: String){
+        Toast.makeText(requireContext(),text,Toast.LENGTH_SHORT).show()
     }
 
 }

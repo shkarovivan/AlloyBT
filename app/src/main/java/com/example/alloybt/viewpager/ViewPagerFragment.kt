@@ -6,21 +6,17 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.navArgs
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import com.example.alloybt.BtDevice
-import com.example.alloybt.BtDeviceControlFragmentArgs
 import com.example.alloybt.R
+import com.example.alloybt.viewmodel.ControlViewModel
 import com.google.android.material.badge.BadgeDrawable
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.fragment_view_pager.*
 
 class ViewPagerFragment : Fragment(R.layout.fragment_view_pager), AddBadge {
 
-
-
-    private var btDeviceInformation: BtDevice? = null
-
-    private var checkedTags = booleanArrayOf(true, true, true)
     private lateinit var pages: List<String>
 
 
@@ -69,11 +65,6 @@ class ViewPagerFragment : Fragment(R.layout.fragment_view_pager), AddBadge {
             number += 1
             badgeGravity = BadgeDrawable.TOP_END
         }
-    }
-
-    override fun selectTags(tags: BooleanArray) {
-        checkedTags = tags
-        openPages()
     }
 
     private fun checkScreenOrientation(){

@@ -28,8 +28,8 @@ import no.nordicsemi.android.ble.data.Data;
 
 public final class btDataSend {
        @NonNull
-    public static Data setWeldCurrent(final String current) {
-        return Data.from(current);
+    public static Data setWeldData(final String data) {
+        return Data.from(data);
     }
 
 }

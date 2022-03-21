@@ -66,7 +66,7 @@
         app:start_offset="45" />
 
     <TextView
-        android:id="@+id/currentTextView"
+        android:id="@+id/curTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="0"
@@ -91,20 +91,20 @@
         app:layout_constraintStart_toStartOf="@+id/croller" />
 
     <TextView
-        android:id="@+id/realCurrentTextView"
+        android:id="@+id/voltageTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/real_current_init_text"
         android:textColor="@color/dark_yellow"
         android:textSize="50sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/currentTextView"
+        app:layout_constraintBottom_toBottomOf="@+id/curTextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.77"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/realCurrentTitleTextView"
+        android:id="@+id/voltageHintTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/real_current_text"

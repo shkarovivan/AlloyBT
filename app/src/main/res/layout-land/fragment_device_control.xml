@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:ignore="MissingDefaultResource">
 
 
@@ -11,38 +11,30 @@
         android:id="@+id/imageBackGround"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginEnd="4dp"
+        android:cropToPadding="false"
         android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:srcCompat="@drawable/backgrnd" />
-
-    <ImageView
-        android:id="@+id/slideMenuImageView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/slide_menu_back"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
 
     <TextView
         android:id="@+id/btStateTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/main_margin"
         android:textColor="@color/dark_yellow"
-        android:textSize="34sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textSize="@dimen/monitor_text_size"
+        app:layout_constraintBottom_toTopOf="@id/stateProgressBar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/stateProgressBar" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <com.sdsmdg.harjot.crollerTest.Croller
         android:id="@+id/croller"
         android:layout_width="@dimen/croller_landscape_size"
         android:layout_height="@dimen/croller_landscape_size"
         android:layout_centerInParent="true"
+        android:visibility="gone"
         app:back_circle_color="@color/black"
         app:indicator_color="@color/dark_yellow"
         app:indicator_width="15"
@@ -51,7 +43,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.12"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/slideMenuImageView"
+        app:layout_constraintTop_toTopOf="parent"
         app:main_circle_color="@color/black"
         app:max="315"
         app:min="0"
@@ -62,16 +54,18 @@
         app:start_offset="45" />
 
     <TextView
-        android:id="@+id/currentTextView"
+        android:id="@+id/curTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="0"
+        android:textAlignment="center"
         android:textColor="@color/dark_yellow"
-        android:textSize="50sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/croller"
-        app:layout_constraintEnd_toEndOf="@+id/croller"
-        app:layout_constraintStart_toStartOf="@+id/croller"
+        android:textSize="@dimen/large_indicator_text_size_land"
+        android:textStyle="normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/weldOfImageView"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/croller" />
 
     <TextView
@@ -79,38 +73,116 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/set_current_text"
+        android:textAlignment="center"
         android:textColor="@color/dark_yellow"
-        android:textSize="34sp"
+        android:textSize="@dimen/monitor_text_size"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/croller"
-        app:layout_constraintEnd_toEndOf="@+id/croller"
-        app:layout_constraintStart_toStartOf="@+id/croller" />
+        app:layout_constraintBottom_toBottomOf="@+id/curTextView"
+        app:layout_constraintEnd_toEndOf="@+id/curTextView"
+        app:layout_constraintStart_toStartOf="@+id/curTextView" />
+
 
     <TextView
-        android:id="@+id/realCurrentTextView"
+        android:id="@+id/weldTypeTextView"
+        android:layout_width="81dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/main_margin"
+        android:text="@string/default_weld_type_text"
+        android:textAlignment="center"
+        android:textColor="@color/dark_yellow"
+        android:textSize="@dimen/monitor_text_size"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/gasTextView"
+        app:layout_constraintHorizontal_weight="0.2"
+        app:layout_constraintStart_toEndOf="@id/wireDiaTextView"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/wireDiaTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/main_margin"
+        android:text="@string/default_wire_type_text"
+        android:textAlignment="center"
+        android:textColor="@color/dark_yellow"
+        android:textSize="@dimen/monitor_text_size"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/weldTypeTextView"
+        app:layout_constraintHorizontal_weight="0.2"
+        app:layout_constraintStart_toEndOf="@+id/materialTextView"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/materialTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/main_margin"
+        android:text="@string/default_material_type_text"
+        android:textAlignment="center"
+        android:textColor="@color/dark_yellow"
+        android:textSize="@dimen/monitor_text_size"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/wireDiaTextView"
+        app:layout_constraintHorizontal_weight="0.2"
+        app:layout_constraintStart_toEndOf="@id/materialTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/gasTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/main_margin"
+        android:text="@string/default_gas_type_text"
+        android:textAlignment="center"
+        android:textColor="@color/dark_yellow"
+        android:textSize="@dimen/monitor_text_size"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/torchTextView"
+        app:layout_constraintHorizontal_weight="0.2"
+        app:layout_constraintStart_toEndOf="@+id/weldTypeTextView"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/torchTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="@string/default_torch_type_text"
+        android:textAlignment="center"
+        android:textColor="@color/dark_yellow"
+        android:textSize="@dimen/monitor_text_size"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="0.2"
+        app:layout_constraintStart_toEndOf="@+id/gasTextView"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/voltageTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/real_current_init_text"
+        android:textAlignment="center"
         android:textColor="@color/dark_yellow"
-        android:textSize="50sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/currentTextView"
+        android:textSize="@dimen/large_indicator_text_size_land"
+        android:textStyle="normal"
+        app:layout_constraintBottom_toBottomOf="@+id/curTextView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.77"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/weldOfImageView" />
 
     <TextView
-        android:id="@+id/realCurrentTitleTextView"
+        android:id="@+id/voltageHintTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/real_current_text"
         android:textColor="@color/dark_yellow"
         android:textSize="34sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/croller"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.924"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintBottom_toBottomOf="@+id/voltageTextView"
+        app:layout_constraintEnd_toEndOf="@+id/voltageTextView"
+        app:layout_constraintStart_toStartOf="@+id/voltageTextView" />
 
     <ProgressBar
         android:id="@+id/stateProgressBar"
@@ -122,5 +194,46 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageView
+        android:id="@+id/weldOfImageView"
+        android:layout_width="@dimen/settings_image_size"
+        android:layout_height="@dimen/settings_image_size"
+        app:layout_constraintBottom_toBottomOf="@+id/imageBackGround"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/imageBackGround"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/welding_off" />
+
+    <ImageView
+        android:id="@+id/weldOnImageView"
+        android:layout_width="@dimen/settings_image_size"
+        android:layout_height="@dimen/settings_image_size"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/imageBackGround"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/imageBackGround"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/welding_on" />
+
+    <ImageView
+        android:id="@+id/wtOffImageView"
+        android:layout_width="@dimen/settings_image_size"
+        android:layout_height="@dimen/settings_image_size"
+        android:layout_marginTop="@dimen/main_margin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/imageBackGround"
+        app:layout_constraintTop_toBottomOf="@+id/weldOfImageView"
+        app:srcCompat="@drawable/wt_off" />
+
+    <ImageView
+        android:id="@+id/wtOnImageView"
+        android:layout_width="@dimen/settings_image_size"
+        android:layout_height="@dimen/settings_image_size"
+        android:layout_marginTop="@dimen/main_margin"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/imageBackGround"
+        app:layout_constraintTop_toBottomOf="@+id/weldOfImageView"
+        app:srcCompat="@drawable/welding_on" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

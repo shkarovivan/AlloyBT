@@ -21,18 +21,22 @@
  */
 
 package com.example.alloybt.control;
-
 import android.bluetooth.BluetoothDevice;
-
 import androidx.annotation.NonNull;
+import no.nordicsemi.android.ble.callback.profile.ProfileDataCallback;
+import no.nordicsemi.android.ble.data.Data;
 
-public interface BlinkyLedCallback {
+@SuppressWarnings("ConstantConditions")
+public abstract class BtReadDataCallback implements ProfileDataCallback, BtReceivedDataCallback {
 
-    /**
-     * Called when the data has been sent to the connected device.
-     *
-     * @param device the target device.
-     * @param on true when LED was enabled, false when disabled.
-     */
-    void onLedStateChanged(@NonNull final BluetoothDevice device, final boolean on);
+    @Override
+    public void onDataReceived(@NonNull final BluetoothDevice device, @NonNull final Data data) {
+        if (data.size() != 1) {
+            onInvalidDataReceived(device, data);
+          //  return;
+        }
+
+        final String inputString = data.getStringValue(0);
+        onDataReceived(device, inputString);
+    }
 }

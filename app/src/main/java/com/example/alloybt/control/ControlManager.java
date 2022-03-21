@@ -56,7 +56,6 @@ public class ControlManager extends ObservableBleManager {
 	private BluetoothGattCharacteristic buttonCharacteristic, ledCharacteristic;
 	private LogSession logSession;
 	private boolean supported;
-	private boolean ledOn;
 
 	public ControlManager(@NonNull final Context context) {
 		super(context);
@@ -103,11 +102,11 @@ public class ControlManager extends ObservableBleManager {
 	 * has been received, or its data was read.
 	 * <p>
 	 * If the data received are valid (single byte equal to 0x00 or 0x01), the
-	 * {@link BlinkyButtonDataCallback#onDataReceived} will be called.
-	 * Otherwise, the {@link BlinkyButtonDataCallback#onInvalidDataReceived(BluetoothDevice, Data)}
+	 * {@link BtReadDataCallback#onDataReceived} will be called.
+	 * Otherwise, the {@link BtReadDataCallback#onInvalidDataReceived(BluetoothDevice, Data)}
 	 * will be called with the data received.
 	 */
-	private	final BlinkyButtonDataCallback buttonCallback = new BlinkyButtonDataCallback() {
+	private	final BtReadDataCallback buttonCallback = new BtReadDataCallback() {
 		@Override
 		public void onDataReceived(@NonNull final BluetoothDevice device,
 								   final String data) {
@@ -132,7 +131,7 @@ public class ControlManager extends ObservableBleManager {
 	 * {@link BlinkyLedDataCallback#onInvalidDataReceived(BluetoothDevice, Data)} will be
 	 * called.
 	 */
-	private final BlinkyLedDataCallback ledCallback = new BlinkyLedDataCallback() {
+	private final BlinkyLedDataCallback writeDataCallback = new BlinkyLedDataCallback() {
 		@Override
 		public void onLedStateChanged(@NonNull final BluetoothDevice device,
 									  final boolean on) {
@@ -156,7 +155,7 @@ public class ControlManager extends ObservableBleManager {
 		@Override
 		protected void initialize() {
 			setNotificationCallback(buttonCharacteristic).with(buttonCallback);
-			readCharacteristic(ledCharacteristic).with(ledCallback).enqueue();
+			readCharacteristic(ledCharacteristic).with(writeDataCallback).enqueue();
 			readCharacteristic(buttonCharacteristic).with(buttonCallback).enqueue();
 			enableNotifications(buttonCharacteristic).enqueue();
 		}
@@ -189,18 +188,16 @@ public class ControlManager extends ObservableBleManager {
 	/**
 	 * Sends a request to the device to turn the LED on or off.
 	 *
-	 * @param current true to turn the LED on, false to turn it off.
+	 * @param data true to turn the LED on, false to turn it off.
 	 */
-	public void setWeldCurrent(final String current) {
+	public void setWeldData(final String data) {
 		// Are we connected?
 		if (ledCharacteristic == null)
 			return;
-
-		//log(Log.VERBOSE, "Turning LED " + (on ? "ON" : "OFF") + "...");
 		writeCharacteristic(
 				ledCharacteristic,
-				btDataSend.setWeldCurrent(current),
+				btDataSend.setWeldData(data),
 				BluetoothGattCharacteristic.WRITE_TYPE_DEFAULT
-		).with(ledCallback).enqueue();
+		).with(writeDataCallback).enqueue();
 	}
 }

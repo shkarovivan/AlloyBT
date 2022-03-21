@@ -57,10 +57,6 @@ public class ControlViewModel extends AndroidViewModel {
 		return controlManager.getBtReceivedData();
 	}
 
-	public LiveData<Boolean> getLedState() {
-		return controlManager.getLedState();
-	}
-
 	/**
 	 * Connect to the given peripheral.
 	 *
@@ -105,8 +101,8 @@ public class ControlViewModel extends AndroidViewModel {
 	 *
 	 * @param on true to turn the LED on, false to turn it OFF.
 	 */
-	public void setWeldCurrent(final String current) {
-		controlManager.setWeldCurrent(current);
+	public void setWeldData(final String data) {
+		controlManager.setWeldData(data);
 	}
 
 	@Override

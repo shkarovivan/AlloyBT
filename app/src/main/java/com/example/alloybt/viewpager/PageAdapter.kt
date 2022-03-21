@@ -2,8 +2,7 @@ package com.example.alloybt.viewpager
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.example.alloybt.BtDevice
-import com.example.alloybt.BtDeviceControlFragment
+import com.example.alloybt.viewpager.device_monitor.BtDeviceMonitorFragment
 import com.example.alloybt.viewpager.device_control.DeviceControlParamsFragment
 import com.example.alloybt.viewpager.device_errors.ErrorsListFragment
 import com.example.alloybt.viewpager.device_info.DeviceInfoFragment
@@ -19,7 +18,7 @@ class PageAdapter(
 
     override fun createFragment(position: Int): Fragment {
         return when (position) {
-            0 -> BtDeviceControlFragment()
+            0 -> BtDeviceMonitorFragment()
             1 -> DeviceControlParamsFragment()
             2 -> ErrorsListFragment()
             else -> DeviceInfoFragment()
