@@ -28,19 +28,14 @@ import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattService;
 import android.content.Context;
 import android.util.Log;
-
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-
 import java.util.UUID;
-
 import no.nordicsemi.android.ble.data.Data;
 import no.nordicsemi.android.ble.livedata.ObservableBleManager;
 import no.nordicsemi.android.log.LogContract;
 import no.nordicsemi.android.log.LogSession;
-import no.nordicsemi.android.log.Logger;
 
 public class ControlManager extends ObservableBleManager {
 	/** Nordic Blinky Service UUID. */
@@ -54,15 +49,10 @@ public class ControlManager extends ObservableBleManager {
 	private final MutableLiveData<String> btReceivedData = new MutableLiveData<>();
 
 	private BluetoothGattCharacteristic buttonCharacteristic, ledCharacteristic;
-	private LogSession logSession;
 	private boolean supported;
 
 	public ControlManager(@NonNull final Context context) {
 		super(context);
-	}
-
-	public final LiveData<Boolean> getLedState() {
-		return ledState;
 	}
 
 	public final LiveData<String> getBtReceivedData() {
@@ -73,23 +63,6 @@ public class ControlManager extends ObservableBleManager {
 	@Override
 	protected BleManagerGattCallback getGattCallback() {
 		return new ControlBleManagerGattCallback();
-	}
-
-	/**
-	 * Sets the log session to be used for low level logging.
-	 * @param session the session, or null, if nRF Logger is not installed.
-	 */
-	public void setLogger(@Nullable final LogSession session) {
-		logSession = session;
-	}
-
-	@Override
-	public void log(final int priority, @NonNull final String message) {
-//		if (BuildConfig.DEBUG) {
-//			Log.println(priority, "BlinkyManager", message);
-//		}
-		// The priority is a Log.X constant, while the Logger accepts it's log levels.
-		Logger.log(logSession, LogContract.Log.Level.fromPriority(priority), message);
 	}
 
 	@Override
@@ -113,11 +86,11 @@ public class ControlManager extends ObservableBleManager {
 			btReceivedData.setValue(data);
 		}
 
-		@Override
-		public void onInvalidDataReceived(@NonNull final BluetoothDevice device,
-										  @NonNull final Data data) {
-			log(Log.WARN, "Invalid data received: " + data);
-		}
+//		@Override
+//		public void onInvalidDataReceived(@NonNull final BluetoothDevice device,
+//										  @NonNull final Data data) {
+//			log(Log.WARN, "Invalid data received: " + data);
+//		}
 	};
 
 	/**
@@ -135,7 +108,7 @@ public class ControlManager extends ObservableBleManager {
 		@Override
 		public void onLedStateChanged(@NonNull final BluetoothDevice device,
 									  final boolean on) {
-			ledOn = on;
+			//ledOn = on;
 			log(LogContract.Log.Level.APPLICATION, "LED " + (on ? "ON" : "OFF"));
 			ledState.setValue(on);
 		}
@@ -186,9 +159,9 @@ public class ControlManager extends ObservableBleManager {
 	}
 
 	/**
-	 * Sends a request to the device to turn the LED on or off.
+	 * Sends a request to the device .
 	 *
-	 * @param data true to turn the LED on, false to turn it off.
+	 * @param data string.
 	 */
 	public void setWeldData(final String data) {
 		// Are we connected?

@@ -44,7 +44,6 @@ public class ControlViewModel extends AndroidViewModel {
 
 	public ControlViewModel(@NonNull final Application application) {
 		super(application);
-
 		// Initialize the manager.
 		controlManager = new ControlManager(getApplication());
 	}
@@ -65,9 +64,6 @@ public class ControlViewModel extends AndroidViewModel {
 	public void connect(@NonNull final BluetoothDevice device) {
 		// Prevent from calling again when called again (screen orientation changed).
 		btDevice = device;
-		final LogSession logSession = Logger
-				.newSession(getApplication(), null, device.getAddress(), device.getName());
-		controlManager.setLogger(logSession);
 		reconnect();
 	}
 
@@ -99,7 +95,7 @@ public class ControlViewModel extends AndroidViewModel {
 	/**
 	 * Sends a command to turn ON or OFF the LED on the nRF5 DK.
 	 *
-	 * @param on true to turn the LED on, false to turn it OFF.
+	 * @param data true to turn the LED on, false to turn it OFF.
 	 */
 	public void setWeldData(final String data) {
 		controlManager.setWeldData(data);
@@ -108,7 +104,6 @@ public class ControlViewModel extends AndroidViewModel {
 	@Override
 	protected void onCleared() {
 		super.onCleared();
-
 		disconnect();
 	}
 }

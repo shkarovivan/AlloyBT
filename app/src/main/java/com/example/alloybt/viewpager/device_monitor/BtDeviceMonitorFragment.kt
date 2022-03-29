@@ -135,7 +135,6 @@ class BtDeviceMonitorFragment() : Fragment(R.layout.fragment_device_control)  {
     private fun showControlViews() {
         btStateTextView.visibility = View.INVISIBLE
         stateProgressBar.visibility = View.INVISIBLE
-       // croller.visibility = View.VISIBLE
         curTextView.visibility = View.VISIBLE
         currentHintTextView.visibility = View.VISIBLE
         voltageHintTextView.visibility = View.VISIBLE
@@ -153,10 +152,7 @@ class BtDeviceMonitorFragment() : Fragment(R.layout.fragment_device_control)  {
 
     private fun parseMonitorData(data:String){
 
-        val moshi = Moshi.Builder()
-            //.add(MovieCustomAdapter())
-            .build()
-
+        val moshi = Moshi.Builder().build()
         val weldParamsAdapter = moshi.adapter(WeldMonitorParams::class.java).nonNull()
 
         try {
