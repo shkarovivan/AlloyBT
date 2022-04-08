@@ -50,6 +50,9 @@ class DeviceControlAdapterDelegate(
 				maxTextView.isVisible = false
 			}
 			valueTextView.text = controlParam.value
+			maxTextView.text = controlParam.max
+			minTextView.text = controlParam.min
+
 		}
 	}
 }

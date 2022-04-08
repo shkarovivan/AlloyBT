@@ -35,6 +35,5 @@
     <string name="min_param_text">0.0</string>
     <string name="max_param_text">7,0</string>
     <string name="value_param_text">3,6</string>
-
-
+    <string name="confirm_param_button_text">подтвердить</string>
 </resources>

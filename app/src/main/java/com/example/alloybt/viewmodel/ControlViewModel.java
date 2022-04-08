@@ -31,6 +31,10 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import com.example.alloybt.control.ControlManager;
+import com.example.alloybt.viewpager.device_control.ControlParam;
+
+import java.util.List;
+
 import no.nordicsemi.android.ble.ConnectRequest;
 import no.nordicsemi.android.ble.livedata.state.ConnectionState;
 import no.nordicsemi.android.log.LogSession;

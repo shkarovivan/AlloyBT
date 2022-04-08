@@ -1,17 +1,21 @@
 package com.example.alloybt.viewmodel
 
+import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Application
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.le.*
+import android.content.pm.PackageManager
 import android.os.ParcelUuid
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
+import androidx.core.app.ActivityCompat
+import androidx.lifecycle.*
 import com.example.alloybt.BluetoothAdapterProvider
 import com.example.alloybt.BtDevice
 import com.example.alloybt.SingleLiveEvent
+import com.example.alloybt.viewpager.device_control.ControlParam
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.lang.IllegalArgumentException
 import java.nio.charset.StandardCharsets
 
@@ -19,6 +23,7 @@ class BtDevicesViewModel(adapterProvider: BluetoothAdapterProvider) : ViewModel(
 
     private val repository = BtDevicesRepository()
     private val btDevicesLiveData = MutableLiveData(repository.initBtDevicesList())
+
 
     private val adapter = adapterProvider.getAdapter()
     private var scanner: BluetoothLeScanner? = null
@@ -77,6 +82,7 @@ class BtDevicesViewModel(adapterProvider: BluetoothAdapterProvider) : ViewModel(
         if (callback == null) {
             callback = BleScanCallback()
             scanner = adapter.bluetoothLeScanner
+            Log.e("BluetoothScanner", "Start scan.")
             scanner?.startScan(null, settings, callback)
         }
     }
@@ -112,7 +118,7 @@ class BtDevicesViewModel(adapterProvider: BluetoothAdapterProvider) : ViewModel(
     inner class BleScanCallback : ScanCallback() {
         override fun onScanResult(callbackType: Int, result: ScanResult) {
             foundDevices[result.device.address] = result.device
-
+            Log.e("BluetoothScanner", "scan.")
             var btDeviceName: String = result.device.name ?: "Unknown"
             if (btDeviceName.contains(" N")) {
                 val startIndex = btDeviceName.indexOf('N', 0, false)
@@ -120,7 +126,13 @@ class BtDevicesViewModel(adapterProvider: BluetoothAdapterProvider) : ViewModel(
                 val number = btDeviceName.substring(startIndex + 1, endIndex - 1)
                 btDeviceName = btDeviceName.substring(0, startIndex)
                 addBtDevice(btDeviceName, result.device.address, number, result.rssi, result.device)
-            } else  addBtDevice(btDeviceName, result.device.address, "no number", result.rssi, result.device)
+            } else addBtDevice(
+                btDeviceName,
+                result.device.address,
+                "no number",
+                result.rssi,
+                result.device
+            )
 
 
             Log.e("BluetoothScanner", "Scan result:  ${result.rssi}.")

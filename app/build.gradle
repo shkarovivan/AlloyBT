@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.alloybt"
-        minSdk 23
+        minSdk 24
         targetSdk 31
         versionCode 1
         versionName "1.0"
@@ -34,6 +34,9 @@ android {
     }
     androidExtensions{
         experimental = true
+    }
+    buildFeatures{
+        viewBinding true
     }
 }
 

@@ -3,7 +3,10 @@ package com.example.alloybt
 import android.Manifest
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
@@ -15,6 +18,8 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.alloybt.adapter.BtDevicesAdapter
+import com.example.alloybt.databinding.FragmentDeviceControlBinding
+import com.example.alloybt.databinding.FragmentSearchDevicesBinding
 import com.example.alloybt.viewmodel.BtDevicesViewModel
 import com.example.alloybt.viewmodel.DeviceViewModelFactory
 import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator
@@ -22,11 +27,23 @@ import kotlinx.android.synthetic.main.fragment_search_devices.*
 
 class SearchDevicesFragment : Fragment(R.layout.fragment_search_devices) {
 
+	private var _binding: FragmentSearchDevicesBinding? = null
+	private val binding get() = _binding!!
+
 	private val btDevicesListViewModel: BtDevicesViewModel by viewModels(){
 	DeviceViewModelFactory((requireActivity().application as App).adapterProvider)
 }
 
 	private var btDevicesAdapter: BtDevicesAdapter? = null
+
+	override fun onCreateView(
+		inflater: LayoutInflater,
+		container: ViewGroup?,
+		savedInstanceState: Bundle?
+	): View {
+		_binding = FragmentSearchDevicesBinding.inflate(inflater, container, false)
+		return binding.root
+	}
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
@@ -61,7 +78,6 @@ class SearchDevicesFragment : Fragment(R.layout.fragment_search_devices) {
 		btDevicesListViewModel.stopScan()
 	}
 
-
 	private fun initList() {
 		btDevicesAdapter = BtDevicesAdapter({ position ->
 			showDeviceControlFragment(position)
@@ -69,7 +85,7 @@ class SearchDevicesFragment : Fragment(R.layout.fragment_search_devices) {
 			{ position ->
 				showDeviceControlFragment(position)
 			})
-		with(deviceBtList) {
+		with(binding.deviceBtList) {
 			adapter = btDevicesAdapter
 			layoutManager = LinearLayoutManager(requireContext())
 			addItemDecoration(DividerItemDecoration(requireContext(), RecyclerView.VERTICAL))
@@ -91,6 +107,7 @@ class SearchDevicesFragment : Fragment(R.layout.fragment_search_devices) {
 	) { granted ->
 		if (granted) {
 			btDevicesListViewModel.startScan()
+			Log.e("BluetoothScanner", "Start scan.")
 		}
 	}
 

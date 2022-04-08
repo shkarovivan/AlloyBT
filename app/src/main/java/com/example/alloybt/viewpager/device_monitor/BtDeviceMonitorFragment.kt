@@ -3,24 +3,27 @@ package com.example.alloybt.viewpager.device_monitor
 import android.bluetooth.BluetoothDevice
 import android.content.Context
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import com.example.alloybt.BtDevice
 import com.example.alloybt.BtDeviceInformation
 import com.example.alloybt.R
 import com.example.alloybt.control.ControlManager
+import com.example.alloybt.databinding.FragmentDeviceControlBinding
 import com.example.alloybt.viewmodel.ControlViewModel
-import com.example.alloybt.viewpager.AddBadge
 import com.squareup.moshi.Moshi
-import kotlinx.android.synthetic.main.fragment_device_control.*
 import no.nordicsemi.android.ble.livedata.state.ConnectionState
 
-class BtDeviceMonitorFragment() : Fragment(R.layout.fragment_device_control)  {
+class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control)  {
+
+    private var _binding: FragmentDeviceControlBinding? = null
+    private val binding get() = _binding!!
 
     private val controlViewModel: ControlViewModel by activityViewModels()
 
@@ -28,6 +31,21 @@ class BtDeviceMonitorFragment() : Fragment(R.layout.fragment_device_control)  {
     private lateinit var controlManager: ControlManager
     private var lastCurrent = 0
     private var lastTimeStamp: Long = 0
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentDeviceControlBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -40,19 +58,19 @@ class BtDeviceMonitorFragment() : Fragment(R.layout.fragment_device_control)  {
         (activity as AppCompatActivity?)!!.supportActionBar!!.title = "Эллой " +
                 btDeviceInformation.model + " №" + btDeviceInformation.seriesNumber
 
-        croller.setOnProgressChangedListener { current ->
-            val now = System.currentTimeMillis()
-            if (now - lastTimeStamp > 50) {
-                if (lastCurrent != current) {
-                   // currentTextView.text = current.toString()
-                    sendText(current.toString())
-                    lastCurrent = current
-                    lastTimeStamp = System.currentTimeMillis()
-                }
-            }
-        }
+//        binding.croller.setOnProgressChangedListener { current ->
+//            val now = System.currentTimeMillis()
+//            if (now - lastTimeStamp > 50) {
+//                if (lastCurrent != current) {
+//                   // currentTextView.text = current.toString()
+//                    sendText(current.toString())
+//                    lastCurrent = current
+//                    lastTimeStamp = System.currentTimeMillis()
+//                }
+//            }
+//        }
 
-        voltageTextView.visibility = View.VISIBLE
+        binding.voltageTextView.visibility = View.VISIBLE
         controlViewModel.dataFromBtDevice.observe(
             viewLifecycleOwner
         ) { btDataReceived ->
@@ -67,28 +85,28 @@ class BtDeviceMonitorFragment() : Fragment(R.layout.fragment_device_control)  {
                 ConnectionState.State.CONNECTING -> {
                     showConnectingBar()
                     hideControlViews()
-                    btStateTextView.text = resources.getText(R.string.connecting_state)
+                    binding.btStateTextView.text = resources.getText(R.string.connecting_state)
                 }
                 ConnectionState.State.INITIALIZING -> {
                     showConnectingBar()
                     hideControlViews()
-                    btStateTextView.text = resources.getText(R.string.initialization_state)
+                    binding.btStateTextView.text = resources.getText(R.string.initialization_state)
                 }
                 ConnectionState.State.READY -> {
                     showControlViews()
-                    btStateTextView.text = ""
+                    binding.btStateTextView.text = ""
                 }
                 ConnectionState.State.DISCONNECTED -> {
                     showConnectingBar()
                     hideControlViews()
-                    btStateTextView.text = resources.getText(R.string.disconnected_state)
+                    binding.btStateTextView.text = resources.getText(R.string.disconnected_state)
                 }
                 ConnectionState.State.DISCONNECTING -> {
                     showConnectingBar()
                     hideControlViews()
-                    btStateTextView.text = resources.getText(R.string.disconnecting_state)
+                    binding.btStateTextView.text = resources.getText(R.string.disconnecting_state)
                 }
-                else -> btStateTextView.visibility = View.INVISIBLE
+                else ->  binding.btStateTextView.visibility = View.INVISIBLE
             }
         }
     }
@@ -109,44 +127,47 @@ class BtDeviceMonitorFragment() : Fragment(R.layout.fragment_device_control)  {
     }
 
     private fun showConnectingBar() {
-        btStateTextView.visibility = View.VISIBLE
-        stateProgressBar.visibility = View.VISIBLE
+        binding.btStateTextView.visibility = View.VISIBLE
+        binding.stateProgressBar.visibility = View.VISIBLE
     }
 
     private fun hideControlViews() {
-        croller.visibility = View.INVISIBLE
-        curTextView.visibility = View.INVISIBLE
-        currentHintTextView.visibility = View.INVISIBLE
-        voltageHintTextView.visibility = View.INVISIBLE
-        voltageTextView.isVisible = false
+        with (binding){
+           // croller.visibility = View.INVISIBLE
+            curTextView.visibility = View.INVISIBLE
+            currentHintTextView.visibility = View.INVISIBLE
+            voltageHintTextView.visibility = View.INVISIBLE
+            voltageTextView.isVisible = false
 
-        gasTextView.isVisible = false
-        wireDiaTextView.isVisible = false
-        weldTypeTextView.isVisible = false
-        materialTextView.isVisible = false
-        torchTextView.isVisible = false
-        weldOfImageView.isVisible = false
-        weldOnImageView.isVisible = false
-        wtOffImageView.isVisible = false
-        wtOnImageView.isVisible = false
-
+            gasTextView.isVisible = false
+            wireDiaTextView.isVisible = false
+            weldTypeTextView.isVisible =  false
+            materialTextView.isVisible = false
+            torchTextView.isVisible = false
+            weldOfImageView.isVisible = false
+            weldOnImageView.isVisible = false
+            wtOffImageView.isVisible = false
+            wtOnImageView.isVisible = false
+        }
     }
 
     private fun showControlViews() {
-        btStateTextView.visibility = View.INVISIBLE
-        stateProgressBar.visibility = View.INVISIBLE
-        curTextView.visibility = View.VISIBLE
-        currentHintTextView.visibility = View.VISIBLE
-        voltageHintTextView.visibility = View.VISIBLE
+        with (binding) {
+            btStateTextView.visibility = View.INVISIBLE
+            stateProgressBar.visibility = View.INVISIBLE
+            curTextView.visibility = View.VISIBLE
+            currentHintTextView.visibility = View.VISIBLE
+            voltageHintTextView.visibility = View.VISIBLE
 
-        voltageTextView.isVisible = true
-        gasTextView.isVisible = true
-        wireDiaTextView.isVisible = true
-        weldTypeTextView.isVisible = true
-        materialTextView.isVisible = true
-        torchTextView.isVisible = true
-        weldOfImageView.isVisible = true
-        wtOffImageView.isVisible = true
+            voltageTextView.isVisible = true
+            gasTextView.isVisible = true
+            wireDiaTextView.isVisible = true
+            weldTypeTextView.isVisible = true
+            materialTextView.isVisible = true
+            torchTextView.isVisible = true
+            weldOfImageView.isVisible = true
+            wtOffImageView.isVisible = true
+        }
 
     }
 
@@ -165,19 +186,21 @@ class BtDeviceMonitorFragment() : Fragment(R.layout.fragment_device_control)  {
             }
 
         } catch (e: Exception) {
-           toast(e.toString())
+           //toast(e.toString())
         }
     }
 
     private fun showParams(params: WeldMonitorParams){
         if (params.Response == "Ok") {
-            curTextView.text = params.value.currentValue
-            voltageTextView.text = params.value.voltageValue
-            materialTextView.text = params.value.material
-            wireDiaTextView.text = params.value.wireDiameter
-            gasTextView.text = params.value.gasType
-            weldTypeTextView.text = params.value.weldType
-            torchTextView.text = params.value.torchControl
+            with (binding) {
+                curTextView.text = params.value.currentValue
+                voltageTextView.text = params.value.voltageValue
+                materialTextView.text = params.value.material
+                wireDiaTextView.text = params.value.wireDiameter
+                gasTextView.text = params.value.gasType
+                weldTypeTextView.text = params.value.weldType
+                torchTextView.text = params.value.torchControl
+            }
         }
     }
 

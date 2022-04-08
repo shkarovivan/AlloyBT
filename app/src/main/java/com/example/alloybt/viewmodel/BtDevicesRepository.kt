@@ -2,6 +2,8 @@ package com.example.alloybt.viewmodel
 
 import android.bluetooth.BluetoothDevice
 import com.example.alloybt.BtDevice
+import com.example.alloybt.R
+import com.example.alloybt.viewpager.device_control.ControlParam
 import kotlin.random.Random
 
 class BtDevicesRepository {

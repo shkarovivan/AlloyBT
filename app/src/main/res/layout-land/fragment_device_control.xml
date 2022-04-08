@@ -29,30 +29,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <com.sdsmdg.harjot.crollerTest.Croller
-        android:id="@+id/croller"
-        android:layout_width="@dimen/croller_landscape_size"
-        android:layout_height="@dimen/croller_landscape_size"
-        android:layout_centerInParent="true"
-        android:visibility="gone"
-        app:back_circle_color="@color/black"
-        app:indicator_color="@color/dark_yellow"
-        app:indicator_width="15"
-        app:is_continuous="false"
-        app:label_color="@color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.12"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:main_circle_color="@color/black"
-        app:max="315"
-        app:min="0"
-        app:progress_primary_circle_size="20"
-        app:progress_primary_color="@color/dark_yellow"
-        app:progress_primary_stroke_width="30"
-        app:progress_secondary_color="@color/dark_yellow"
-        app:start_offset="45" />
-
     <TextView
         android:id="@+id/curTextView"
         android:layout_width="wrap_content"
@@ -65,8 +41,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/weldOfImageView"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/croller" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/currentHintTextView"
@@ -83,21 +58,6 @@
 
 
     <TextView
-        android:id="@+id/weldTypeTextView"
-        android:layout_width="81dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/main_margin"
-        android:text="@string/default_weld_type_text"
-        android:textAlignment="center"
-        android:textColor="@color/dark_yellow"
-        android:textSize="@dimen/monitor_text_size"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/gasTextView"
-        app:layout_constraintHorizontal_weight="0.2"
-        app:layout_constraintStart_toEndOf="@id/wireDiaTextView"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
         android:id="@+id/wireDiaTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -110,6 +70,21 @@
         app:layout_constraintEnd_toStartOf="@+id/weldTypeTextView"
         app:layout_constraintHorizontal_weight="0.2"
         app:layout_constraintStart_toEndOf="@+id/materialTextView"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/weldTypeTextView"
+        android:layout_width="81dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/main_margin"
+        android:text="@string/default_weld_type_text"
+        android:textAlignment="center"
+        android:textColor="@color/dark_yellow"
+        android:textSize="@dimen/monitor_text_size"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/gasTextView"
+        app:layout_constraintHorizontal_weight="0.2"
+        app:layout_constraintStart_toEndOf="@id/wireDiaTextView"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView

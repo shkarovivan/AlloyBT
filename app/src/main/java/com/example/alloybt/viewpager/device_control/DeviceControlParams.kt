@@ -1,5 +1,6 @@
 package com.example.alloybt.viewpager.device_control
 
+import android.os.Parcelable
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 import kotlinx.android.parcel.Parcelize
@@ -11,7 +12,7 @@ data class DeviceControlParams(
     @Json(name = "Value")
     val controlParamsList: List<ControlParam>
 )
-
+@Parcelize
 @JsonClass(generateAdapter = true)
 data class ControlParam(
     @Json(name = "Title")
@@ -26,4 +27,4 @@ data class ControlParam(
     val max: String,
     @Json(name = "Value")
     val value: String
-)
+): Parcelable
