@@ -29,6 +29,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.example.alloybt.control.ControlManager;
 import com.example.alloybt.viewpager.device_control.ControlParam;
@@ -45,6 +46,15 @@ public class ControlViewModel extends AndroidViewModel {
 	private BluetoothDevice btDevice;
 	@Nullable
 	private ConnectRequest connectRequest;
+
+	private MutableLiveData<MonitorMode> monitorMode;
+
+	public MutableLiveData<MonitorMode> getMonitorMode(){
+		if (monitorMode == null){
+			monitorMode = new MutableLiveData<>();
+		}
+		return monitorMode;
+	}
 
 	public ControlViewModel(@NonNull final Application application) {
 		super(application);

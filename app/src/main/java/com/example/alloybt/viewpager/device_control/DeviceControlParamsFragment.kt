@@ -17,6 +17,7 @@ import com.example.alloybt.R
 import com.example.alloybt.databinding.FragmentDeviceControlBinding
 import com.example.alloybt.databinding.FragmentDeviceParamsListBinding
 import com.example.alloybt.viewmodel.ControlViewModel
+import com.example.alloybt.viewmodel.MonitorMode
 import com.example.alloybt.viewpager.ViewPagerFragmentDirections
 import com.skillbox.networking.utils.autoCleared
 import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator
@@ -48,6 +49,11 @@ class DeviceControlParamsFragment: Fragment(R.layout.fragment_device_params_list
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        controlViewModel.monitorMode.postValue(MonitorMode.DEVICE_CONTROL)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initList()
@@ -65,6 +71,10 @@ class DeviceControlParamsFragment: Fragment(R.layout.fragment_device_params_list
             binding.testTextView.text = btDataReceived
             //toast(btDataReceived)
 
+        }
+
+        controlViewModel.monitorMode.observe(viewLifecycleOwner){ mode->
+            toast("$mode")
         }
     }
 

@@ -3,6 +3,7 @@ package com.example.alloybt.viewpager.device_monitor
 import android.bluetooth.BluetoothDevice
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,16 +12,22 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import com.example.alloybt.BtDevice
 import com.example.alloybt.BtDeviceInformation
 import com.example.alloybt.R
 import com.example.alloybt.control.ControlManager
 import com.example.alloybt.databinding.FragmentDeviceControlBinding
 import com.example.alloybt.viewmodel.ControlViewModel
+import com.example.alloybt.viewmodel.MonitorMode
 import com.squareup.moshi.Moshi
+import kotlinx.coroutines.Delay
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import no.nordicsemi.android.ble.livedata.state.ConnectionState
 
-class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control)  {
+class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control) {
 
     private var _binding: FragmentDeviceControlBinding? = null
     private val binding get() = _binding!!
@@ -31,6 +38,9 @@ class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control)  {
     private lateinit var controlManager: ControlManager
     private var lastCurrent = 0
     private var lastTimeStamp: Long = 0
+
+    private var requestMonitorData: Boolean = false
+    private var isReady: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,6 +54,12 @@ class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control)  {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        controlViewModel.monitorMode.postValue(MonitorMode.DEVICE_MONITOR)
 
     }
 
@@ -78,33 +94,46 @@ class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control)  {
             parseMonitorData(btDataReceived)
         }
 
+        controlViewModel.monitorMode.observe(viewLifecycleOwner) { mode ->
+            requestMonitorData = mode == MonitorMode.DEVICE_MONITOR
+            if (requestMonitorData) {
+                sendDataRequest()
+            }
+
+        }
+
         controlViewModel.connectionState.observe(viewLifecycleOwner) {
             when (it.state) {
                 ConnectionState.State.CONNECTING -> {
                     showConnectingBar()
                     hideControlViews()
                     binding.btStateTextView.text = resources.getText(R.string.connecting_state)
+                    isReady = false
                 }
                 ConnectionState.State.INITIALIZING -> {
                     showConnectingBar()
                     hideControlViews()
                     binding.btStateTextView.text = resources.getText(R.string.initialization_state)
+                    isReady = false
                 }
                 ConnectionState.State.READY -> {
                     showControlViews()
                     binding.btStateTextView.text = ""
+                    isReady = true
                 }
                 ConnectionState.State.DISCONNECTED -> {
                     showConnectingBar()
                     hideControlViews()
                     binding.btStateTextView.text = resources.getText(R.string.disconnected_state)
+                    isReady = false
                 }
                 ConnectionState.State.DISCONNECTING -> {
                     showConnectingBar()
                     hideControlViews()
                     binding.btStateTextView.text = resources.getText(R.string.disconnecting_state)
+                    isReady = false
                 }
-                else ->  binding.btStateTextView.visibility = View.INVISIBLE
+                else -> binding.btStateTextView.visibility = View.INVISIBLE
             }
         }
     }
@@ -130,14 +159,14 @@ class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control)  {
     }
 
     private fun hideControlViews() {
-        with (binding){
-           // croller.visibility = View.INVISIBLE
+        with(binding) {
+            // croller.visibility = View.INVISIBLE
             curTextView.visibility = View.INVISIBLE
             currentHintTextView.visibility = View.INVISIBLE
 
             waveFormTextView.isVisible = false
             liftigTextView.isVisible = false
-            weldTypeTextView.isVisible =  false
+            weldTypeTextView.isVisible = false
             diamElectrodeTextView.isVisible = false
             torchModeTextView.isVisible = false
             weldOfImageView.isVisible = false
@@ -148,7 +177,7 @@ class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control)  {
     }
 
     private fun showControlViews() {
-        with (binding) {
+        with(binding) {
             btStateTextView.visibility = View.INVISIBLE
             stateProgressBar.visibility = View.INVISIBLE
             curTextView.visibility = View.VISIBLE
@@ -165,7 +194,7 @@ class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control)  {
 
     }
 
-    private fun parseMonitorData(data:String){
+    private fun parseMonitorData(data: String) {
 
         val moshi = Moshi.Builder().build()
         val weldParamsAdapter = moshi.adapter(WeldMonitorParams::class.java).nonNull()
@@ -174,19 +203,18 @@ class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control)  {
             val weldParams = weldParamsAdapter.fromJson(data)
             if (weldParams != null) {
                 showParams(weldParams)
-            }
-            else {
-                toast ("WeldParam = null")
+            } else {
+                toast("WeldParam = null")
             }
 
         } catch (e: Exception) {
-           //toast(e.toString())
+            //toast(e.toString())
         }
     }
 
-    private fun showParams(params: WeldMonitorParams){
+    private fun showParams(params: WeldMonitorParams) {
         if (params.Response == "Ok") {
-            with (binding) {
+            with(binding) {
                 curTextView.text = params.value.currentValue
                 waveFormTextView.text = params.value.material
                 liftigTextView.text = params.value.wireDiameter
@@ -197,8 +225,21 @@ class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control)  {
         }
     }
 
-    private fun toast(text: String){
-        Toast.makeText(requireContext(),text,Toast.LENGTH_SHORT).show()
+    private fun toast(text: String) {
+        Toast.makeText(requireContext(), text, Toast.LENGTH_SHORT).show()
     }
+
+    private fun sendDataRequest() {
+        lifecycleScope.launch(Dispatchers.IO) {
+            while (requestMonitorData) {
+                if (isReady) {
+                    sendText("")
+                    delay(2000)
+                    Log.d("requestData", "request")
+                }
+            }
+        }
+    }
+
 
 }
