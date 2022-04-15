@@ -9,6 +9,8 @@ import android.content.pm.PackageManager
 import android.os.ParcelUuid
 import android.util.Log
 import androidx.core.app.ActivityCompat
+import androidx.core.util.containsValue
+import androidx.core.util.forEach
 import androidx.lifecycle.*
 import com.example.alloybt.BluetoothAdapterProvider
 import com.example.alloybt.BtDevice
@@ -135,7 +137,7 @@ class BtDevicesViewModel(adapterProvider: BluetoothAdapterProvider) : ViewModel(
             )
 
 
-            Log.e("BluetoothScanner", "Scan result:  ${result.rssi}.")
+            Log.e("BluetoothScanner", "Scan result:  ${result.rssi}  ")
             //	_devices.postValue(foundDevices.values.toList())
         }
 

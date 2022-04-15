@@ -76,10 +76,5 @@
             android:name="control_param"
             app:argType="com.example.alloybt.viewpager.device_control.ControlParam" />
     </fragment>
-    <fragment
-        android:id="@+id/deviceControlParamsFragment"
-        android:name="com.example.alloybt.viewpager.device_control.DeviceControlParamsFragment"
-        android:label="DeviceControlParamsFragment"
-        tools:layout="@layout/fragment_device_params_list"/>
 
 </navigation>

@@ -69,8 +69,6 @@ class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control)  {
 //                }
 //            }
 //        }
-
-        binding.voltageTextView.visibility = View.VISIBLE
         controlViewModel.dataFromBtDevice.observe(
             viewLifecycleOwner
         ) { btDataReceived ->
@@ -136,14 +134,12 @@ class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control)  {
            // croller.visibility = View.INVISIBLE
             curTextView.visibility = View.INVISIBLE
             currentHintTextView.visibility = View.INVISIBLE
-            voltageHintTextView.visibility = View.INVISIBLE
-            voltageTextView.isVisible = false
 
-            gasTextView.isVisible = false
-            wireDiaTextView.isVisible = false
+            waveFormTextView.isVisible = false
+            liftigTextView.isVisible = false
             weldTypeTextView.isVisible =  false
-            materialTextView.isVisible = false
-            torchTextView.isVisible = false
+            diamElectrodeTextView.isVisible = false
+            torchModeTextView.isVisible = false
             weldOfImageView.isVisible = false
             weldOnImageView.isVisible = false
             wtOffImageView.isVisible = false
@@ -157,14 +153,12 @@ class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control)  {
             stateProgressBar.visibility = View.INVISIBLE
             curTextView.visibility = View.VISIBLE
             currentHintTextView.visibility = View.VISIBLE
-            voltageHintTextView.visibility = View.VISIBLE
 
-            voltageTextView.isVisible = true
-            gasTextView.isVisible = true
-            wireDiaTextView.isVisible = true
+            waveFormTextView.isVisible = true
+            liftigTextView.isVisible = true
             weldTypeTextView.isVisible = true
-            materialTextView.isVisible = true
-            torchTextView.isVisible = true
+            diamElectrodeTextView.isVisible = true
+            torchModeTextView.isVisible = true
             weldOfImageView.isVisible = true
             wtOffImageView.isVisible = true
         }
@@ -194,12 +188,11 @@ class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control)  {
         if (params.Response == "Ok") {
             with (binding) {
                 curTextView.text = params.value.currentValue
-                voltageTextView.text = params.value.voltageValue
-                materialTextView.text = params.value.material
-                wireDiaTextView.text = params.value.wireDiameter
-                gasTextView.text = params.value.gasType
+                waveFormTextView.text = params.value.material
+                liftigTextView.text = params.value.wireDiameter
+                diamElectrodeTextView.text = params.value.gasType
                 weldTypeTextView.text = params.value.weldType
-                torchTextView.text = params.value.torchControl
+                torchModeTextView.text = params.value.torchControl
             }
         }
     }

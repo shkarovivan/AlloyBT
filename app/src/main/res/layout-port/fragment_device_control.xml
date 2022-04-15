@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:ignore="MissingDefaultResource">
 
-
     <ImageView
         android:id="@+id/imageBackGround"
         android:layout_width="match_parent"
@@ -14,7 +13,7 @@
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
@@ -59,15 +58,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="0"
+        android:textAlignment="center"
         android:textColor="@color/dark_yellow"
         android:textSize="@dimen/large_indicator_text_size"
         android:textStyle="normal"
-        android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/imageBackGround"
         app:layout_constraintTop_toTopOf="@+id/imageBackGround"
-        app:layout_constraintVertical_bias="0.2" />
+         />
 
     <TextView
         android:id="@+id/currentHintTextView"
@@ -81,38 +80,10 @@
         app:layout_constraintEnd_toEndOf="@+id/curTextView"
         app:layout_constraintStart_toStartOf="@+id/curTextView" />
 
-    <TextView
-        android:id="@+id/voltageTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/real_current_init_text"
-        android:textColor="@color/dark_yellow"
-        android:textSize="@dimen/large_indicator_text_size"
-        android:textStyle="normal"
-        android:textAlignment="center"
-        app:layout_constraintVertical_bias="0.8"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/voltageHintTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/real_current_text"
-        android:textColor="@color/dark_yellow"
-        android:textSize="@dimen/monitor_text_size"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@id/voltageTextView"
-        app:layout_constraintEnd_toEndOf="@+id/voltageTextView"
-        app:layout_constraintStart_toStartOf="@+id/voltageTextView" />
-
-
 
     <TextView
         android:id="@+id/weldTypeTextView"
-        android:layout_width="81dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/main_margin"
         android:text="@string/default_weld_type_text"
@@ -120,13 +91,13 @@
         android:textColor="@color/dark_yellow"
         android:textSize="@dimen/monitor_text_size"
         android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_weight="0.2"
-        app:layout_constraintEnd_toStartOf="@+id/gasTextView"
-        app:layout_constraintStart_toEndOf="@id/wireDiaTextView"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/wireDiaTextView"
+        android:id="@+id/liftigTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/main_margin"
@@ -135,63 +106,57 @@
         android:textColor="@color/dark_yellow"
         android:textSize="@dimen/monitor_text_size"
         android:textStyle="bold"
-        app:layout_constraintHorizontal_weight="0.2"
         app:layout_constraintEnd_toStartOf="@+id/weldTypeTextView"
-        app:layout_constraintStart_toEndOf="@+id/materialTextView"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/materialTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/main_margin"
-        android:text="@string/default_material_type_text"
-        android:textAlignment="center"
-        android:textColor="@color/dark_yellow"
-        android:textSize="@dimen/monitor_text_size"
-        android:textStyle="bold"
         app:layout_constraintHorizontal_weight="0.2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/wireDiaTextView"
-        app:layout_constraintStart_toEndOf="@id/materialTextView"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/gasTextView"
+        android:id="@+id/torchModeTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/main_margin"
-        android:text="@string/default_gas_type_text"
+        android:text="@string/torch_mode_text"
         android:textAlignment="center"
         android:textColor="@color/dark_yellow"
         android:textSize="@dimen/monitor_text_size"
         android:textStyle="bold"
-        app:layout_constraintHorizontal_weight="0.2"
-        app:layout_constraintEnd_toStartOf="@+id/torchTextView"
-        app:layout_constraintStart_toEndOf="@+id/weldTypeTextView"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="@+id/liftigTextView"
+        app:layout_constraintStart_toStartOf="@+id/liftigTextView"
+        app:layout_constraintTop_toBottomOf="@+id/liftigTextView" />
 
     <TextView
-        android:id="@+id/torchTextView"
+        android:id="@+id/waveFormTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/main_margin"
-        android:text="@string/default_torch_type_text"
+        android:text="@string/wave_form_text"
         android:textAlignment="center"
         android:textColor="@color/dark_yellow"
         android:textSize="@dimen/monitor_text_size"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_weight="0.2"
-        app:layout_constraintStart_toEndOf="@+id/gasTextView"
+        app:layout_constraintStart_toEndOf="@+id/weldTypeTextView"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/diamElectrodeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/diameter_electrode_text"
+        android:textAlignment="center"
+        android:textColor="@color/dark_yellow"
+        android:textSize="@dimen/monitor_text_size"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/waveFormTextView"
+        app:layout_constraintStart_toStartOf="@+id/waveFormTextView"
+        app:layout_constraintTop_toBottomOf="@+id/waveFormTextView" />
 
     <ProgressBar
         android:id="@+id/stateProgressBar"
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/main_fragment_margin"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -31,6 +31,8 @@ class DeviceControlParamsFragment: Fragment(R.layout.fragment_device_params_list
 
     private var deviceControlAdapter: DeviceControlAdapter by autoCleared()
 
+    //lateinit var deviceParamsList: List<ControlParam>
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -49,7 +51,9 @@ class DeviceControlParamsFragment: Fragment(R.layout.fragment_device_params_list
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initList()
-        setExampleDeviceControlList()
+      //  setExampleDeviceControlList()
+
+       // deviceControlAdapter.items = deviceParamsList
 
         binding.refreshParams.setOnClickListener {
 
@@ -100,8 +104,6 @@ class DeviceControlParamsFragment: Fragment(R.layout.fragment_device_params_list
                     value = Random.nextInt(0, max ).toString()
                 ))
         }
-
-        deviceControlAdapter.items = deviceParamsList
     }
 
     private fun toast(text: String){
