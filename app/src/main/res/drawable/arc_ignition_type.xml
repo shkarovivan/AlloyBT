@@ -1,0 +1,9 @@
+
+<level-list xmlns:android="http://schemas.android.com/apk/res/android">
+	<item
+		android:drawable="@drawable/high_voltage"
+		android:maxLevel="0"/>
+	<item
+		android:drawable="@drawable/lift_tig"
+		android:maxLevel="1"/>
+</level-list>

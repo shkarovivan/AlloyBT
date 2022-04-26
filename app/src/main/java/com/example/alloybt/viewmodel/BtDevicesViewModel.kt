@@ -121,20 +121,23 @@ class BtDevicesViewModel(adapterProvider: BluetoothAdapterProvider) : ViewModel(
         override fun onScanResult(callbackType: Int, result: ScanResult) {
             foundDevices[result.device.address] = result.device
             Log.e("BluetoothScanner", "scan.")
-            var btDeviceName: String = result.device.name ?: "Unknown"
-            if (btDeviceName.contains(" N")) {
+            var btDeviceName: String = result.device.name ?: "Unknown"//result.scanRecord.toString()//
+            var btDeviceManuf: String = result.scanRecord?.manufacturerSpecificData?.get(2573)?.toString(Charsets.UTF_8) ?: "null"
+            if (btDeviceManuf.contains("ALLOY")) {
                 val startIndex = btDeviceName.indexOf('N', 0, false)
                 val endIndex = btDeviceName.length
                 val number = btDeviceName.substring(startIndex + 1, endIndex - 1)
-                btDeviceName = btDeviceName.substring(0, startIndex)
-                addBtDevice(btDeviceName, result.device.address, number, result.rssi, result.device)
-            } else addBtDevice(
-                btDeviceName,
-                result.device.address,
-                "no number",
-                result.rssi,
-                result.device
-            )
+              //  btDeviceName = btDeviceName.substring(0, startIndex)
+                addBtDevice(btDeviceName, result.device.address,"" /*number*/, result.rssi, result.device)
+            }
+ //           else(
+ //               addBtDevice(
+//                btDeviceName,
+//                result.device.address,
+//                "no number",
+//                result.rssi,
+//                result.device
+ //           )
 
 
             Log.e("BluetoothScanner", "Scan result:  ${result.rssi}  ")

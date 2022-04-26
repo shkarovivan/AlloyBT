@@ -17,10 +17,11 @@
     <string name="real_current_init_text">0</string>
     <string name="set_current_text">А</string>
     <string name="default_weld_type_text">AC+DC</string>
+    <string name="current_text">Ток</string>
     <string name="default_wire_type_text">LiftTIG</string>
     <string name="torch_mode_text">2T</string>
     <string name="wave_form_text">Sinus</string>
-    <string name="diameter_electrode_text">1.0 mm</string>
+    <string name="diameter_electrode_text">1.0 мм</string>
     <string name="page_head_text_monitor">Монитор</string>
     <string name="page_head_text_control">Управление</string>
     <string name="page_head_text_errors">Ошибки</string>

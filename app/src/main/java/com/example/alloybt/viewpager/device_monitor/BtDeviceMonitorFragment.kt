@@ -1,7 +1,9 @@
 package com.example.alloybt.viewpager.device_monitor
 
+import android.annotation.SuppressLint
 import android.bluetooth.BluetoothDevice
 import android.content.Context
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,18 +15,18 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.example.alloybt.BtDevice
 import com.example.alloybt.BtDeviceInformation
 import com.example.alloybt.R
 import com.example.alloybt.control.ControlManager
 import com.example.alloybt.databinding.FragmentDeviceControlBinding
+import com.example.alloybt.json_data.*
 import com.example.alloybt.viewmodel.ControlViewModel
 import com.example.alloybt.viewmodel.MonitorMode
+import com.example.alloybt.viewpager.ViewPagerFragmentDirections
 import com.squareup.moshi.Moshi
-import kotlinx.coroutines.Delay
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import no.nordicsemi.android.ble.livedata.state.ConnectionState
 
 class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control) {
@@ -36,11 +38,14 @@ class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control) {
 
     private lateinit var btDevice: BluetoothDevice
     private lateinit var controlManager: ControlManager
-    private var lastCurrent = 0
-    private var lastTimeStamp: Long = 0
 
     private var requestMonitorData: Boolean = false
     private var isReady: Boolean = false
+    private var isPause: Boolean = true
+
+    var current = 0
+
+    val moshi: Moshi = Moshi.Builder().build()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -54,25 +59,38 @@ class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control) {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
-
+        lifecycleScope.coroutineContext.cancel()
     }
 
     override fun onResume() {
         super.onResume()
+        isPause = false
+        activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
         controlViewModel.monitorMode.postValue(MonitorMode.DEVICE_MONITOR)
-
+        Log.d("requestData", "onResume")
     }
 
+
+    override fun onPause() {
+        super.onPause()
+        isPause = true
+        Log.d("requestData", "onPause")
+        //  lifecycleScope.coroutineContext.cancel()
+        lifecycleScope.coroutineContext.cancelChildren()
+    }
+
+    @SuppressLint("SourceLockedOrientationActivity")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val btDeviceInformation: BtDevice = BtDeviceInformation.btDeviceInformation
-
+        activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
         btDevice = btDeviceInformation.device
         showConnectingBar()
         hideControlViews()
+        isPause = false
 
-        (activity as AppCompatActivity?)!!.supportActionBar!!.title = "Эллой " +
-                btDeviceInformation.model + " №" + btDeviceInformation.seriesNumber
+        (activity as AppCompatActivity?)!!.supportActionBar!!.title =
+            btDeviceInformation.model// + " № " + btDeviceInformation.seriesNumber
 
 //        binding.croller.setOnProgressChangedListener { current ->
 //            val now = System.currentTimeMillis()
@@ -85,21 +103,26 @@ class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control) {
 //                }
 //            }
 //        }
+
+        binding.curTextView.setOnClickListener {
+
+            val action = ViewPagerFragmentDirections .actionViewPagerFragmentToTuneParamFragment(current)
+            findNavController().navigate(action)
+        }
+
         controlViewModel.dataFromBtDevice.observe(
             viewLifecycleOwner
         ) { btDataReceived ->
-//            if (btDataReceived.length in 1..3) {
-//                voltageTextView.text = btDataReceived
-//            }
+            Log.d("requestDataReceived", btDataReceived)
             parseMonitorData(btDataReceived)
+
         }
 
         controlViewModel.monitorMode.observe(viewLifecycleOwner) { mode ->
-            requestMonitorData = mode == MonitorMode.DEVICE_MONITOR
+            requestMonitorData = (mode == MonitorMode.DEVICE_MONITOR)
             if (requestMonitorData) {
-                sendDataRequest()
+                sendMonitorRequest()
             }
-
         }
 
         controlViewModel.connectionState.observe(viewLifecycleOwner) {
@@ -109,6 +132,7 @@ class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control) {
                     hideControlViews()
                     binding.btStateTextView.text = resources.getText(R.string.connecting_state)
                     isReady = false
+
                 }
                 ConnectionState.State.INITIALIZING -> {
                     showConnectingBar()
@@ -120,6 +144,7 @@ class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control) {
                     showControlViews()
                     binding.btStateTextView.text = ""
                     isReady = true
+                    controlViewModel.monitorMode.postValue(MonitorMode.DEVICE_MONITOR)
                 }
                 ConnectionState.State.DISCONNECTED -> {
                     showConnectingBar()
@@ -141,7 +166,6 @@ class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control) {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         controlManager = ControlManager(context)
-
     }
 
     override fun onStart() {
@@ -163,9 +187,9 @@ class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control) {
             // croller.visibility = View.INVISIBLE
             curTextView.visibility = View.INVISIBLE
             currentHintTextView.visibility = View.INVISIBLE
-
-            waveFormTextView.isVisible = false
-            liftigTextView.isVisible = false
+            upPanelImageView.visibility= View.INVISIBLE
+            waveFormImageView.isVisible = false
+            lifTigImageView.isVisible = false
             weldTypeTextView.isVisible = false
             diamElectrodeTextView.isVisible = false
             torchModeTextView.isVisible = false
@@ -173,6 +197,8 @@ class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control) {
             weldOnImageView.isVisible = false
             wtOffImageView.isVisible = false
             wtOnImageView.isVisible = false
+            lockClosedImageView.isVisible = false
+            lockOpenImageView.isVisible = false
         }
     }
 
@@ -182,46 +208,71 @@ class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control) {
             stateProgressBar.visibility = View.INVISIBLE
             curTextView.visibility = View.VISIBLE
             currentHintTextView.visibility = View.VISIBLE
+            upPanelImageView.visibility= View.VISIBLE
 
-            waveFormTextView.isVisible = true
-            liftigTextView.isVisible = true
+            waveFormImageView.isVisible = true
+            lifTigImageView.isVisible = true
             weldTypeTextView.isVisible = true
             diamElectrodeTextView.isVisible = true
             torchModeTextView.isVisible = true
             weldOfImageView.isVisible = true
             wtOffImageView.isVisible = true
+            lockClosedImageView.isVisible = false
+            lockOpenImageView.isVisible = true
         }
-
     }
 
     private fun parseMonitorData(data: String) {
-
         val moshi = Moshi.Builder().build()
-        val weldParamsAdapter = moshi.adapter(WeldMonitorParams::class.java).nonNull()
+        val tigFastParamsAdapter = moshi.adapter(TigMonitorParams::class.java).nonNull()
 
         try {
-            val weldParams = weldParamsAdapter.fromJson(data)
-            if (weldParams != null) {
-                showParams(weldParams)
+            val tigFastParams = tigFastParamsAdapter.fromJson(data)
+            if (tigFastParams != null) {
+                Log.d("requestData", "fromJSON Ok")
+                showParams(tigFastParams)
             } else {
                 toast("WeldParam = null")
             }
 
         } catch (e: Exception) {
-            //toast(e.toString())
+            Log.d("requestData", e.toString())
         }
     }
 
-    private fun showParams(params: WeldMonitorParams) {
-        if (params.Response == "Ok") {
-            with(binding) {
-                curTextView.text = params.value.currentValue
-                waveFormTextView.text = params.value.material
-                liftigTextView.text = params.value.wireDiameter
-                diamElectrodeTextView.text = params.value.gasType
-                weldTypeTextView.text = params.value.weldType
-                torchModeTextView.text = params.value.torchControl
+    @SuppressLint("SetTextI18n")
+    private fun showParams(params: TigMonitorParams) {
+
+        with(binding) {
+            Log.d("requestData", params.toString())
+            if (params.value.state == 2) {
+                curTextView.text = params.value.realCurrent.toInt().toString()
+            } else
+            {curTextView.text = params.value.workCurrent.toString()
+                current = params.value.workCurrent
             }
+
+            waveFormImageView.setImageLevel(params.value.waveForm)
+            lifTigImageView.setImageLevel(params.value.liftTig)
+            diamElectrodeTextView.text = params.value.diamElectrode.toString() + "мм"
+            weldTypeTextView.text =
+                when (params.value.mode) {
+                    4 -> "AC+DC"
+                    0 -> "AC"
+                    1 -> "AC Pulse"
+                    3 -> "DC Pulse"
+                    5 -> "MMA"
+                    2 -> "DC"
+                    else-> "Err"
+                }
+            torchModeTextView.text =
+                when(params.value.weldButtonMode){
+                    0 -> "2T"
+                    1 -> "4T"
+                    2 -> "Spot"
+                    3 -> "Repeat"
+                    else-> "Err"
+                }
         }
     }
 
@@ -229,17 +280,21 @@ class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control) {
         Toast.makeText(requireContext(), text, Toast.LENGTH_SHORT).show()
     }
 
-    private fun sendDataRequest() {
+    private fun sendMonitorRequest() {
         lifecycleScope.launch(Dispatchers.IO) {
-            while (requestMonitorData) {
-                if (isReady) {
-                    sendText("")
-                    delay(2000)
-                    Log.d("requestData", "request")
-                }
+            Log.d("requestData", "lifecycleScope start")
+            val adapter = moshi.adapter(RequestMonitorParams::class.java).nonNull()
+            var requestMonitorJson = ""
+            try {
+                requestMonitorJson = adapter.toJson(RequestMonitorParams())
+            } catch (e: Exception) {
+                toast("movie to JSON error = ${e.message}")
+            }
+            while (requestMonitorData && isReady/*&& !isPause*/) {
+                sendText(requestMonitorJson)
+                Log.d("requestData", requestMonitorJson)
+                delay(100)
             }
         }
     }
-
-
 }

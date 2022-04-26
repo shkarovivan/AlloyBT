@@ -1,0 +1,15 @@
+
+<level-list xmlns:android="http://schemas.android.com/apk/res/android">
+	<item
+		android:drawable="@drawable/wave_saw"
+		android:maxLevel="0"/>
+	<item
+		android:drawable="@drawable/wave_sine"
+		android:maxLevel="1"/>
+	<item
+		android:drawable="@drawable/wave_meander"
+		android:maxLevel="2"/>
+	<item
+		android:drawable="@drawable/wave_trapezoid"
+		android:maxLevel="3"/>
+</level-list>

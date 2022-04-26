@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -19,12 +20,25 @@
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/backgrnd" />
 
+    <ImageView
+        android:id="@+id/upPanelImageView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:cropToPadding="false"
+        android:scaleType="centerCrop"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/slide_menu_back" />
+
     <TextView
         android:id="@+id/btStateTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/dark_yellow"
         android:textSize="@dimen/monitor_text_size"
+        android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@id/stateProgressBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -59,9 +73,10 @@
         android:layout_height="wrap_content"
         android:text="0"
         android:textAlignment="center"
-        android:textColor="@color/dark_yellow"
+        android:textColor="@color/white"
         android:textSize="@dimen/large_indicator_text_size"
         android:textStyle="normal"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/imageBackGround"
@@ -73,9 +88,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/set_current_text"
-        android:textColor="@color/dark_yellow"
+        android:textColor="@color/white"
         android:textSize="@dimen/monitor_text_size"
         android:textStyle="bold"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/curTextView"
         app:layout_constraintEnd_toEndOf="@+id/curTextView"
         app:layout_constraintStart_toStartOf="@+id/curTextView" />
@@ -88,69 +104,68 @@
         android:layout_marginTop="@dimen/main_margin"
         android:text="@string/default_weld_type_text"
         android:textAlignment="center"
-        android:textColor="@color/dark_yellow"
+        android:textColor="@color/white"
         android:textSize="@dimen/monitor_text_size"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_weight="0.2"
-        app:layout_constraintStart_toStartOf="parent"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toStartOf="@+id/waveFormImageView"
+        app:layout_constraintStart_toEndOf="@+id/lifTigImageView"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/liftigTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <ImageView
+        android:id="@+id/lifTigImageView"
+        android:layout_width="@dimen/settings_image_size"
+        android:layout_height="@dimen/settings_image_size"
         android:layout_marginTop="@dimen/main_margin"
-        android:text="@string/default_wire_type_text"
-        android:textAlignment="center"
-        android:textColor="@color/dark_yellow"
-        android:textSize="@dimen/monitor_text_size"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/weldTypeTextView"
-        app:layout_constraintHorizontal_weight="0.2"
+        android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toStartOf="@id/weldTypeTextView"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/arc_ignition_type"
+        tools:src="@drawable/arc_ignition_type"/>
 
     <TextView
         android:id="@+id/torchModeTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/main_margin"
         android:text="@string/torch_mode_text"
         android:textAlignment="center"
-        android:textColor="@color/dark_yellow"
+        android:textColor="@color/white"
         android:textSize="@dimen/monitor_text_size"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/liftigTextView"
-        app:layout_constraintStart_toStartOf="@+id/liftigTextView"
-        app:layout_constraintTop_toBottomOf="@+id/liftigTextView" />
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="@+id/lifTigImageView"
+        app:layout_constraintStart_toStartOf="@+id/lifTigImageView"
+        app:layout_constraintTop_toBottomOf="@+id/lifTigImageView" />
 
-    <TextView
-        android:id="@+id/waveFormTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <ImageView
+        android:id="@+id/waveFormImageView"
+        android:layout_width="@dimen/settings_image_size"
+        android:layout_height="@dimen/settings_image_size"
         android:layout_marginTop="@dimen/main_margin"
-        android:text="@string/wave_form_text"
-        android:textAlignment="center"
-        android:textColor="@color/dark_yellow"
-        android:textSize="@dimen/monitor_text_size"
-        android:textStyle="bold"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_weight="0.2"
-        app:layout_constraintStart_toEndOf="@+id/weldTypeTextView"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toEndOf="@id/weldTypeTextView"
+
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/wave_form_bar"
+        tools:src="@drawable/wave_meander" />
 
     <TextView
         android:id="@+id/diamElectrodeTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/main_margin"
         android:text="@string/diameter_electrode_text"
         android:textAlignment="center"
-        android:textColor="@color/dark_yellow"
+        android:textColor="@color/white"
         android:textSize="@dimen/monitor_text_size"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/waveFormTextView"
-        app:layout_constraintStart_toStartOf="@+id/waveFormTextView"
-        app:layout_constraintTop_toBottomOf="@+id/waveFormTextView" />
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="@+id/waveFormImageView"
+        app:layout_constraintStart_toStartOf="@+id/waveFormImageView"
+        app:layout_constraintTop_toBottomOf="@+id/waveFormImageView" />
 
     <ProgressBar
         android:id="@+id/stateProgressBar"
@@ -166,48 +181,64 @@
         android:id="@+id/weldOfImageView"
         android:layout_width="@dimen/settings_image_size"
         android:layout_height="@dimen/settings_image_size"
-        app:layout_constraintBottom_toBottomOf="@+id/imageBackGround"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/curTextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/imageBackGround"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHorizontal_bias="0.2"
-        app:srcCompat="@drawable/welding_off" />
+        app:srcCompat="@drawable/welding_argon_off" />
 
     <ImageView
         android:id="@+id/weldOnImageView"
         android:layout_width="@dimen/settings_image_size"
         android:layout_height="@dimen/settings_image_size"
-        app:layout_constraintBottom_toBottomOf="@+id/imageBackGround"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/curTextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/imageBackGround"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHorizontal_bias="0.2"
-        app:srcCompat="@drawable/welding_on"
-        android:visibility="invisible"/>
+
+        app:srcCompat="@drawable/welding_argon_on" />
 
     <ImageView
         android:id="@+id/wtOffImageView"
         android:layout_width="@dimen/settings_image_size"
         android:layout_height="@dimen/settings_image_size"
         android:layout_marginTop="@dimen/main_margin"
-        app:layout_constraintBottom_toBottomOf="@+id/imageBackGround"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/curTextView"
+        app:layout_constraintEnd_toStartOf="@+id/curTextView"
         app:layout_constraintStart_toStartOf="@+id/imageBackGround"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHorizontal_bias="0.8"
         app:srcCompat="@drawable/wt_off" />
 
     <ImageView
         android:id="@+id/wtOnImageView"
         android:layout_width="@dimen/settings_image_size"
         android:layout_height="@dimen/settings_image_size"
-        android:layout_marginTop="@dimen/main_margin"
         android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="@+id/imageBackGround"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/curTextView"
+        app:layout_constraintEnd_toStartOf="@+id/weldOfImageView"
         app:layout_constraintStart_toStartOf="@+id/imageBackGround"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHorizontal_bias="0.8"
         app:srcCompat="@drawable/welding_on" />
+
+    <ImageView
+        android:id="@+id/lockOpenImageView"
+        android:layout_width="@dimen/settings_image_size"
+        android:layout_height="@dimen/settings_image_size"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@id/weldOfImageView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/weldOfImageView"
+        app:srcCompat="@drawable/lock_open" />
+
+    <ImageView
+        android:id="@+id/lockClosedImageView"
+        android:layout_width="@dimen/settings_image_size"
+        android:layout_height="@dimen/settings_image_size"
+        android:visibility="invisible"
+
+        app:layout_constraintBottom_toBottomOf="@id/weldOfImageView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/weldOfImageView"
+        app:srcCompat="@drawable/lock_closed_red" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

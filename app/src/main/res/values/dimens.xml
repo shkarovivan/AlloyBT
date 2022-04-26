@@ -2,15 +2,15 @@
 <resources>
     <dimen name="main_margin">10dp</dimen>
     <dimen name="small_margin">5dp</dimen>
-    <dimen name="settings_image_size">60dp</dimen>
+    <dimen name="settings_image_size">40dp</dimen>
     <dimen name="item_image_size">50dp</dimen>
     <dimen name="text_margin">16dp</dimen>
     <dimen name="main_fragment_margin">40dp</dimen>
     <dimen name="normal_text_size">20sp</dimen>
     <dimen name="large_text_size">30sp</dimen>
     <dimen name="monitor_text_size">34sp</dimen>
-    <dimen name="large_indicator_text_size">200sp</dimen>
-    <dimen name="large_indicator_text_size_land">150sp</dimen>
+    <dimen name="large_indicator_text_size">180sp</dimen>
+    <dimen name="large_indicator_text_size_land">160sp</dimen>
     <dimen name="param_value_text_size">40sp</dimen>
     <dimen name="small_text_size">15sp</dimen>
     <dimen name="tab_layout_size">40dp</dimen>

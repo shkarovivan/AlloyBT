@@ -73,8 +73,8 @@
         android:label="TuneParamFragment"
         tools:layout="@layout/fragment_tune_param">
         <argument
-            android:name="control_param"
-            app:argType="com.example.alloybt.viewpager.device_control.ControlParam" />
+            android:name="currentValue"
+            app:argType="integer" />
     </fragment>
 
 </navigation>

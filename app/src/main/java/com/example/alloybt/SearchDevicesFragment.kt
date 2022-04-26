@@ -1,6 +1,7 @@
 package com.example.alloybt
 
 import android.Manifest
+import android.content.pm.ActivityInfo
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -58,6 +59,7 @@ class SearchDevicesFragment : Fragment(R.layout.fragment_search_devices) {
 	override fun onResume() {
 		super.onResume()
 		(activity as AppCompatActivity?)!!.supportActionBar!!.show()
+		activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED;
 	}
 
 	override fun onDestroyView() {
