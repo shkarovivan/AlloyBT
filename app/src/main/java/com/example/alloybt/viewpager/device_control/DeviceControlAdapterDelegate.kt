@@ -6,6 +6,8 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.example.alloybt.R
 import com.example.alloybt.adapter.inflate
+import com.example.alloybt.json_data.ParamType
+import com.example.alloybt.json_data.TigValue
 import com.example.alloybt.viewpager.device_control.ControlParam
 import com.example.alloybt.viewpager.device_info.DeviceInfoAdapterDelegate
 import com.hannesdorfmann.adapterdelegates4.AbsListItemAdapterDelegate
@@ -15,10 +17,10 @@ import kotlinx.android.synthetic.main.item_device_param.*
 
 class DeviceControlAdapterDelegate(
 	private val onItemClick: (position: Int) -> Unit,
-) : AbsListItemAdapterDelegate<ControlParam, ControlParam, DeviceControlAdapterDelegate.DeviceControlHolder>() {
+) : AbsListItemAdapterDelegate<TigValue, TigValue, DeviceControlAdapterDelegate.DeviceControlHolder>() {
 
 
-	override fun isForViewType(item: ControlParam, items: MutableList<ControlParam>, position: Int): Boolean {
+	override fun isForViewType(item: TigValue, items: MutableList<TigValue>, position: Int): Boolean {
 		return true
 	}
 
@@ -26,7 +28,7 @@ class DeviceControlAdapterDelegate(
 		return DeviceControlHolder(parent.inflate(R.layout.item_device_param), onItemClick)
 	}
 
-	override fun onBindViewHolder(item: ControlParam, holder: DeviceControlHolder, payloads: MutableList<Any>) {
+	override fun onBindViewHolder(item: TigValue, holder: DeviceControlHolder, payloads: MutableList<Any>) {
 		holder.bind(item)
 	}
 
@@ -41,18 +43,17 @@ class DeviceControlAdapterDelegate(
 			}
 		}
 
-		fun bind(controlParam: ControlParam) {
-			descriptionTextView.text = controlParam.description
-			if (controlParam.type == "String") {
-				minHintTextView.isVisible = false
-				maxHintTextView.isVisible = false
-				minTextView.isVisible = false
-				maxTextView.isVisible = false
+		fun bind(tigValue: TigValue) {
+			descriptionTextView.text = tigValue.description
+			if (tigValue.type == ParamType.ENUM) {
+				minHintTextView.visibility = View.GONE
+				maxHintTextView.visibility = View.GONE
+				minTextView.visibility = View.GONE
+				maxTextView.visibility = View.GONE
 			}
-			valueTextView.text = controlParam.value
-			maxTextView.text = controlParam.max
-			minTextView.text = controlParam.min
-
+			valueTextView.text = tigValue.value
+			maxTextView.text = tigValue.max
+			minTextView.text = tigValue.min
 		}
 	}
 }

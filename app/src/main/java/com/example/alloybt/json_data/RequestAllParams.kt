@@ -5,8 +5,7 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class RequestAllParams(
-    @Json(name = "Type")
-    val type: String = "Read",
-    @Json(name = "Value")
-    val value: String = "All"
+    @Json(name = "Read")
+    val type: String = "All",
+
 )

@@ -49,17 +49,6 @@ class BtDevicesViewModel(adapterProvider: BluetoothAdapterProvider) : ViewModel(
     private val s: String = "ALLOY"
     val b = s.toByteArray(StandardCharsets.US_ASCII);
 
-//	fun addPhone() {
-//		val newPhone = repository.createPhone()
-//		val updatedList = listOf(newPhone) + phoneLiveData.value.orEmpty()
-//		phoneLiveData.postValue(updatedList)
-//	}
-//
-//	fun deletePhone(position: Int) {
-//		phoneLiveData.postValue(repository.deletePhone(phoneLiveData.value.orEmpty(), position))
-//		showLiveDataToast.postValue(Unit)
-//	}
-
     fun isListEmpty(): Boolean = btDevices.isEmpty()
 
     fun refreshList() {

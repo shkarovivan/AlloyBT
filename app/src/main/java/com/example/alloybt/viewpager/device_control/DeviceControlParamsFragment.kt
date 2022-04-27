@@ -18,12 +18,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.alloybt.MainActivity
 import com.example.alloybt.R
 import com.example.alloybt.TigAllParams
+import com.example.alloybt.TigControlParams
 import com.example.alloybt.databinding.FragmentDeviceControlBinding
 import com.example.alloybt.databinding.FragmentDeviceParamsListBinding
 import com.example.alloybt.json_data.RequestAllParams
 import com.example.alloybt.json_data.RequestMonitorParams
+import com.example.alloybt.json_data.TigParamsList
+import com.example.alloybt.json_data.TigParamsList.tigParamsMap
+import com.example.alloybt.json_data.TigValue
 import com.example.alloybt.viewmodel.ControlViewModel
 import com.example.alloybt.viewmodel.MonitorMode
+import com.example.alloybt.viewmodel.ParamsViewModel
 import com.example.alloybt.viewpager.ViewPagerFragmentDirections
 import com.example.alloybt.viewpager.device_monitor.WeldMonitorParams
 import com.skillbox.networking.utils.autoCleared
@@ -42,10 +47,12 @@ class DeviceControlParamsFragment : Fragment(R.layout.fragment_device_params_lis
     private val binding get() = _binding!!
 
     private val controlViewModel: ControlViewModel by activityViewModels()
+    private val paramsViewModel: ParamsViewModel by activityViewModels()
 
     private var deviceControlAdapter: DeviceControlAdapter by autoCleared()
     private var requestControlParams: Boolean = false
     private var isReady: Boolean = false
+
 
     val moshi: Moshi = Moshi.Builder().build()
 
@@ -78,25 +85,23 @@ class DeviceControlParamsFragment : Fragment(R.layout.fragment_device_params_lis
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initList()
-        //  setExampleDeviceControlList()
-
-        // deviceControlAdapter.items = deviceParamsList
-
+        paramsViewModel.initParamsList()
         binding.refreshParams.setOnClickListener {
-
+            sendControlParamsRequest()
         }
 
         controlViewModel.dataFromBtDevice.observe(
             viewLifecycleOwner
         ) { btDataReceived ->
+            Log.d("requestDataReceived2", btDataReceived)
             parseMonitorData(btDataReceived)
+
         }
 
         controlViewModel.monitorMode.observe(viewLifecycleOwner) { mode ->
             requestControlParams = (mode == MonitorMode.DEVICE_CONTROL)
             if (requestControlParams) {
                 sendControlParamsRequest()
-                toast("$mode")
             }
         }
 
@@ -104,6 +109,10 @@ class DeviceControlParamsFragment : Fragment(R.layout.fragment_device_params_lis
             if (it.state == ConnectionState.State.READY) {
                 isReady = true
             }
+        }
+
+        paramsViewModel.params.observe(viewLifecycleOwner) { tigParamsList ->
+            deviceControlAdapter.items = tigParamsList
         }
     }
 
@@ -129,24 +138,6 @@ class DeviceControlParamsFragment : Fragment(R.layout.fragment_device_params_lis
 
     }
 
-    private fun setExampleDeviceControlList() {
-
-        val deviceParamsList = mutableListOf<ControlParam>()
-        for (i in 0..7) {
-            val max = Random.nextInt(5, 30)
-            deviceParamsList += listOf(
-                ControlParam(
-                    title = Random.nextInt(1, 1000).toString(),
-                    description = resources.getString(R.string.default_param_description_text),
-                    type = "Float",
-                    min = "0.0",
-                    max = max.toString(),
-                    value = Random.nextInt(0, max).toString()
-                )
-            )
-        }
-    }
-
     private fun sendText(data: String) {
         controlViewModel.setWeldData(data)
     }
@@ -157,19 +148,19 @@ class DeviceControlParamsFragment : Fragment(R.layout.fragment_device_params_lis
 
     private fun parseMonitorData(data: String) {
 
-        val tigAllParamsAdapter = moshi.adapter(TigAllParams::class.java).nonNull()
+        val tigAllParamsAdapter = moshi.adapter(TigControlParams::class.java).nonNull()
 
         try {
             val tigAllParams = tigAllParamsAdapter.fromJson(data)
             if (tigAllParams != null) {
-
-              //  showParams(weldParams)
+                Log.d("requestDataReceived2", "parse ok")
+                paramsViewModel.refreshAllParams(tigAllParams.value)
             } else {
                 toast("WeldParam = null")
             }
 
         } catch (e: Exception) {
-            //toast(e.toString())
+            Log.d("requestDataReceived2", e.toString())
         }
     }
 
@@ -177,17 +168,22 @@ class DeviceControlParamsFragment : Fragment(R.layout.fragment_device_params_lis
         lifecycleScope.launch(Dispatchers.IO) {
             Log.d("requestData", "lifecycleScope start")
             val adapter = moshi.adapter(RequestAllParams::class.java).nonNull()
+            val fastAdapter = moshi.adapter(RequestMonitorParams::class.java).nonNull()
             var requestControlJson = ""
+            var requestMonitorJson = ""
             try {
                 requestControlJson = adapter.toJson(RequestAllParams())
+                requestMonitorJson = fastAdapter.toJson(RequestMonitorParams())
             } catch (e: Exception) {
                 // toast("movie to JSON error = ${e.message}")
             }
             if (requestControlParams && isReady) {
-                (0..3).forEach { _ ->
+                (0..2).forEach { _ ->
                     sendText(requestControlJson)
                     Log.d("requestData", requestControlJson)
-                    delay(2000)
+                    delay(200)
+                   // sendText(requestMonitorJson)
+                    delay(200)
                 }
             }
         }

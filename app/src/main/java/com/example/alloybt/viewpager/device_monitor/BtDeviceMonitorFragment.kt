@@ -24,6 +24,7 @@ import com.example.alloybt.databinding.FragmentDeviceControlBinding
 import com.example.alloybt.json_data.*
 import com.example.alloybt.viewmodel.ControlViewModel
 import com.example.alloybt.viewmodel.MonitorMode
+import com.example.alloybt.viewmodel.ParamsViewModel
 import com.example.alloybt.viewpager.ViewPagerFragmentDirections
 import com.squareup.moshi.Moshi
 import kotlinx.coroutines.*
@@ -35,6 +36,7 @@ class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control) {
     private val binding get() = _binding!!
 
     private val controlViewModel: ControlViewModel by activityViewModels()
+    private val paramsViewModel: ParamsViewModel by activityViewModels()
 
     private lateinit var btDevice: BluetoothDevice
     private lateinit var controlManager: ControlManager
@@ -265,6 +267,7 @@ class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control) {
                     2 -> "DC"
                     else-> "Err"
                 }
+
             torchModeTextView.text =
                 when(params.value.weldButtonMode){
                     0 -> "2T"
@@ -274,6 +277,7 @@ class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control) {
                     else-> "Err"
                 }
         }
+        paramsViewModel.refreshMonitorParams(params)
     }
 
     private fun toast(text: String) {
