@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -15,22 +14,14 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.alloybt.MainActivity
 import com.example.alloybt.R
-import com.example.alloybt.TigAllParams
 import com.example.alloybt.TigControlParams
-import com.example.alloybt.databinding.FragmentDeviceControlBinding
 import com.example.alloybt.databinding.FragmentDeviceParamsListBinding
-import com.example.alloybt.json_data.RequestAllParams
-import com.example.alloybt.json_data.RequestMonitorParams
-import com.example.alloybt.json_data.TigParamsList
-import com.example.alloybt.json_data.TigParamsList.tigParamsMap
-import com.example.alloybt.json_data.TigValue
+import com.example.alloybt.json_data.*
 import com.example.alloybt.viewmodel.ControlViewModel
 import com.example.alloybt.viewmodel.MonitorMode
 import com.example.alloybt.viewmodel.ParamsViewModel
 import com.example.alloybt.viewpager.ViewPagerFragmentDirections
-import com.example.alloybt.viewpager.device_monitor.WeldMonitorParams
 import com.skillbox.networking.utils.autoCleared
 import com.squareup.moshi.Moshi
 import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator
@@ -38,7 +29,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlin.random.Random
 import no.nordicsemi.android.ble.livedata.state.ConnectionState
 
 class DeviceControlParamsFragment : Fragment(R.layout.fragment_device_params_list) {
@@ -119,6 +109,15 @@ class DeviceControlParamsFragment : Fragment(R.layout.fragment_device_params_lis
     private fun initList() {
         deviceControlAdapter = DeviceControlAdapter { position ->
 //
+            val tigValue = deviceControlAdapter.items[position]
+            if (tigValue.type != ParamType.ENUM){
+                val action = ViewPagerFragmentDirections.actionViewPagerFragmentToFragmentBottomTune(tigValue)
+                findNavController().navigate(action)
+            } else {
+                val action = ViewPagerFragmentDirections.actionViewPagerFragmentToFragmentBottomEnum(tigValue)
+                findNavController().navigate(action)
+            }
+
 //            val param = deviceControlAdapter.items[position]
 //            val action =
 //                ViewPagerFragmentDirections.actionViewPagerFragmentToTuneParamFragment(param)
@@ -177,15 +176,14 @@ class DeviceControlParamsFragment : Fragment(R.layout.fragment_device_params_lis
             } catch (e: Exception) {
                 // toast("movie to JSON error = ${e.message}")
             }
-            if (requestControlParams && isReady) {
-                (0..2).forEach { _ ->
+                    while (requestControlParams){
                     sendText(requestControlJson)
                     Log.d("requestData", requestControlJson)
                     delay(200)
-                   // sendText(requestMonitorJson)
+                    sendText(requestMonitorJson)
                     delay(200)
                 }
             }
         }
     }
-}
+

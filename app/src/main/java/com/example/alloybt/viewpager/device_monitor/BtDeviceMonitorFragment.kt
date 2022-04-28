@@ -108,9 +108,44 @@ class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control) {
 
         binding.curTextView.setOnClickListener {
 
-            val action = ViewPagerFragmentDirections .actionViewPagerFragmentToTuneParamFragment(current)
+//            val action = ViewPagerFragmentDirections .actionViewPagerFragmentToTuneParamFragment(current)
+//            findNavController().navigate(action)
+
+            val currentValue = TigParamsList.tigParamsMap["1007"]
+            val action = ViewPagerFragmentDirections.actionViewPagerFragmentToFragmentBottomTune(currentValue!!)
             findNavController().navigate(action)
         }
+
+        binding.weldTypeTextView.setOnClickListener {
+            val tigValue = TigParamsList.tigParamsMap["1000"]
+            val action = ViewPagerFragmentDirections.actionViewPagerFragmentToFragmentBottomEnum(tigValue!!)
+            findNavController().navigate(action)
+        }
+
+        binding.waveFormImageView.setOnClickListener {
+            val tigValue = TigParamsList.tigParamsMap["1003"]
+            val action = ViewPagerFragmentDirections.actionViewPagerFragmentToFragmentBottomEnum(tigValue!!)
+            findNavController().navigate(action)
+        }
+
+        binding.diamElectrodeTextView.setOnClickListener {
+            val diamValue = TigParamsList.tigParamsMap["101D"]
+            val action = ViewPagerFragmentDirections.actionViewPagerFragmentToFragmentBottomTune(diamValue!!)
+            findNavController().navigate(action)
+        }
+
+        binding.torchModeTextView.setOnClickListener {
+            val tigValue = TigParamsList.tigParamsMap["1002"]
+            val action = ViewPagerFragmentDirections.actionViewPagerFragmentToFragmentBottomEnum(tigValue!!)
+            findNavController().navigate(action)
+        }
+
+        binding.lifTigImageView.setOnClickListener {
+            val tigValue = TigParamsList.tigParamsMap["1001"]
+            val action = ViewPagerFragmentDirections.actionViewPagerFragmentToFragmentBottomEnum(tigValue!!)
+            findNavController().navigate(action)
+        }
+
 
         controlViewModel.dataFromBtDevice.observe(
             viewLifecycleOwner
@@ -218,9 +253,9 @@ class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control) {
             diamElectrodeTextView.isVisible = true
             torchModeTextView.isVisible = true
             weldOfImageView.isVisible = true
-            wtOffImageView.isVisible = true
+            wtOffImageView.isVisible = false
             lockClosedImageView.isVisible = false
-            lockOpenImageView.isVisible = true
+            lockOpenImageView.isVisible = false
         }
     }
 

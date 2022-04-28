@@ -60,6 +60,14 @@
         <action
             android:id="@+id/action_viewPagerFragment_to_tuneParamFragment"
             app:destination="@id/tuneParamFragment" />
+        <action
+            android:id="@+id/action_viewPagerFragment_to_fragmentBottomTune"
+            app:destination="@id/fragmentBottomTune"
+            app:enterAnim="@anim/bottom_up"
+            app:popUpTo="@id/viewPagerFragment" />
+        <action
+            android:id="@+id/action_viewPagerFragment_to_fragmentBottomEnum"
+            app:destination="@id/fragmentBottomEnum" />
     </fragment>
 
     <fragment
@@ -76,5 +84,23 @@
             android:name="currentValue"
             app:argType="integer" />
     </fragment>
+    <dialog
+        android:id="@+id/fragmentBottomTune"
+        android:name="com.example.alloybt.viewpager.bottom_tune.FragmentBottomTune"
+        android:label="FragmentBottomTune"
+        tools:layout="@layout/fragment_dialog_tune">
+        <argument
+            android:name="value"
+            app:argType="com.example.alloybt.json_data.TigValue" />
+    </dialog>
+    <dialog
+        android:id="@+id/fragmentBottomEnum"
+        android:name="com.example.alloybt.viewpager.bottom_tune.FragmentBottomEnum"
+        android:label="FragmentBottomEnum"
+        tools:layout="@layout/fragment_dialog_enum">
+        <argument
+            android:name="value"
+            app:argType="com.example.alloybt.json_data.TigValue" />
+    </dialog>
 
 </navigation>

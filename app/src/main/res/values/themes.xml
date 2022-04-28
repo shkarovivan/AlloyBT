@@ -34,4 +34,11 @@
         <item name="android:windowBackground">@android:color/black</item>
 
     </style>
+
+    <style name="SeekBarColor"
+        parent="Widget.AppCompat.SeekBar">
+        <item name="android:progressBackgroundTint">@color/grey</item>
+        <item name="android:progressTint">@color/dark_yellow</item>
+        <item name="android:colorControlActivated">@color/dark_yellow</item>
+    </style>
 </resources>

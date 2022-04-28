@@ -12,6 +12,7 @@ class ParamsRepository {
     fun refreshMonitorParams(monitorParams: TigMonitorParams): List<TigValue> {
         with(monitorParams.value) {
             var newValue = TigParamsList.tigParamsMap["1000"]!!.copy(
+                max = mode.toString(),
                 value = when (mode) {
                     0 -> "AC"
                     1 -> "AC Pulse"
@@ -25,6 +26,7 @@ class ParamsRepository {
 
             // LiftTig
             newValue = TigParamsList.tigParamsMap["1001"]!!.copy(
+                max = liftTig.toString(),
                 value = when (liftTig) {
                     0 -> "Osc"
                     else -> "LiftTIg"
@@ -34,18 +36,22 @@ class ParamsRepository {
 
             // WELD_BUTTON_MODE
             newValue = TigParamsList.tigParamsMap["1002"]!!.copy(
+                max = weldButtonMode.toString(),
                 value = when (weldButtonMode) {
                     0 -> "2T"
                     1 -> "4T"
                     2 -> "Точечный"
                     else -> "Повтор"
                 }
+
+
             )
             TigParamsList.tigParamsMap["1002"] = newValue
 
             // waveForm
             newValue = TigParamsList.tigParamsMap["1003"]!!.copy(
-                value = when (weldButtonMode) {
+                max = waveForm.toString(),
+                value = when (waveForm) {
                     0 -> "Треугольная"
                     1 -> "Синус"
                     2 -> "прямоугольная"

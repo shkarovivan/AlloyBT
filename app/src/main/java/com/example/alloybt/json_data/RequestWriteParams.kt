@@ -13,4 +13,5 @@ data class RequestWriteParams(
 data class WriteParamValue(
     @Json(name = "1007")
     var value: Int  = 0
+
 )

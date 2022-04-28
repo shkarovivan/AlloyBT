@@ -30,6 +30,8 @@
         <entry key="..\:/AndroidStudio projects/AllotBT/AlloyBT/app/src/main/res/layout/fragment_device_control.xml" value="0.18" />
         <entry key="..\:/AndroidStudio projects/AllotBT/AlloyBT/app/src/main/res/layout/fragment_device_monitor.xml" value="0.18229166666666666" />
         <entry key="..\:/AndroidStudio projects/AllotBT/AlloyBT/app/src/main/res/layout/fragment_device_params_list.xml" value="0.25" />
+        <entry key="..\:/AndroidStudio projects/AllotBT/AlloyBT/app/src/main/res/layout/fragment_dialog_enum.xml" value="0.21822916666666667" />
+        <entry key="..\:/AndroidStudio projects/AllotBT/AlloyBT/app/src/main/res/layout/fragment_dialog_tune.xml" value="0.5" />
         <entry key="..\:/AndroidStudio projects/AllotBT/AlloyBT/app/src/main/res/layout/fragment_errors_list.xml" value="0.20520833333333333" />
         <entry key="..\:/AndroidStudio projects/AllotBT/AlloyBT/app/src/main/res/layout/fragment_info_list.xml" value="0.2671875" />
         <entry key="..\:/AndroidStudio projects/AllotBT/AlloyBT/app/src/main/res/layout/fragment_page.xml" value="0.23278985507246377" />
