@@ -33,18 +33,9 @@
         android:tint="#F8F4F4"
         app:backgroundTint="@color/dark_yellow"
         app:fabSize= "normal"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:rippleColor="#FAF8F8" />
-
-    <TextView
-        android:id="@+id/testTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="@+id/paramsListView"
-        app:layout_constraintEnd_toEndOf="@+id/paramsListView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

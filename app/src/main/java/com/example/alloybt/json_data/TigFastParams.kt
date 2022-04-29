@@ -56,5 +56,5 @@ data class FastParams(
     @Json(name = "2004")
     val state: TigState,
     @Json(name = "2005")
-    val errors: TigErrors,
+    val errors: Int,
 )

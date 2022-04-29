@@ -1,5 +1,6 @@
 package com.example.alloybt.viewpager.bottom_tune
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.os.Build
 import android.os.Bundle
@@ -44,8 +45,6 @@ class FragmentBottomTune : BottomSheetDialogFragment() {
     private val args: FragmentBottomTuneArgs by navArgs()
 
 
-
-
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         dialog = super.onCreateDialog(savedInstanceState) as BottomSheetDialog
         return dialog
@@ -65,6 +64,7 @@ class FragmentBottomTune : BottomSheetDialogFragment() {
         _binding = null
     }
 
+    @SuppressLint("LogNotTimber")
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -72,25 +72,32 @@ class FragmentBottomTune : BottomSheetDialogFragment() {
         val tigValue = args.value
         address = tigValue.address
         binding.nameTextView.text = tigValue.description
-        binding.valueTextView.text = tigValue.value
-        if (tigValue.type == ParamType.FLOAT) {floatType = true}
-        if (floatType) { koeff = 10}
-            binding.tuneProgressBar.progress = (tigValue.value.toFloat()* koeff).toInt()
-            if (tigValue.max.isNotEmpty()) binding.tuneProgressBar.max =
-                (tigValue.max.toFloat() * koeff).toInt()
-            if (tigValue.min.isNotEmpty()) binding.tuneProgressBar.min =
-                (tigValue.min.toFloat() * koeff).toInt()
 
-        Log.d("tuneProgressBar", "${binding.tuneProgressBar.max}    ${binding.tuneProgressBar.min}  $koeff   ${tigValue.max} ")
+        if (tigValue.type == ParamType.FLOAT) {
+            floatType = true
+        }
+        if (floatType) {
+            koeff = 10
+        }
+        if (tigValue.max.isNotEmpty()) binding.tuneProgressBar.max =
+            (tigValue.max.toFloat() * koeff).toInt()
+        if (tigValue.min.isNotEmpty()) binding.tuneProgressBar.min =
+            (tigValue.min.toFloat() * koeff).toInt()
+        binding.tuneProgressBar.progress = (tigValue.value.toFloat() * koeff).toInt()
+        binding.valueTextView.text = tigValue.value
+        Log.d(
+            "tuneProgressBar",
+            "${binding.tuneProgressBar.max}    ${binding.tuneProgressBar.min}  $koeff   ${tigValue.max} "
+        )
         dialog.behavior.state = BottomSheetBehavior.STATE_EXPANDED
 
         binding.tuneProgressBar.setOnSeekBarChangeListener(object :
             SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(p0: SeekBar?, currentValue: Int, p2: Boolean) {
                 newValue = if (floatType) {
-                    (currentValue.toFloat()/koeff).toString()
+                    (currentValue.toFloat() / koeff).toString()
                 } else {
-                    (currentValue/koeff).toString()
+                    (currentValue / koeff).toString()
                 }
                 binding.valueTextView.text = newValue
                 if (!isActive) {
@@ -98,6 +105,7 @@ class FragmentBottomTune : BottomSheetDialogFragment() {
                     sendValue()
                 }
             }
+
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
         }

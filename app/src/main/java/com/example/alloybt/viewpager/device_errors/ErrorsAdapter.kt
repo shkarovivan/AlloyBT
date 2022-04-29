@@ -1,23 +1,24 @@
 package com.skillbox.multithreading.adapters
 
 import androidx.recyclerview.widget.DiffUtil
+import com.example.alloybt.json_data.TigError
 import com.example.alloybt.viewpager.device_errors.DeviceError
 import com.hannesdorfmann.adapterdelegates4.AsyncListDifferDelegationAdapter
 
 class ErrorsAdapter(
 	onItemClick: (position: Int) -> Unit,
-) : AsyncListDifferDelegationAdapter<DeviceError>(MoviesDiffUtilCallBack()) {
+) : AsyncListDifferDelegationAdapter<TigError>(MoviesDiffUtilCallBack()) {
 
 	init {
 		delegatesManager.addDelegate(ErrorsAdapterDelegate(onItemClick))
 	}
-	class MoviesDiffUtilCallBack : DiffUtil.ItemCallback<DeviceError>() {
-		override fun areItemsTheSame(oldItem: DeviceError, newItem: DeviceError): Boolean {
-			return oldItem.time == newItem.time && oldItem.title == newItem.title
+	class MoviesDiffUtilCallBack : DiffUtil.ItemCallback<TigError>() {
+		override fun areItemsTheSame(oldItem: TigError, newItem: TigError): Boolean {
+			return oldItem.time == newItem.time && oldItem.code == newItem.code
 		}
 
 
-		override fun areContentsTheSame(oldItem: DeviceError, newItem: DeviceError): Boolean {
+		override fun areContentsTheSame(oldItem: TigError, newItem: TigError): Boolean {
 			return oldItem == newItem
 		}
 	}

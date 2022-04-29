@@ -59,7 +59,7 @@ object TigParamsList {
         ),
         "1019" to TigValue("1019", "Ток заварки кратера", ParamType.INTEGER, "3", "500", "0"),
         "101B" to TigValue("101B", "Время постпродувки", ParamType.FLOAT, "0.0", "60.0", "0"),
-        "101D" to TigValue("101D", "Диаметр электрода", ParamType.FLOAT, "0.8", "6.0", "0"),
+        "101D" to TigValue("101D", "Диаметр электрода", ParamType.FLOAT, "0.8", "6.0", "0.0"),
         "101F" to TigValue("101F", "Время точки", ParamType.FLOAT, "0.0", "10.0", "0"),
         "1025" to TigValue("1025", "Напряжение обрыва дуги ММА", ParamType.INTEGER, "20", "80", "0"),
         "1027" to TigValue("1027", "форсаж ММА", ParamType.INTEGER, "0", "100", "0"),

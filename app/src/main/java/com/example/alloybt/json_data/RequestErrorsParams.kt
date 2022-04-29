@@ -5,8 +5,8 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class RequestErrorsParams(
-    @Json(name = "Type")
-    val type: String = "Read",
-    @Json(name = "Value")
-    val value: String = "Errors"
+    @Json(name = "Read")
+    val type: String = "Errors",
+    @Json(name = "Page")
+    val page: Int
 )

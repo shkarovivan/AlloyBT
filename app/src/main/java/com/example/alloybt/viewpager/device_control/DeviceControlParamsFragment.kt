@@ -96,9 +96,7 @@ class DeviceControlParamsFragment : Fragment(R.layout.fragment_device_params_lis
         }
 
         controlViewModel.connectionState.observe(viewLifecycleOwner) {
-            if (it.state == ConnectionState.State.READY) {
-                isReady = true
-            }
+            isReady = it.state == ConnectionState.State.READY
         }
 
         paramsViewModel.params.observe(viewLifecycleOwner) { tigParamsList ->

@@ -6,7 +6,7 @@ import com.squareup.moshi.JsonClass
 
 
 @JsonClass(generateAdapter = true)
-data class TigControlParams(
+data class TigErrors(
     @Json(name = "Response")
     val response: String,
     @Json(name = "Page")
@@ -17,13 +17,13 @@ data class TigControlParams(
 
 @JsonClass(generateAdapter = true)
 data class TigError(
-    @Json(name = "Num")
+    @Json(name = "N")
     val num: Int,
-    @Json(name = "Time")
+    @Json(name = "T")
     val time: Int,
-    @Json(name = "Level")
+    @Json(name = "L")
     val level: Int,
-    @Json(name = "Code")
+    @Json(name = "C")
     val code: Int
 )
 

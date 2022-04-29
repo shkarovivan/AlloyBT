@@ -112,37 +112,43 @@ class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control) {
 //            findNavController().navigate(action)
 
             val currentValue = TigParamsList.tigParamsMap["1007"]
-            val action = ViewPagerFragmentDirections.actionViewPagerFragmentToFragmentBottomTune(currentValue!!)
+            val action =
+                ViewPagerFragmentDirections.actionViewPagerFragmentToFragmentBottomTune(currentValue!!)
             findNavController().navigate(action)
         }
 
         binding.weldTypeTextView.setOnClickListener {
             val tigValue = TigParamsList.tigParamsMap["1000"]
-            val action = ViewPagerFragmentDirections.actionViewPagerFragmentToFragmentBottomEnum(tigValue!!)
+            val action =
+                ViewPagerFragmentDirections.actionViewPagerFragmentToFragmentBottomEnum(tigValue!!)
             findNavController().navigate(action)
         }
 
         binding.waveFormImageView.setOnClickListener {
             val tigValue = TigParamsList.tigParamsMap["1003"]
-            val action = ViewPagerFragmentDirections.actionViewPagerFragmentToFragmentBottomEnum(tigValue!!)
+            val action =
+                ViewPagerFragmentDirections.actionViewPagerFragmentToFragmentBottomEnum(tigValue!!)
             findNavController().navigate(action)
         }
 
         binding.diamElectrodeTextView.setOnClickListener {
             val diamValue = TigParamsList.tigParamsMap["101D"]
-            val action = ViewPagerFragmentDirections.actionViewPagerFragmentToFragmentBottomTune(diamValue!!)
+            val action =
+                ViewPagerFragmentDirections.actionViewPagerFragmentToFragmentBottomTune(diamValue!!)
             findNavController().navigate(action)
         }
 
         binding.torchModeTextView.setOnClickListener {
             val tigValue = TigParamsList.tigParamsMap["1002"]
-            val action = ViewPagerFragmentDirections.actionViewPagerFragmentToFragmentBottomEnum(tigValue!!)
+            val action =
+                ViewPagerFragmentDirections.actionViewPagerFragmentToFragmentBottomEnum(tigValue!!)
             findNavController().navigate(action)
         }
 
         binding.lifTigImageView.setOnClickListener {
             val tigValue = TigParamsList.tigParamsMap["1001"]
-            val action = ViewPagerFragmentDirections.actionViewPagerFragmentToFragmentBottomEnum(tigValue!!)
+            val action =
+                ViewPagerFragmentDirections.actionViewPagerFragmentToFragmentBottomEnum(tigValue!!)
             findNavController().navigate(action)
         }
 
@@ -224,7 +230,7 @@ class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control) {
             // croller.visibility = View.INVISIBLE
             curTextView.visibility = View.INVISIBLE
             currentHintTextView.visibility = View.INVISIBLE
-            upPanelImageView.visibility= View.INVISIBLE
+            upPanelImageView.visibility = View.INVISIBLE
             waveFormImageView.isVisible = false
             lifTigImageView.isVisible = false
             weldTypeTextView.isVisible = false
@@ -245,7 +251,7 @@ class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control) {
             stateProgressBar.visibility = View.INVISIBLE
             curTextView.visibility = View.VISIBLE
             currentHintTextView.visibility = View.VISIBLE
-            upPanelImageView.visibility= View.VISIBLE
+            upPanelImageView.visibility = View.VISIBLE
 
             waveFormImageView.isVisible = true
             lifTigImageView.isVisible = true
@@ -282,21 +288,21 @@ class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control) {
 
         with(binding) {
             Log.d("requestData", params.toString())
-            if (params.value.state == 2) {
+            if (params.value.state > 2) {
                 curTextView.text = params.value.realCurrent.toInt().toString()
-                weldOfImageView.isVisible =false
-                weldOnImageView.isVisible =true
+                weldOfImageView.isVisible = false
+                weldOnImageView.isVisible = true
 
-            } else
-            {curTextView.text = params.value.workCurrent.toString()
+            } else {
+                curTextView.text = params.value.workCurrent.toString()
                 current = params.value.workCurrent
-                weldOfImageView.isVisible =true
-                weldOnImageView.isVisible =false
+                weldOfImageView.isVisible = true
+                weldOnImageView.isVisible = false
             }
 
             waveFormImageView.setImageLevel(params.value.waveForm)
             lifTigImageView.setImageLevel(params.value.liftTig)
-            diamElectrodeTextView.text = params.value.diamElectrode.toFloat().toString() + "мм"
+            diamElectrodeTextView.text = params.value.diamElectrode.toString() + "мм"
             weldTypeTextView.text =
                 when (params.value.mode) {
                     4 -> "AC+DC"
@@ -305,17 +311,30 @@ class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control) {
                     3 -> "DC Pulse"
                     5 -> "MMA"
                     2 -> "DC"
-                    else-> "Err"
+                    else -> "Err"
                 }
 
             torchModeTextView.text =
-                when(params.value.weldButtonMode){
+                when (params.value.weldButtonMode) {
                     0 -> "2T"
                     1 -> "4T"
                     2 -> "Spot"
                     3 -> "Repeat"
-                    else-> "Err"
+                    else -> "Err"
                 }
+
+            if (params.value.errors != 0) {
+                var errors = ""
+                with(params.value.errors) {
+                    if ((this and 0x1) > 0) errors += "Перегрев источника\n"
+                    if ((this and 0x2) > 0) errors += "Ошибка БВО\n"
+                    if ((this and 0x4) > 0) errors += "Ошибка датчика контроля фаз\n"
+                    if ((this and 0x8) > 0) errors += "Ошибка потока газа\n"
+                    if ((this and 0x10) > 0) errors += "Ошибка давления газа\n"
+                }
+                errorTextView.text = errors
+            } else errorTextView.text = ""
+
         }
         paramsViewModel.refreshMonitorParams(params)
     }
