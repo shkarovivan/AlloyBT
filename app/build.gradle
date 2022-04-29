@@ -67,7 +67,7 @@ dependencies {
      // LiveData
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.4.1"
     // JatPack Navigation
-    implementation "androidx.navigation:navigation-fragment-ktx:2.4.1"
+    implementation "androidx.navigation:navigation-fragment-ktx:2.4.2"
 
     // Brings the new BluetoothLeScanner API to older platforms
     implementation 'no.nordicsemi.android.support.v18:scanner:1.6.0'

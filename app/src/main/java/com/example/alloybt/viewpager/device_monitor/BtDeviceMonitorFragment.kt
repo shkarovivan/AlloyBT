@@ -284,14 +284,19 @@ class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control) {
             Log.d("requestData", params.toString())
             if (params.value.state == 2) {
                 curTextView.text = params.value.realCurrent.toInt().toString()
+                weldOfImageView.isVisible =false
+                weldOnImageView.isVisible =true
+
             } else
             {curTextView.text = params.value.workCurrent.toString()
                 current = params.value.workCurrent
+                weldOfImageView.isVisible =true
+                weldOnImageView.isVisible =false
             }
 
             waveFormImageView.setImageLevel(params.value.waveForm)
             lifTigImageView.setImageLevel(params.value.liftTig)
-            diamElectrodeTextView.text = params.value.diamElectrode.toString() + "мм"
+            diamElectrodeTextView.text = params.value.diamElectrode.toFloat().toString() + "мм"
             weldTypeTextView.text =
                 when (params.value.mode) {
                     4 -> "AC+DC"

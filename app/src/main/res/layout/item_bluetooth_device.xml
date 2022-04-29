@@ -80,8 +80,8 @@
 
     <ImageView
         android:id="@+id/rssi"
-        android:layout_width="@dimen/item_image_size"
-        android:layout_height="@dimen/item_image_size"
+        android:layout_width="@dimen/rssi_image_size"
+        android:layout_height="@dimen/rssi_image_size"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:layout_marginEnd="@dimen/main_margin"

@@ -1,20 +1,31 @@
 package com.example.alloybt.json_data
 
+import com.example.alloybt.TigAllParams
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
-enum class TigErrors( mode: String ){
-    @Json(name = "0")
-    NO_ERRORS(""),
-    @Json(name = "1")
-    OVERHEAT("Перегрев"),
-    @Json(name = "2")
-    WATER_FLOW("Ошибка БВО"),
-    @Json(name = "3")
-    PHASE_CONTROL("Ошибка контроля фаз"),
-    @Json(name = "4")
-    GAS_FLOW("Ошибка потока газа"),
-    @Json(name = "5")
-    GAS_PRESSURE("Ошибка давления газа"),
-}
+
+@JsonClass(generateAdapter = true)
+data class TigControlParams(
+    @Json(name = "Response")
+    val response: String,
+    @Json(name = "Page")
+    val page: Int,
+    @Json(name = "Value")
+    val value: List<TigError>
+)
+
+@JsonClass(generateAdapter = true)
+data class TigError(
+    @Json(name = "Num")
+    val num: Int,
+    @Json(name = "Time")
+    val time: Int,
+    @Json(name = "Level")
+    val level: Int,
+    @Json(name = "Code")
+    val code: Int
+)
+
 
 

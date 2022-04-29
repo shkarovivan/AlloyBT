@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.alloybt.R
 import com.example.alloybt.adapter.inflate
+import com.example.alloybt.json_data.TigError
 import com.example.alloybt.viewpager.device_errors.DeviceError
 import com.hannesdorfmann.adapterdelegates4.AbsListItemAdapterDelegate
 import kotlinx.android.extensions.LayoutContainer
@@ -13,10 +14,14 @@ import kotlinx.android.synthetic.main.item_device_error.*
 
 class ErrorsAdapterDelegate(
 	private val onItemClick: (position: Int) -> Unit,
-) : AbsListItemAdapterDelegate<DeviceError, DeviceError, ErrorsAdapterDelegate.ErrorHolder>() {
+) : AbsListItemAdapterDelegate<TigError, TigError, ErrorsAdapterDelegate.ErrorHolder>() {
 
 
-	override fun isForViewType(item: DeviceError, items: MutableList<DeviceError>, position: Int): Boolean {
+	override fun isForViewType(
+		item: TigError,
+		items: MutableList<TigError>,
+		position: Int,
+	): Boolean {
 		return true
 	}
 
@@ -24,7 +29,7 @@ class ErrorsAdapterDelegate(
 		return ErrorHolder(parent.inflate(R.layout.item_device_error), onItemClick)
 	}
 
-	override fun onBindViewHolder(item: DeviceError, holder: ErrorHolder, payloads: MutableList<Any>) {
+	override fun onBindViewHolder(item: TigError, holder: ErrorHolder, payloads: MutableList<Any>) {
 		holder.bind(item)
 	}
 
@@ -39,9 +44,22 @@ class ErrorsAdapterDelegate(
 			}
 		}
 
-		fun bind(error: DeviceError) {
-			errorTimeTextView.text = error.time
-			errorDescrTextView.text = error.title
+		fun bind(error: TigError) {
+			errorTimeTextView.text =
+				when (error.code) {
+					else -> ""
+				}
+
+			errorDescrTextView.text =
+				when (error.code) {
+					15 -> "перегрев аппарата"
+					16 -> ""
+					17 -> ""
+					18 -> ""
+					19 -> ""
+					else -> "Не определено"
+
+				}
 		}
 	}
 
