@@ -29,6 +29,8 @@
         android:layout_marginEnd="@dimen/main_margin"
         android:layout_marginBottom="@dimen/main_fragment_margin"
         android:theme="@style/SeekBarColor"
+        android:thumb="@drawable/thumb_image"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

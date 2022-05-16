@@ -14,7 +14,7 @@ object TigParamsList {
             "0",
             ""
         ),
-        "1001" to TigValue("1001", "Поджиг", ParamType.ENUM, "OSCILLATOR,LiftTig", "", ""),
+        "1001" to TigValue("1001", "Поджиг", ParamType.ENUM, "OSCILLATOR,LiftTig", "0", ""),
         "1002" to TigValue(
             "1002",
             "Режим кнопки горелки",
@@ -81,7 +81,7 @@ data class TigValue(
     val description: String,
     val type: ParamType,
     val min: String,
-    val max: String = "",
+    val max: String ,
     val value: String,
 
     ) : Parcelable

@@ -1,5 +1,6 @@
 package com.example.alloybt.viewpager.bottom_tune
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.os.Bundle
 import android.util.Log
@@ -35,6 +36,7 @@ class FragmentBottomEnum : BottomSheetDialogFragment() {
 
     var newValue = ""
     var address = ""
+    var index = 0
     var maxIndex  = 0
 
     private var isActive = false
@@ -58,64 +60,70 @@ class FragmentBottomEnum : BottomSheetDialogFragment() {
         return dialog
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         dialog.behavior.state = BottomSheetBehavior.STATE_EXPANDED
 
         val tigValue = args.value
-        address = tigValue.address
-        val index = tigValue.max.toInt()
+        if (tigValue.address.isNotEmpty() && tigValue.max.isNotEmpty()) {
+            address = tigValue.address
+            index = tigValue.max.toInt()
 
-        (binding.radioGroup.getChildAt(index) as RadioButton).isChecked = true
 
-        binding.radioGroup.setOnCheckedChangeListener { group, checkedId ->
-            (0..maxIndex).forEach { groupIndex->
-                if (group.getChildAt(groupIndex).id == checkedId) { newValue = groupIndex.toString()}
-            }
-            if (!isActive) {
-                isActive = true
-                sendValue()
-            }
-        }
+            (binding.radioGroup.getChildAt(index) as RadioButton).isChecked = true
 
-        when (tigValue.address) {
-            "1000" -> {
-                binding.radio0.text = "AC"
-                binding.radio1.text = "AC Pulse"
-                binding.radio2.text = "DC"
-                binding.radio3.text = "DC _pulse"
-                binding.radio4.text = "AC+DC"
-                binding.radio5.text = "MMA"
-                maxIndex  = 5
-
-            }
-            "1001" -> {
-                binding.radio0.text = "Осциллятор"
-                binding.radio1.text = "LiftTig"
-                binding.radio2.visibility = View.GONE
-                binding.radio3.visibility = View.GONE
-                binding.radio4.visibility = View.GONE
-                binding.radio5.visibility = View.GONE
-                maxIndex  = 1
-            }
-            "1002" -> {
-                binding.radio0.text = "2T"
-                binding.radio1.text = "4T"
-                binding.radio2.text = "Точечный"
-                binding.radio3.text = "Режим повтора"
-                binding.radio4.visibility = View.GONE
-                binding.radio5.visibility = View.GONE
-                maxIndex  = 3
+            binding.radioGroup.setOnCheckedChangeListener { group, checkedId ->
+                (0..maxIndex).forEach { groupIndex ->
+                    if (group.getChildAt(groupIndex).id == checkedId) {
+                        newValue = groupIndex.toString()
+                    }
+                }
+                if (!isActive) {
+                    isActive = true
+                    sendValue()
+                }
             }
 
-            "1003" -> {
-                binding.radio0.text = "Треугольник"
-                binding.radio1.text = "Синус"
-                binding.radio2.text = "Меандр"
-                binding.radio3.text = "Трапеция"
-                binding.radio4.visibility = View.GONE
-                binding.radio5.visibility = View.GONE
-                maxIndex  = 3
+            when (tigValue.address) {
+                "1000" -> {
+                    binding.radio0.text = "AC"
+                    binding.radio1.text = "AC Pulse"
+                    binding.radio2.text = "DC"
+                    binding.radio3.text = "DC pulse"
+                    binding.radio4.text = "AC+DC"
+                    binding.radio5.text = "MMA"
+                    maxIndex = 5
+
+                }
+                "1001" -> {
+                    binding.radio0.text = "Осциллятор"
+                    binding.radio1.text = "LiftTig"
+                    binding.radio2.visibility = View.GONE
+                    binding.radio3.visibility = View.GONE
+                    binding.radio4.visibility = View.GONE
+                    binding.radio5.visibility = View.GONE
+                    maxIndex = 1
+                }
+                "1002" -> {
+                    binding.radio0.text = "2T"
+                    binding.radio1.text = "4T"
+                    binding.radio2.text = "Точечный"
+                    binding.radio3.text = "Режим повтора"
+                    binding.radio4.visibility = View.GONE
+                    binding.radio5.visibility = View.GONE
+                    maxIndex = 3
+                }
+
+                "1003" -> {
+                    binding.radio0.text = "Треугольник"
+                    binding.radio1.text = "Синус"
+                    binding.radio2.text = "Меандр"
+                    binding.radio3.text = "Трапеция"
+                    binding.radio4.visibility = View.GONE
+                    binding.radio5.visibility = View.GONE
+                    maxIndex = 3
+                }
             }
         }
     }

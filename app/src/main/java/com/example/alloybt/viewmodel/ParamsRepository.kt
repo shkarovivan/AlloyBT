@@ -52,9 +52,9 @@ class ParamsRepository {
             newValue = TigParamsList.tigParamsMap["1003"]!!.copy(
                 max = waveForm.toString(),
                 value = when (waveForm) {
-                    0 -> "Треугольная"
+                    0 -> "Треугольник"
                     1 -> "Синус"
-                    2 -> "прямоугольная"
+                    2 -> "Меандр"
                     else -> "Трапеция"
                 }
             )
