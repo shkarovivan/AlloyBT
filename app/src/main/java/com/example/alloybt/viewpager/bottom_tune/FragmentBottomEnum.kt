@@ -124,6 +124,18 @@ class FragmentBottomEnum : BottomSheetDialogFragment() {
                     binding.radio5.visibility = View.GONE
                     maxIndex = 3
                 }
+
+                "102C" -> {
+                    binding.radio0.text = "Выкл."
+                    binding.radio1.text = "Вкл."
+                    binding.radio0.isEnabled= false
+                    binding.radio1.isEnabled= false
+                    binding.radio2.visibility = View.GONE
+                    binding.radio3.visibility = View.GONE
+                    binding.radio4.visibility = View.GONE
+                    binding.radio5.visibility = View.GONE
+                    maxIndex = 1
+                }
             }
         }
     }

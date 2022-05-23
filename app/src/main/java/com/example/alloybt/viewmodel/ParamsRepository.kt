@@ -28,7 +28,7 @@ class ParamsRepository {
             newValue = TigParamsList.tigParamsMap["1001"]!!.copy(
                 max = liftTig.toString(),
                 value = when (liftTig) {
-                    0 -> "Osc"
+                    0 -> "Осциллятор"
                     else -> "LiftTIg"
                 }
             )
@@ -43,8 +43,6 @@ class ParamsRepository {
                     2 -> "Точечный"
                     else -> "Повтор"
                 }
-
-
             )
             TigParamsList.tigParamsMap["1002"] = newValue
 
@@ -83,9 +81,11 @@ class ParamsRepository {
             TigParamsList.tigParamsMap["100B"] =
                 TigParamsList.tigParamsMap["100B"]!!.copy(value = percentAC.toString())
             TigParamsList.tigParamsMap["100D"] =
-                TigParamsList.tigParamsMap["100F"]!!.copy(value = balanceAC.toString())
+                TigParamsList.tigParamsMap["100D"]!!.copy(value = balanceAC.toString())
             TigParamsList.tigParamsMap["100F"] =
-                TigParamsList.tigParamsMap["100D"]!!.copy(value = pulseCurrent1.toString())
+                TigParamsList.tigParamsMap["100F"]!!.copy(value = pulseCurrent1.toString())
+            TigParamsList.tigParamsMap["1011"] =
+                TigParamsList.tigParamsMap["1011"]!!.copy(value = pulseCurrent.toString())
             TigParamsList.tigParamsMap["1013"] =
                 TigParamsList.tigParamsMap["1013"]!!.copy(value = freqPulse.toString())
             TigParamsList.tigParamsMap["1015"] =
@@ -119,8 +119,6 @@ class ParamsRepository {
     }
 
     fun initParamsList(): List<TigValue> {
-
-
         return TigParamsList.tigParamsMap.values.toList()
     }
 

@@ -356,7 +356,7 @@ class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control) {
             while (requestMonitorData && isReady/*&& !isPause*/) {
                 sendText(requestMonitorJson)
                 Log.d("requestData", requestMonitorJson)
-                delay(100)
+                delay(200)
             }
         }
     }

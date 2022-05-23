@@ -51,6 +51,12 @@ class DeviceControlAdapterDelegate(
 				minTextView.visibility = View.GONE
 				maxTextView.visibility = View.GONE
 			}
+			else {
+				minHintTextView.visibility = View.VISIBLE
+				maxHintTextView.visibility = View.VISIBLE
+				minTextView.visibility = View.VISIBLE
+				maxTextView.visibility = View.VISIBLE
+			}
 			valueTextView.text = tigValue.value
 			maxTextView.text = tigValue.max
 			minTextView.text = tigValue.min
