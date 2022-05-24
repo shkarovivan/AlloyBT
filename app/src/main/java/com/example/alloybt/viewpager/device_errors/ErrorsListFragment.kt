@@ -13,17 +13,18 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.alloybt.R
-import com.example.alloybt.TigControlParams
-import com.example.alloybt.databinding.FragmentDeviceControlBinding
 import com.example.alloybt.databinding.FragmentErrorsListBinding
 import com.example.alloybt.json_data.*
 import com.example.alloybt.viewmodel.ControlViewModel
 import com.example.alloybt.viewmodel.MonitorMode
 import com.skillbox.multithreading.adapters.ErrorsAdapter
 import com.skillbox.networking.utils.autoCleared
+import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
+import com.squareup.moshi.Types
+import com.squareup.moshi.adapter
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator
-import kotlinx.android.synthetic.main.fragment_errors_list.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -69,14 +70,14 @@ class ErrorsListFragment : Fragment(R.layout.fragment_errors_list) {
         controlViewModel.dataFromBtDevice.observe(
             viewLifecycleOwner
         ) { btDataReceived ->
-            Log.d("requestDataReceived2", btDataReceived)
-            parseMonitorData(btDataReceived)
+            Log.d("requestDataReceivedError", btDataReceived)
+            parseErrorsData(btDataReceived)
 
         }
         controlViewModel.monitorMode.observe(viewLifecycleOwner) { mode ->
             requestErrorParams = (mode == MonitorMode.DEVICE_ERRORS)
             if (requestErrorParams) {
-                sendControlParamsRequest()
+                sendErrorParamsRequest()
             }
         }
     }
@@ -95,20 +96,20 @@ class ErrorsListFragment : Fragment(R.layout.fragment_errors_list) {
         }
     }
 
-    private fun parseMonitorData(data: String) {
-
+    private fun parseErrorsData(data: String) {
         val tigErrorsAdapter = moshi.adapter(TigErrors::class.java).nonNull()
 
         try {
             val tigErrors = tigErrorsAdapter.fromJson(data)
             if (tigErrors != null) {
                 errorsAdapter.items = tigErrors.value
+                Log.d("requestDataReceivedError", tigErrors.toString())
             } else {
                 toast("WeldParam = null")
             }
 
         } catch (e: Exception) {
-            Log.d("requestDataReceived2", e.toString())
+            Log.d("requestDataReceivedError", e.toString())
         }
     }
 
@@ -116,15 +117,15 @@ class ErrorsListFragment : Fragment(R.layout.fragment_errors_list) {
         return "{\"Read\":\"Errors\",\"Page\":$page}"
     }
 
-    private fun sendControlParamsRequest() {
+    private fun sendErrorParamsRequest() {
         lifecycleScope.launch(Dispatchers.IO) {
             while (requestErrorParams) {
-                (0..4).forEach {
+                (0..0).forEach {
 
                     val jsonString = getJsonString(it)
-                    Log.d("requestDataReceived2","$jsonString")
+                    Log.d("requestDataReceivedError","$jsonString")
                     controlViewModel.setWeldData(jsonString)
-                    delay(200)
+                    delay(500)
                 }
             }
         }

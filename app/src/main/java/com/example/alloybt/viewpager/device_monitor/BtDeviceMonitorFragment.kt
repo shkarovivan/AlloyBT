@@ -3,7 +3,10 @@ package com.example.alloybt.viewpager.device_monitor
 import android.annotation.SuppressLint
 import android.bluetooth.BluetoothDevice
 import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.ActivityInfo
+import android.os.BatteryManager
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -44,6 +47,8 @@ class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control) {
     private var requestMonitorData: Boolean = false
     private var isReady: Boolean = false
     private var isPause: Boolean = true
+
+    private var batteryStatus: Intent? = null
 
     var current = 0
 
@@ -94,17 +99,11 @@ class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control) {
         (activity as AppCompatActivity?)!!.supportActionBar!!.title =
             btDeviceInformation.model// + " № " + btDeviceInformation.seriesNumber
 
-//        binding.croller.setOnProgressChangedListener { current ->
-//            val now = System.currentTimeMillis()
-//            if (now - lastTimeStamp > 50) {
-//                if (lastCurrent != current) {
-//                   // currentTextView.text = current.toString()
-//                    sendText(current.toString())
-//                    lastCurrent = current
-//                    lastTimeStamp = System.currentTimeMillis()
-//                }
-//            }
-//        }
+        batteryStatus = IntentFilter(Intent.ACTION_BATTERY_CHANGED).let { ifilter ->
+            context?.registerReceiver(null, ifilter)
+        }
+
+        getBatteryLevel()
 
         binding.curTextView.setOnClickListener {
 
@@ -242,6 +241,10 @@ class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control) {
             wtOnImageView.isVisible = false
             lockClosedImageView.isVisible = false
             lockOpenImageView.isVisible = false
+            batteryImage.isVisible = false
+            batteryTextView.isVisible = false
+            scale1Image.isVisible = false
+            scale2Image.isVisible = false
         }
     }
 
@@ -259,9 +262,14 @@ class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control) {
             diamElectrodeTextView.isVisible = true
             torchModeTextView.isVisible = true
             weldOfImageView.isVisible = true
+            batteryImage.isVisible = true
+            batteryTextView.isVisible = true
+            scale1Image.isVisible = true
+            scale2Image.isVisible = true
             wtOffImageView.isVisible = false
             lockClosedImageView.isVisible = false
             lockOpenImageView.isVisible = false
+
         }
     }
 
@@ -289,15 +297,20 @@ class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control) {
         with(binding) {
             Log.d("requestData", params.toString())
             if (params.value.state > 2) {
-                curTextView.text = params.value.realCurrent.toInt().toString()
+                val current = params.value.realCurrent.toInt()
+                curTextView.text = current.toString()
                 weldOfImageView.isVisible = false
                 weldOnImageView.isVisible = true
+                scale1Image.setImageLevel(current)
+                scale2Image.setImageLevel(current)
 
             } else {
-                curTextView.text = params.value.workCurrent.toString()
-                current = params.value.workCurrent
+                val current = params.value.workCurrent
+                curTextView.text = current.toString()
                 weldOfImageView.isVisible = true
                 weldOnImageView.isVisible = false
+                scale1Image.setImageLevel(current)
+                scale2Image.setImageLevel(current)
             }
 
             waveFormImageView.setImageLevel(params.value.waveForm)
@@ -343,6 +356,27 @@ class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control) {
         Toast.makeText(requireContext(), text, Toast.LENGTH_SHORT).show()
     }
 
+    @SuppressLint("SetTextI18n")
+    private fun getBatteryLevel() {
+
+        lifecycleScope.launch(Dispatchers.Main) {
+            while (true) {
+                val batteryPct: Float? = batteryStatus?.let { intent ->
+                    val level: Int = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1)
+                    val scale: Int = intent.getIntExtra(BatteryManager.EXTRA_SCALE, -1)
+                    level * 100 / scale.toFloat()
+                }
+                if (batteryPct != null) {
+                    binding.batteryTextView.text = batteryPct.toInt().toString() + "%"
+                    binding.batteryImage.setImageLevel(batteryPct.toInt())
+
+                }
+                delay(10000)
+                Log.d("batteryPct", "battery = $batteryPct")
+            }
+        }
+    }
+
     private fun sendMonitorRequest() {
         lifecycleScope.launch(Dispatchers.IO) {
             Log.d("requestData", "lifecycleScope start")
@@ -357,6 +391,7 @@ class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control) {
                 sendText(requestMonitorJson)
                 Log.d("requestData", requestMonitorJson)
                 delay(200)
+
             }
         }
     }

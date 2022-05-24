@@ -7,6 +7,59 @@
     tools:ignore="MissingDefaultResource">
 
     <ImageView
+        android:id="@+id/scale1Image"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/scale_image_size"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/curTextView"
+        app:layout_constraintEnd_toStartOf="@+id/curTextView"
+        app:srcCompat="@drawable/scale_bar"
+        tools:src="@drawable/scale_4" />
+
+    <ImageView
+        android:id="@+id/scale2Image"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/scale_image_size"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/curTextView"
+        app:layout_constraintStart_toEndOf="@+id/curTextView"
+        app:srcCompat="@drawable/scale_bar"
+        tools:src="@drawable/scale_4" />
+
+    <TextView
+        android:id="@+id/batteryTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/main_margin"
+        android:text="66%"
+        android:visibility="invisible"
+        android:textAlignment="center"
+        android:textColor="@color/dark_yellow"
+        android:textSize="@dimen/normal_text_size"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/batteryImage"
+        app:layout_constraintStart_toStartOf="@+id/batteryImage"
+        app:layout_constraintTop_toBottomOf="@+id/batteryImage" />
+
+    <ImageView
+        android:id="@+id/batteryImage"
+        android:layout_width="@dimen/battery_image_size"
+        android:layout_height="@dimen/battery_image_size"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_margin="@dimen/main_margin"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="invisible"
+        app:layout_constraintTop_toBottomOf="@+id/upPanelImageView"
+        app:srcCompat="@drawable/ic_battery_bar"
+        tools:src="@drawable/ic_bat_2"
+        android:rotation="90"/>
+
+    <ImageView
         android:id="@+id/imageBackGround"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
