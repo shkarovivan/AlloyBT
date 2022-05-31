@@ -1,5 +1,6 @@
 package com.skillbox.multithreading.adapters
 
+import android.annotation.SuppressLint
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -44,11 +45,14 @@ class ErrorsAdapterDelegate(
 			}
 		}
 
+		@SuppressLint("SetTextI18n")
 		fun bind(error: TigError) {
 			errorTimeTextView.text =
 				when (error.code) {
 					else -> ""
 				}
+
+			errorNumTextView.text = (error.num +1).toString()
 
 			errorDescrTextView.text =
 				when (error.code) {
@@ -60,6 +64,8 @@ class ErrorsAdapterDelegate(
 					else -> "Не определено"
 
 				}
+
+			errorTimeTextView.text = error.time.toString()
 		}
 	}
 

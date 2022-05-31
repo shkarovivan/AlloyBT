@@ -14,7 +14,7 @@ class ErrorsAdapter(
 	}
 	class MoviesDiffUtilCallBack : DiffUtil.ItemCallback<TigError>() {
 		override fun areItemsTheSame(oldItem: TigError, newItem: TigError): Boolean {
-			return oldItem.time == newItem.time && oldItem.code == newItem.code
+			return oldItem.num == newItem.num
 		}
 
 

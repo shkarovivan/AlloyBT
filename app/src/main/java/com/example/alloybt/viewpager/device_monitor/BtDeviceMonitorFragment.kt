@@ -48,7 +48,6 @@ class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control) {
     private var isReady: Boolean = false
     private var isPause: Boolean = true
 
-    private var batteryStatus: Intent? = null
 
     var current = 0
 
@@ -74,6 +73,7 @@ class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control) {
         isPause = false
         activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
         controlViewModel.monitorMode.postValue(MonitorMode.DEVICE_MONITOR)
+        getBatteryLevel()
         Log.d("requestData", "onResume")
     }
 
@@ -99,9 +99,7 @@ class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control) {
         (activity as AppCompatActivity?)!!.supportActionBar!!.title =
             btDeviceInformation.model// + " № " + btDeviceInformation.seriesNumber
 
-        batteryStatus = IntentFilter(Intent.ACTION_BATTERY_CHANGED).let { ifilter ->
-            context?.registerReceiver(null, ifilter)
-        }
+
 
         getBatteryLevel()
 
@@ -316,16 +314,34 @@ class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control) {
             waveFormImageView.setImageLevel(params.value.waveForm)
             lifTigImageView.setImageLevel(params.value.liftTig)
             diamElectrodeTextView.text = params.value.diamElectrode.toString() + "мм"
-            weldTypeTextView.text =
-                when (params.value.mode) {
-                    4 -> "AC+DC"
-                    0 -> "AC"
-                    1 -> "AC Pulse"
-                    3 -> "DC Pulse"
-                    5 -> "MMA"
-                    2 -> "DC"
-                    else -> "Err"
+
+            when (params.value.mode) {
+                4 -> {
+                    waveFormImageView.visibility = View.VISIBLE
+                    weldTypeTextView.text = "AC+DC"
                 }
+                0 -> {
+                    waveFormImageView.visibility = View.VISIBLE
+                    weldTypeTextView.text = "AC"
+                }
+                1 -> {
+                    waveFormImageView.visibility = View.VISIBLE
+                    weldTypeTextView.text = "AC Pulse"
+                }
+                3 -> {
+                    waveFormImageView.visibility = View.INVISIBLE
+                    weldTypeTextView.text = "DC Pulse"
+                }
+                5 -> {
+                    waveFormImageView.visibility = View.INVISIBLE
+                    weldTypeTextView.text = "MMA"
+                }
+                2 -> {
+                    waveFormImageView.visibility = View.INVISIBLE
+                    weldTypeTextView.text = "DC"
+                }
+                else -> weldTypeTextView.text = "Err"
+            }
 
             torchModeTextView.text =
                 when (params.value.weldButtonMode) {
@@ -361,17 +377,28 @@ class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control) {
 
         lifecycleScope.launch(Dispatchers.Main) {
             while (true) {
-                val batteryPct: Float? = batteryStatus?.let { intent ->
+                val batteryStatus = IntentFilter(Intent.ACTION_BATTERY_CHANGED).let { ifilter ->
+                    context?.registerReceiver(null, ifilter)
+                }
+                val batteryPct = batteryStatus?.let { intent ->
                     val level: Int = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1)
+                    binding.batteryTextView.text = "$level%"
+                    binding.batteryImage.setImageLevel(level)
                     val scale: Int = intent.getIntExtra(BatteryManager.EXTRA_SCALE, -1)
+                    Log.d("batteryPct", "battery status = $level $scale")
                     level * 100 / scale.toFloat()
                 }
                 if (batteryPct != null) {
-                    binding.batteryTextView.text = batteryPct.toInt().toString() + "%"
-                    binding.batteryImage.setImageLevel(batteryPct.toInt())
+                    //binding.batteryTextView.text = batteryPct!!.toInt().toString() + "%"
+                    //binding.batteryImage.setImageLevel(batteryPct!!.toInt())
+                    Log.d("batteryPct", "battery not null = $batteryPct")
 
                 }
+
                 delay(10000)
+                if (batteryPct != null) {
+                    binding.batteryTextView.text = batteryPct!!.toInt().toString() + "%"
+                }
                 Log.d("batteryPct", "battery = $batteryPct")
             }
         }

@@ -28,6 +28,8 @@ import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.json.JSONException
+import org.json.JSONObject
 
 
 class ErrorsListFragment : Fragment(R.layout.fragment_errors_list) {
@@ -97,20 +99,44 @@ class ErrorsListFragment : Fragment(R.layout.fragment_errors_list) {
     }
 
     private fun parseErrorsData(data: String) {
-        val tigErrorsAdapter = moshi.adapter(TigErrors::class.java).nonNull()
-
         try {
-            val tigErrors = tigErrorsAdapter.fromJson(data)
-            if (tigErrors != null) {
-                errorsAdapter.items = tigErrors.value
-                Log.d("requestDataReceivedError", tigErrors.toString())
-            } else {
-                toast("WeldParam = null")
+            val jsonObject = JSONObject(data)
+            val response = jsonObject.getString("Response")
+            if (response == "Errors") {
+                val tigErrorList = emptyList<TigError>().toMutableList()
+                val page = jsonObject.getInt("Page")
+                val valueArray = jsonObject.getJSONArray("Value")
+                (0 until valueArray.length()).map { index -> valueArray.getJSONObject(index) }
+                    .map { movieJsonObject ->
+                        val n = movieJsonObject.getInt("N").toInt()
+                        val t = movieJsonObject.getInt("T").toInt()
+                        val l = movieJsonObject.getInt("L").toInt()
+                        val c = movieJsonObject.getInt("C").toInt()
+                        val error = TigError(n, t, l, c)
+                        tigErrorList += listOf(error)
+                        Log.d("requestDataReceivedError", "TigError(n,t,l,c) - ${error.toString()}")
+                    }
+                val list = errorsAdapter.items + tigErrorList
+                errorsAdapter.items = list
             }
-
-        } catch (e: Exception) {
-            Log.d("requestDataReceivedError", e.toString())
+        } catch (e: JSONException) {
+            Log.d("requestDataReceivedError", "getJSONArray error - ${e.toString()}")
         }
+
+//        val tigErrorsAdapter = moshi.adapter(TigErrors::class.java).nonNull()
+//
+//        try {
+//            val tigErrors = tigErrorsAdapter.fromJson(data)
+//            if (tigErrors != null) {
+//                errorsAdapter.items = tigErrors.value
+//                Log.d("requestDataReceivedError", tigErrors.toString())
+//            } else {
+//                toast("WeldParam = null")
+//            }
+//
+//        } catch (e: Exception) {
+//            Log.d("requestDataReceivedError", e.toString())
+//        }
     }
 
     private fun getJsonString(page: Int): String {
@@ -120,10 +146,9 @@ class ErrorsListFragment : Fragment(R.layout.fragment_errors_list) {
     private fun sendErrorParamsRequest() {
         lifecycleScope.launch(Dispatchers.IO) {
             while (requestErrorParams) {
-                (0..0).forEach {
-
+                (0..4).forEach {
                     val jsonString = getJsonString(it)
-                    Log.d("requestDataReceivedError","$jsonString")
+                    Log.d("requestDataReceivedError", "$jsonString")
                     controlViewModel.setWeldData(jsonString)
                     delay(500)
                 }
