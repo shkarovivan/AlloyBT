@@ -45,6 +45,10 @@ class ErrorsListFragment : Fragment(R.layout.fragment_errors_list) {
     private var requestErrorParams: Boolean = false
     private var isReady: Boolean = false
 
+    var maxPage = false
+    var pageNumber = 0
+    var list = emptyList<TigError>()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -116,8 +120,19 @@ class ErrorsListFragment : Fragment(R.layout.fragment_errors_list) {
                         tigErrorList += listOf(error)
                         Log.d("requestDataReceivedError", "TigError(n,t,l,c) - ${error.toString()}")
                     }
-                val list = errorsAdapter.items + tigErrorList
-                errorsAdapter.items = list
+                if (tigErrorList.size < 5) maxPage = true
+                list = errorsAdapter.items
+                errorsAdapter.items = (list + tigErrorList).sortedBy { it.num }
+               // errorsAdapter.items.plusAssign(tigErrorList)
+//                if (tigErrorList.size<5)
+//                if (page == 0 )
+//                {list = emptyList()}
+//               list += tigErrorList
+//                if (page == 4 ) {
+//                    list.sortedBy { it.num }
+//                    errorsAdapter.
+//
+//                    errorsAdapter.items = list}
             }
         } catch (e: JSONException) {
             Log.d("requestDataReceivedError", "getJSONArray error - ${e.toString()}")
@@ -145,13 +160,15 @@ class ErrorsListFragment : Fragment(R.layout.fragment_errors_list) {
 
     private fun sendErrorParamsRequest() {
         lifecycleScope.launch(Dispatchers.IO) {
-            while (requestErrorParams) {
-                (0..4).forEach {
-                    val jsonString = getJsonString(it)
-                    Log.d("requestDataReceivedError", "$jsonString")
-                    controlViewModel.setWeldData(jsonString)
-                    delay(500)
-                }
+            while (!maxPage && pageNumber < 20) {
+
+                val jsonString = getJsonString(pageNumber)
+                Log.d("requestDataReceivedError", "$jsonString")
+                Log.d("requestDataReceivedError", "$pageNumber")
+                Log.d("requestDataReceivedError", "$maxPage")
+                controlViewModel.setWeldData(jsonString)
+                pageNumber++
+                delay(500)
             }
         }
     }

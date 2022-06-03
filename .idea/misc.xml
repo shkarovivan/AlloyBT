@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/AndroidStudio projects/AllotBT/AlloyBT/app/src/main/res/drawable-v24/ic_device_error_info.xml" value="0.2645" />
+        <entry key="..\:/AndroidStudio projects/AllotBT/AlloyBT/app/src/main/res/drawable-v24/ic_device_error_warn.xml" value="0.2645" />
         <entry key="..\:/AndroidStudio projects/AllotBT/AlloyBT/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2465" />
         <entry key="..\:/AndroidStudio projects/AllotBT/AlloyBT/app/src/main/res/drawable-v24/ic_signal_0_bar.xml" value="0.21770833333333334" />
         <entry key="..\:/AndroidStudio projects/AllotBT/AlloyBT/app/src/main/res/drawable-v24/ic_signal_1_bar.xml" value="0.21770833333333334" />

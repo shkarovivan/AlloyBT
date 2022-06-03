@@ -5,9 +5,11 @@ import android.annotation.SuppressLint
 import android.app.Application
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.le.*
+import android.content.Context
 import android.content.pm.PackageManager
 import android.os.ParcelUuid
 import android.util.Log
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.util.containsValue
 import androidx.core.util.forEach
@@ -15,22 +17,28 @@ import androidx.lifecycle.*
 import com.example.alloybt.BluetoothAdapterProvider
 import com.example.alloybt.BtDevice
 import com.example.alloybt.SingleLiveEvent
+import com.example.alloybt.json_data.TigParamsList
 import com.example.alloybt.viewpager.device_control.ControlParam
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.lang.IllegalArgumentException
 import java.nio.charset.StandardCharsets
+import java.security.AccessControlContext
+import java.security.AccessController.getContext
 
-class BtDevicesViewModel(adapterProvider: BluetoothAdapterProvider) : ViewModel() {
+@SuppressLint("StaticFieldLeak")
+class BtDevicesViewModel(
+    adapterProvider: BluetoothAdapterProvider,
+    application: Application
+) : AndroidViewModel(application) {
 
     private val repository = BtDevicesRepository()
     private val btDevicesLiveData = MutableLiveData(repository.initBtDevicesList())
 
-
+    private val context = application.applicationContext
     private val adapter = adapterProvider.getAdapter()
     private var scanner: BluetoothLeScanner? = null
     private var callback: BleScanCallback? = null
-
     private val settings: ScanSettings = buildSettings()
     private val filters: List<ScanFilter> = buildFilter()
 
@@ -74,12 +82,28 @@ class BtDevicesViewModel(adapterProvider: BluetoothAdapterProvider) : ViewModel(
             callback = BleScanCallback()
             scanner = adapter.bluetoothLeScanner
             Log.e("BluetoothScanner", "Start scan.")
+            if (ActivityCompat.checkSelfPermission(
+                    context,
+                    Manifest.permission.BLUETOOTH_SCAN
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                Log.e("BluetoothScanner", "PERMISSION_NOT")
+               // return
+            }
+            Log.e("BluetoothScanner", "PERMISSION_GRANTED")
             scanner?.startScan(null, settings, callback)
         }
     }
 
     fun stopScan() {
         if (callback != null) {
+            if (ActivityCompat.checkSelfPermission(
+                    context,
+                    Manifest.permission.BLUETOOTH_SCAN
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                return
+            }
             scanner?.stopScan(callback)
             scanner = null
             callback = null
@@ -110,27 +134,31 @@ class BtDevicesViewModel(adapterProvider: BluetoothAdapterProvider) : ViewModel(
         override fun onScanResult(callbackType: Int, result: ScanResult) {
             foundDevices[result.device.address] = result.device
             Log.e("BluetoothScanner", "scan.")
-            var btDeviceName: String = result.device.name ?: "Unknown"//result.scanRecord.toString()//
-            var btDeviceManuf: String = result.scanRecord?.manufacturerSpecificData?.get(2573)?.toString(Charsets.UTF_8) ?: "null"
-            if (btDeviceManuf.contains("ALLOY")) {
-                val startIndex = btDeviceName.indexOf('N', 0, false)
-                val endIndex = btDeviceName.length
-                val number = btDeviceName.substring(startIndex + 1, endIndex - 1)
-              //  btDeviceName = btDeviceName.substring(0, startIndex)
-                addBtDevice(btDeviceName, result.device.address,"" /*number*/, result.rssi, result.device)
+            if (ActivityCompat.checkSelfPermission(
+                    context,
+                    Manifest.permission.BLUETOOTH_SCAN
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                return
             }
- //           else(
- //               addBtDevice(
-//                btDeviceName,
-//                result.device.address,
-//                "no number",
-//                result.rssi,
-//                result.device
- //           )
-
+            var btDeviceName: String =
+                result.device.name ?: "Unknown"//result.scanRecord.toString()//
+            var btDeviceManuf: String =
+                result.scanRecord?.manufacturerSpecificData?.get(2573)?.toString(Charsets.UTF_8)
+                    ?: "null"
+            if (btDeviceManuf.contains("ALLOY")) {
+                TigParamsList.tigMaxCurrent = btDeviceName.substring(3, 5)
+                Log.e("tigMaxCurrent ", "${btDeviceName.substring(3, 6)}  ")
+                addBtDevice(
+                    btDeviceName,
+                    result.device.address,
+                    "" /*number*/,
+                    result.rssi,
+                    result.device
+                )
+            }
 
             Log.e("BluetoothScanner", "Scan result:  ${result.rssi}  ")
-            //	_devices.postValue(foundDevices.values.toList())
         }
 
         override fun onBatchScanResults(results: MutableList<ScanResult>) {
@@ -155,10 +183,12 @@ class BtDevicesViewModel(adapterProvider: BluetoothAdapterProvider) : ViewModel(
 
 class DeviceViewModelFactory(
     private val adapterProvider: BluetoothAdapterProvider,
+    private val application: Application
+
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(BtDevicesViewModel::class.java)) {
-            return BtDevicesViewModel(adapterProvider) as T
+            return BtDevicesViewModel(adapterProvider,application ) as T
         }
         throw IllegalArgumentException("View Model not found")
     }

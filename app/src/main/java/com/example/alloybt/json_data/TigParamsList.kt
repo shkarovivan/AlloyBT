@@ -5,6 +5,8 @@ import kotlinx.android.parcel.Parcelize
 
 object TigParamsList {
 
+    var tigMaxCurrent = "500"
+
     var tigParamsMap = mutableMapOf(
         "1000" to TigValue(
             "1000",
@@ -32,7 +34,7 @@ object TigParamsList {
             ""
         ),
         "1004" to TigValue("1004", "Время предпродувки", ParamType.FLOAT, "0", "10.0", "0"),
-        "1005" to TigValue("1005", "Стартовый ток", ParamType.INTEGER, "3", "500", "0"),
+        "1005" to TigValue("1005", "Стартовый ток", ParamType.INTEGER, "3", tigMaxCurrent, "0"),
         "1006" to TigValue(
             "1006",
             "Время перехода от стартового тока к рабочему",
@@ -41,14 +43,14 @@ object TigParamsList {
             "10.0",
             "0"
         ),
-        "1007" to TigValue("1007", "Рабочий ток", ParamType.INTEGER, "3", "500", "0"),
+        "1007" to TigValue("1007", "Рабочий ток", ParamType.INTEGER, "3", tigMaxCurrent, "0"),
         "1009" to TigValue("1009", "Частота AC", ParamType.INTEGER, "30", "300", "0"),
         "100B" to TigValue("100B", "Коэффициент AC", ParamType.INTEGER, "1", "100", "0"),
         "100D" to TigValue("100D", "баланс AC", ParamType.INTEGER, "0", "100", "0"),
-        "100F" to TigValue("100F", "Пиковый ток импульса", ParamType.INTEGER, "3", "500", "0"),
+        "100F" to TigValue("100F", "Пиковый ток импульса", ParamType.INTEGER, "3", tigMaxCurrent, "0"),
         "1011" to TigValue("1011", "Коэффициент импульса", ParamType.INTEGER, "1", "99", "0"),
         "1013" to TigValue("1013", "Частота импульса", ParamType.INTEGER, "0", "1000", "0"),
-        "1015" to TigValue("1015", "Базовый ток импульса", ParamType.INTEGER, "3", "500", "0"),
+        "1015" to TigValue("1015", "Базовый ток импульса", ParamType.INTEGER, "3", tigMaxCurrent, "0"),
         "1017" to TigValue(
             "1017",
             "Время перезода к току заварки кратера",
@@ -57,7 +59,7 @@ object TigParamsList {
             "10.0",
             "0"
         ),
-        "1019" to TigValue("1019", "Ток заварки кратера", ParamType.INTEGER, "3", "500", "0"),
+        "1019" to TigValue("1019", "Ток заварки кратера", ParamType.INTEGER, "3", tigMaxCurrent, "0"),
         "101B" to TigValue("101B", "Время постпродувки", ParamType.FLOAT, "0.0", "60.0", "0"),
         "101D" to TigValue("101D", "Диаметр электрода", ParamType.FLOAT, "0.8", "6.0", "0.0"),
         "101F" to TigValue("101F", "Время точки", ParamType.FLOAT, "0.0", "10.0", "0"),

@@ -19,109 +19,126 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.alloybt.adapter.BtDevicesAdapter
-import com.example.alloybt.databinding.FragmentDeviceControlBinding
 import com.example.alloybt.databinding.FragmentSearchDevicesBinding
 import com.example.alloybt.viewmodel.BtDevicesViewModel
 import com.example.alloybt.viewmodel.DeviceViewModelFactory
 import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator
 import kotlinx.android.synthetic.main.fragment_search_devices.*
 
+
 class SearchDevicesFragment : Fragment(R.layout.fragment_search_devices) {
 
-	private var _binding: FragmentSearchDevicesBinding? = null
-	private val binding get() = _binding!!
+    private var _binding: FragmentSearchDevicesBinding? = null
+    private val binding get() = _binding!!
 
-	private val btDevicesListViewModel: BtDevicesViewModel by viewModels(){
-	DeviceViewModelFactory((requireActivity().application as App).adapterProvider)
-}
+    private val btDevicesListViewModel: BtDevicesViewModel by viewModels {
+        DeviceViewModelFactory(
+            (requireActivity().application as App).adapterProvider,
+            activity?.application!!
+        )
+    }
 
-	private var btDevicesAdapter: BtDevicesAdapter? = null
+    private var btDevicesAdapter: BtDevicesAdapter? = null
 
-	override fun onCreateView(
-		inflater: LayoutInflater,
-		container: ViewGroup?,
-		savedInstanceState: Bundle?
-	): View {
-		_binding = FragmentSearchDevicesBinding.inflate(inflater, container, false)
-		return binding.root
-	}
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentSearchDevicesBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
-	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-		super.onViewCreated(view, savedInstanceState)
-		initList()
-		checkLocation.launch(Manifest.permission.ACCESS_FINE_LOCATION)
-		searchFAB.setOnClickListener {
-			btDevicesListViewModel.refreshList()
-			checkLocation.launch(Manifest.permission.ACCESS_FINE_LOCATION)
-		}
-	}
+    @RequiresApi(Build.VERSION_CODES.S)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initList()
+        checkLocation.launch(Manifest.permission.ACCESS_FINE_LOCATION)
 
-	override fun onResume() {
-		super.onResume()
-		(activity as AppCompatActivity?)!!.supportActionBar!!.show()
-		activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED;
-	}
+        searchFAB.setOnClickListener {
+            btDevicesListViewModel.refreshList()
+            btDevicesListViewModel.startScan()
+        }
+    }
 
-	override fun onDestroyView() {
-		super.onDestroyView()
-		btDevicesAdapter = null
-	}
+    override fun onResume() {
+        super.onResume()
+        (activity as AppCompatActivity?)!!.supportActionBar!!.show()
+        activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED;
+    }
 
-	@RequiresApi(Build.VERSION_CODES.N)
-	override fun onStart() {
-		super.onStart()
-		observeViewModelState()
-		searchProgressBar.setProgress(50,true)
-		searchProgressBar.visibility = View.GONE
-	}
+    override fun onDestroyView() {
+        super.onDestroyView()
+        btDevicesAdapter = null
+    }
 
-	override fun onStop() {
-		super.onStop()
-		btDevicesListViewModel.stopScan()
-	}
+    @RequiresApi(Build.VERSION_CODES.N)
+    override fun onStart() {
+        super.onStart()
+        observeViewModelState()
+        searchProgressBar.setProgress(50, true)
+        searchProgressBar.visibility = View.GONE
+    }
 
-	private fun initList() {
-		btDevicesAdapter = BtDevicesAdapter({ position ->
-			showDeviceControlFragment(position)
-		},
-			{ position ->
-				showDeviceControlFragment(position)
-			})
-		with(binding.deviceBtList) {
-			adapter = btDevicesAdapter
-			layoutManager = LinearLayoutManager(requireContext())
-			addItemDecoration(DividerItemDecoration(requireContext(), RecyclerView.VERTICAL))
-			setHasFixedSize(true)
-			itemAnimator = SlideInLeftAnimator()
-		}
-	}
+    override fun onStop() {
+        super.onStop()
+        btDevicesListViewModel.stopScan()
+    }
 
-	private fun showDeviceControlFragment(position: Int) {
-		val btDeviceInformation = btDevicesListViewModel.btDevicesList.value?.get(position)!!
-		BtDeviceInformation.btDeviceInformation = btDeviceInformation
-		//val action = SearchDevicesFragmentDirections.actionSearchDevicesFragmentToBtDeviceControl(btDeviceInformation)
-		val action = SearchDevicesFragmentDirections.actionSearchDevicesFragmentToViewPagerFragment(btDeviceInformation)
-		findNavController().navigate(action)
-	}
+    private fun initList() {
+        btDevicesAdapter = BtDevicesAdapter({ position ->
+            showDeviceControlFragment(position)
+        },
+            { position ->
+                showDeviceControlFragment(position)
+            })
+        with(binding.deviceBtList) {
+            adapter = btDevicesAdapter
+            layoutManager = LinearLayoutManager(requireContext())
+            addItemDecoration(DividerItemDecoration(requireContext(), RecyclerView.VERTICAL))
+            setHasFixedSize(true)
+            itemAnimator = SlideInLeftAnimator()
+        }
+    }
 
-	private val checkLocation = registerForActivityResult(
-		ActivityResultContracts.RequestPermission()
-	) { granted ->
-		if (granted) {
-			btDevicesListViewModel.startScan()
-			Log.e("BluetoothScanner", "Start scan.")
-		}
-	}
+    private fun showDeviceControlFragment(position: Int) {
+        val btDeviceInformation = btDevicesListViewModel.btDevicesList.value?.get(position)!!
+        BtDeviceInformation.btDeviceInformation = btDeviceInformation
+        //val action = SearchDevicesFragmentDirections.actionSearchDevicesFragmentToBtDeviceControl(btDeviceInformation)
+        val action = SearchDevicesFragmentDirections.actionSearchDevicesFragmentToViewPagerFragment(
+            btDeviceInformation
+        )
+        findNavController().navigate(action)
+    }
 
-	private fun observeViewModelState() {
-		btDevicesListViewModel.btDevicesList
-			.observe(viewLifecycleOwner) { btDevices -> btDevicesAdapter?.items = btDevices }
+    @RequiresApi(Build.VERSION_CODES.S)
+    private val checkLocation = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { granted ->
+        if (granted) {
+            checkBluetooth.launch(Manifest.permission.BLUETOOTH_SCAN)
+            Log.e("BluetoothScanner", "Start scan.")
+        }
+    }
 
-		btDevicesListViewModel.showToast
-			.observe(viewLifecycleOwner) { toast("SingleLiveEvent") }
-	}
+    private val checkBluetooth = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { granted ->
+        if (granted) {
+            btDevicesListViewModel.startScan()
+            Log.e("BluetoothScanner", "Start scan.")
+        }
+    }
 
-	private fun toast(text: String) {
-		Toast.makeText(requireContext(), text, Toast.LENGTH_SHORT).show()
-	}
+    private fun observeViewModelState() {
+        btDevicesListViewModel.btDevicesList
+            .observe(viewLifecycleOwner) { btDevices -> btDevicesAdapter?.items = btDevices }
+
+        btDevicesListViewModel.showToast
+            .observe(viewLifecycleOwner) { toast("SingleLiveEvent") }
+    }
+
+    private fun toast(text: String) {
+        Toast.makeText(requireContext(), text, Toast.LENGTH_SHORT).show()
+    }
 }
