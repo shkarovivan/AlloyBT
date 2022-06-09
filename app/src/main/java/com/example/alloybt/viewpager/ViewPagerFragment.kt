@@ -31,7 +31,7 @@ class ViewPagerFragment : Fragment(R.layout.fragment_view_pager), AddBadge {
             resources.getString(R.string.page_head_text_monitor),
             resources.getString(R.string.page_head_text_control),
             resources.getString(R.string.page_head_text_errors),
-        //    resources.getString(R.string.page_head_text_stat)
+            resources.getString(R.string.page_head_text_stat)
         )
     }
 
