@@ -66,7 +66,7 @@ class DeviceInfoFragment : Fragment(R.layout.fragment_info_list) {
             viewLifecycleOwner
         ) { btDataReceived ->
             Log.d("requestDataReceivedInfo", btDataReceived)
-            parseStatData("$btDataReceived}")
+            parseStatData(btDataReceived)
 
         }
         controlViewModel.monitorMode.observe(viewLifecycleOwner) { mode ->

@@ -1,9 +1,16 @@
 package com.example.alloybt
 
 import android.Manifest
+import android.app.Activity
+import android.bluetooth.BluetoothAdapter
+import android.bluetooth.BluetoothManager
+import android.content.Context
+import android.content.Intent
 import android.content.pm.ActivityInfo
+import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -12,8 +19,11 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,6 +34,10 @@ import com.example.alloybt.viewmodel.BtDevicesViewModel
 import com.example.alloybt.viewmodel.DeviceViewModelFactory
 import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator
 import kotlinx.android.synthetic.main.fragment_search_devices.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class SearchDevicesFragment : Fragment(R.layout.fragment_search_devices) {
@@ -31,6 +45,7 @@ class SearchDevicesFragment : Fragment(R.layout.fragment_search_devices) {
     private var _binding: FragmentSearchDevicesBinding? = null
     private val binding get() = _binding!!
 
+    lateinit var bluetooth: BluetoothManager
     private val btDevicesListViewModel: BtDevicesViewModel by viewModels {
         DeviceViewModelFactory(
             (requireActivity().application as App).adapterProvider,
@@ -49,15 +64,32 @@ class SearchDevicesFragment : Fragment(R.layout.fragment_search_devices) {
         return binding.root
     }
 
-    @RequiresApi(Build.VERSION_CODES.S)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        bluetooth =
+            requireContext().getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
+
         initList()
+       // setBtListVisible(true)
         checkLocation.launch(Manifest.permission.ACCESS_FINE_LOCATION)
 
-        searchFAB.setOnClickListener {
-            btDevicesListViewModel.refreshList()
-            btDevicesListViewModel.startScan()
+        binding.searchFAB.setOnClickListener {
+            if (bluetooth.adapter.isEnabled) {
+                binding.enableBtButton.isVisible = false
+                btDevicesListViewModel.refreshList()
+                btDevicesListViewModel.startScan()
+                setBtListVisible(false)
+            } else {
+                toast(resources.getString(R.string.not_bluetooth_enabled))
+                enableBluetoothButton()
+            }
+        }
+
+        binding.enableBtButton.isVisible = false
+        binding.enableBtButton.setOnClickListener {
+            val enableIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
+            bluetoothEnabledResult.launch(enableIntent)
         }
     }
 
@@ -76,8 +108,6 @@ class SearchDevicesFragment : Fragment(R.layout.fragment_search_devices) {
     override fun onStart() {
         super.onStart()
         observeViewModelState()
-        searchProgressBar.setProgress(50, true)
-        searchProgressBar.visibility = View.GONE
     }
 
     override fun onStop() {
@@ -104,20 +134,19 @@ class SearchDevicesFragment : Fragment(R.layout.fragment_search_devices) {
     private fun showDeviceControlFragment(position: Int) {
         val btDeviceInformation = btDevicesListViewModel.btDevicesList.value?.get(position)!!
         BtDeviceInformation.btDeviceInformation = btDeviceInformation
-        //val action = SearchDevicesFragmentDirections.actionSearchDevicesFragmentToBtDeviceControl(btDeviceInformation)
         val action = SearchDevicesFragmentDirections.actionSearchDevicesFragmentToViewPagerFragment(
             btDeviceInformation
         )
         findNavController().navigate(action)
     }
 
-    @RequiresApi(Build.VERSION_CODES.S)
     private val checkLocation = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { granted ->
         if (granted) {
-            checkBluetooth.launch(Manifest.permission.BLUETOOTH_SCAN)
-            Log.e("BluetoothScanner", "Start scan.")
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                checkBluetooth.launch(Manifest.permission.BLUETOOTH_SCAN)
+            } else isBluetoothEnabled()
         }
     }
 
@@ -125,14 +154,59 @@ class SearchDevicesFragment : Fragment(R.layout.fragment_search_devices) {
         ActivityResultContracts.RequestPermission()
     ) { granted ->
         if (granted) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                checkBluetoothConnect.launch(android.Manifest.permission.BLUETOOTH_CONNECT)
+            } else isBluetoothEnabled()
+        }
+    }
+
+    private val checkBluetoothConnect = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { granted ->
+        if (granted) {
+            isBluetoothEnabled()
+        }
+    }
+
+
+
+    private val bluetoothEnabledResult = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            if (bluetooth.adapter.isEnabled) {
+                binding.enableBtButton.isVisible =  false
+                btDevicesListViewModel.refreshList()
+                Log.e("BluetoothScanner", "lifecycleScope")
+                btDevicesListViewModel.startScan()
+                setBtListVisible(false)
+            }
+        } else {
+            toast(resources.getString(R.string.not_bluetooth_enabled))
+        }
+    }
+
+    private fun isBluetoothEnabled() {
+        val bluetooth =
+            requireContext().getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
+        if (bluetooth.adapter.isEnabled) {
+            binding.enableBtButton.isVisible =  false
             btDevicesListViewModel.startScan()
-            Log.e("BluetoothScanner", "Start scan.")
+            setBtListVisible(true)
+            Log.e("BluetoothScanner", "isEnabled")
+        } else {
+            enableBluetoothButton()
         }
     }
 
     private fun observeViewModelState() {
         btDevicesListViewModel.btDevicesList
-            .observe(viewLifecycleOwner) { btDevices -> btDevicesAdapter?.items = btDevices }
+            .observe(viewLifecycleOwner) { btDevices ->
+                if (btDevices.isNotEmpty()) {
+                    setBtListVisible(true)
+                }
+                btDevicesAdapter?.items = btDevices
+            }
 
         btDevicesListViewModel.showToast
             .observe(viewLifecycleOwner) { toast("SingleLiveEvent") }
@@ -140,5 +214,18 @@ class SearchDevicesFragment : Fragment(R.layout.fragment_search_devices) {
 
     private fun toast(text: String) {
         Toast.makeText(requireContext(), text, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun setBtListVisible(state: Boolean) {
+        binding.deviceBtList.isVisible = state
+        binding.notDevicesTextView.isVisible = state.not()
+        binding.progressBar.isVisible = state.not()
+    }
+
+    private fun enableBluetoothButton(){
+        binding.enableBtButton.isVisible = true
+        binding.deviceBtList.isVisible = false
+        binding.notDevicesTextView.isVisible = false
+        binding.progressBar.isVisible = false
     }
 }

@@ -37,4 +37,7 @@
     <string name="max_param_text">7,0</string>
     <string name="value_param_text">3,6</string>
     <string name="confirm_param_button_text">подтвердить</string>
+    <string name="not_devices_text">Поиск оборудования "Эллой"</string>
+    <string name="not_bluetooth_enabled">Для поиска устройств требуется включить Bluetooth</string>
+    <string name="enable_bluetooth_text">Включить Bluetooth</string>
 </resources>
