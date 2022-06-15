@@ -39,6 +39,10 @@ class FragmentBottomEnum : BottomSheetDialogFragment() {
     var index = 0
     var maxIndex  = 0
 
+    private var lastTime = System.currentTimeMillis()
+    private var onTime = 0L
+    private val workDelay = 5000
+
     private var isActive = false
 
     override fun onCreateView(
@@ -70,6 +74,7 @@ class FragmentBottomEnum : BottomSheetDialogFragment() {
             address = tigValue.address
             index = tigValue.max.toInt()
 
+            checkWaitTime()
 
             (binding.radioGroup.getChildAt(index) as RadioButton).isChecked = true
 
@@ -83,6 +88,7 @@ class FragmentBottomEnum : BottomSheetDialogFragment() {
                     isActive = true
                     sendValue()
                 }
+                lastTime = System.currentTimeMillis()
             }
 
             when (tigValue.address) {
@@ -162,6 +168,16 @@ class FragmentBottomEnum : BottomSheetDialogFragment() {
                 sendWriteValueRequest(newValue, address)
                 delay(200)
             }
+        }
+    }
+
+    private fun checkWaitTime() {
+        lifecycleScope.launch(Dispatchers.Main) {
+            while (onTime < workDelay) {
+                onTime = System.currentTimeMillis() - lastTime
+                delay(500)
+            }
+            this@FragmentBottomEnum.dismiss()
         }
     }
 

@@ -40,6 +40,9 @@ class FragmentBottomTune : BottomSheetDialogFragment() {
     var address = ""
     var koeff = 1
     var floatType = false
+    private var lastTime = System.currentTimeMillis()
+    private var onTime = 0L
+    private val workDelay = 5000
 
     val moshi: Moshi = Moshi.Builder().build()
     private val args: FragmentBottomTuneArgs by navArgs()
@@ -104,12 +107,13 @@ class FragmentBottomTune : BottomSheetDialogFragment() {
                     isActive = true
                     sendValue()
                 }
+                lastTime = System.currentTimeMillis()
             }
-
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
         }
         )
+        checkWaitTime()
     }
 
     private fun getJsonString(value: String, address: String): String {
@@ -136,6 +140,17 @@ class FragmentBottomTune : BottomSheetDialogFragment() {
             }
         }
     }
+
+    private fun checkWaitTime() {
+        lifecycleScope.launch(Dispatchers.Main) {
+            while (onTime < workDelay) {
+                onTime = System.currentTimeMillis() - lastTime
+                delay(500)
+            }
+            this@FragmentBottomTune.dismiss()
+        }
+    }
+
 
     private fun toast(text: String) {
         Toast.makeText(requireContext(), text, Toast.LENGTH_SHORT).show()
