@@ -104,10 +104,6 @@ class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control) {
         getBatteryLevel()
 
         binding.curTextView.setOnClickListener {
-
-//            val action = ViewPagerFragmentDirections .actionViewPagerFragmentToTuneParamFragment(current)
-//            findNavController().navigate(action)
-
             val currentValue = TigParamsList.tigParamsMap["1007"]
             val action =
                 ViewPagerFragmentDirections.actionViewPagerFragmentToFragmentBottomTune(currentValue!!)

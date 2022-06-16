@@ -43,6 +43,7 @@ class FragmentBottomTune : BottomSheetDialogFragment() {
     private var lastTime = System.currentTimeMillis()
     private var onTime = 0L
     private val workDelay = 5000
+    private val incrementPercent = 5
 
     val moshi: Moshi = Moshi.Builder().build()
     private val args: FragmentBottomTuneArgs by navArgs()
@@ -71,7 +72,7 @@ class FragmentBottomTune : BottomSheetDialogFragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        var tigValueMax = 0
         val tigValue = args.value
         address = tigValue.address
         binding.nameTextView.text = tigValue.description
@@ -82,11 +83,16 @@ class FragmentBottomTune : BottomSheetDialogFragment() {
         if (floatType) {
             koeff = 10
         }
-        if (tigValue.max.isNotEmpty()) binding.tuneProgressBar.max =
-            (tigValue.max.toFloat() * koeff).toInt()
+        if (tigValue.max.isNotEmpty()) {
+            binding.tuneProgressBar.max =
+                (tigValue.max.toFloat() * koeff).toInt()
+            tigValueMax = binding.tuneProgressBar.max
+        }
         if (tigValue.min.isNotEmpty()) binding.tuneProgressBar.min =
             (tigValue.min.toFloat() * koeff).toInt()
         binding.tuneProgressBar.progress = (tigValue.value.toFloat() * koeff).toInt()
+        var lastProgress = binding.tuneProgressBar.progress
+        val increment = tigValueMax * 5 / 100
         binding.valueTextView.text = tigValue.value
         Log.d(
             "tuneProgressBar",
@@ -96,11 +102,23 @@ class FragmentBottomTune : BottomSheetDialogFragment() {
 
         binding.tuneProgressBar.setOnSeekBarChangeListener(object :
             SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(p0: SeekBar?, currentValue: Int, p2: Boolean) {
+            override fun onProgressChanged(seekBar: SeekBar?, currentValue: Int, p2: Boolean) {
+                var currentProgress = currentValue
+                if (currentProgress - lastProgress > increment) {
+                    currentProgress = lastProgress + increment
+                    seekBar?.progress = currentProgress
+                    lastProgress = currentProgress
+                }
+                if (currentProgress - lastProgress < -increment) {
+                    currentProgress = lastProgress - increment
+                    seekBar?.progress = currentProgress
+                    lastProgress = currentProgress
+                }
+
                 newValue = if (floatType) {
-                    (currentValue.toFloat() / koeff).toString()
+                    (currentProgress.toFloat() / koeff).toString()
                 } else {
-                    (currentValue / koeff).toString()
+                    (currentProgress / koeff).toString()
                 }
                 binding.valueTextView.text = newValue
                 if (!isActive) {
@@ -109,6 +127,7 @@ class FragmentBottomTune : BottomSheetDialogFragment() {
                 }
                 lastTime = System.currentTimeMillis()
             }
+
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
         }
