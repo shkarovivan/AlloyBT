@@ -40,4 +40,8 @@
     <string name="not_devices_text">Поиск оборудования "Эллой"</string>
     <string name="not_bluetooth_enabled">Для поиска устройств требуется включить Bluetooth</string>
     <string name="enable_bluetooth_text">Включить Bluetooth</string>
+    <string name="password_dialog_title">Для записи параметров введите пароль доступа</string>
+    <string name="password_dialog_pos_button_text">Ок</string>
+    <string name="password_dialog_neg_button_text">Отмена</string>
+    <string name="password_edit_text_hint_text">******</string>
 </resources>

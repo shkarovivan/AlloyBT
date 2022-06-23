@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.alloybt.R
-import com.example.alloybt.adapter.inflate
+import com.example.alloybt.utils.inflate
 import com.example.alloybt.json_data.StatParam
 import com.example.alloybt.json_data.StatType
 import com.hannesdorfmann.adapterdelegates4.AbsListItemAdapterDelegate

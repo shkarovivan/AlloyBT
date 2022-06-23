@@ -9,9 +9,7 @@ import android.content.pm.ActivityInfo
 import android.os.BatteryManager
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
@@ -22,6 +20,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.alloybt.BtDevice
 import com.example.alloybt.BtDeviceInformation
 import com.example.alloybt.R
+import com.example.alloybt.utils.showAlertDialog
 import com.example.alloybt.control.ControlManager
 import com.example.alloybt.databinding.FragmentDeviceControlBinding
 import com.example.alloybt.json_data.*
@@ -33,7 +32,8 @@ import com.squareup.moshi.Moshi
 import kotlinx.coroutines.*
 import no.nordicsemi.android.ble.livedata.state.ConnectionState
 
-class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control) {
+open class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control),
+    GestureDetector.OnGestureListener {
 
     private var _binding: FragmentDeviceControlBinding? = null
     private val binding get() = _binding!!
@@ -48,10 +48,16 @@ class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control) {
     private var isReady: Boolean = false
     private var isPause: Boolean = true
 
-
-    var current = 0
+    //  private lateinit var gestureDetector: GestureDetector
 
     val moshi: Moshi = Moshi.Builder().build()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        // Initializing the gesture detector
+        //  gestureDetector = GestureDetector(requireContext(), GestureDetector.OnGestureListener() )
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -71,7 +77,7 @@ class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control) {
     override fun onResume() {
         super.onResume()
         isPause = false
-        activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
+        activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE;
         controlViewModel.monitorMode.postValue(MonitorMode.DEVICE_MONITOR)
         getBatteryLevel()
         Log.d("requestData", "onResume")
@@ -100,14 +106,14 @@ class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control) {
             btDeviceInformation.model// + " № " + btDeviceInformation.seriesNumber
 
 
-
         getBatteryLevel()
 
         binding.curTextView.setOnClickListener {
             val currentValue = TigParamsList.tigParamsMap["1007"]
-            val action =
-                ViewPagerFragmentDirections.actionViewPagerFragmentToFragmentBottomTune(currentValue!!)
-            findNavController().navigate(action)
+            showAlertDialog(requireContext())
+//            val action =
+//                ViewPagerFragmentDirections.actionViewPagerFragmentToFragmentBottomTune(currentValue!!)
+//            findNavController().navigate(action)
         }
 
         binding.weldTypeTextView.setOnClickListener {
@@ -418,4 +424,45 @@ class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control) {
             }
         }
     }
+
+    override fun onDown(e: MotionEvent?): Boolean {
+        toast("onDown")
+        return true
+    }
+
+    override fun onShowPress(e: MotionEvent?) {
+        toast("onDown")
+    }
+
+    override fun onSingleTapUp(e: MotionEvent?): Boolean {
+        toast("onDown")
+        return true
+    }
+
+    override fun onScroll(
+        e1: MotionEvent?,
+        e2: MotionEvent?,
+        distanceX: Float,
+        distanceY: Float
+    ): Boolean {
+        toast("onDown")
+        return true
+    }
+
+    override fun onLongPress(e: MotionEvent?) {
+        toast("onLongPres")
+
+    }
+
+    override fun onFling(
+        e1: MotionEvent?,
+        e2: MotionEvent?,
+        velocityX: Float,
+        velocityY: Float
+    ): Boolean {
+        toast("onDown")
+        return true
+    }
+
 }
+

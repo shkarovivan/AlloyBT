@@ -2,14 +2,11 @@ package com.skillbox.multithreading.adapters
 
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.example.alloybt.R
-import com.example.alloybt.adapter.inflate
+import com.example.alloybt.utils.inflate
 import com.example.alloybt.json_data.ParamType
 import com.example.alloybt.json_data.TigValue
-import com.example.alloybt.viewpager.device_control.ControlParam
-import com.example.alloybt.viewpager.device_info.DeviceInfoAdapterDelegate
 import com.hannesdorfmann.adapterdelegates4.AbsListItemAdapterDelegate
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_device_param.*

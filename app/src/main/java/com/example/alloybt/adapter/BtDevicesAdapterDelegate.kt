@@ -4,6 +4,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.alloybt.BtDevice
 import com.example.alloybt.R
+import com.example.alloybt.utils.inflate
 import com.hannesdorfmann.adapterdelegates4.AbsListItemAdapterDelegate
 
 class BtDevicesAdapterDelegate(
