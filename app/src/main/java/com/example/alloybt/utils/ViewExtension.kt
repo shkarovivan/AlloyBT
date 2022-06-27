@@ -10,8 +10,13 @@ import android.widget.FrameLayout
 import androidx.annotation.LayoutRes
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import com.example.alloybt.R
 import com.example.alloybt.json_data.Password
+import com.example.alloybt.viewpager.device_monitor.BtDeviceMonitorFragment
+import kotlinx.coroutines.NonDisposableHandle.parent
+import kotlin.contracts.contract
 
 
 fun ViewGroup.inflate(@LayoutRes layoutRes: Int, attachToRoot: Boolean = false): View {
@@ -20,7 +25,7 @@ fun ViewGroup.inflate(@LayoutRes layoutRes: Int, attachToRoot: Boolean = false):
 
 
 @RequiresApi(Build.VERSION_CODES.P)
-fun showAlertDialog(context: Context) {
+fun showAlertDialog(context: Context, listener: (String) ->Unit) {
 
 	val edittext = EditText(context)
 	edittext.hint = context.getString(R.string.password_edit_text_hint_text)
@@ -43,6 +48,7 @@ fun showAlertDialog(context: Context) {
 	{ dialog, which ->
 		run {
 			Password.password = edittext.text.toString()
+			listener(Password.password!!)
 			dialog.dismiss()
 		}
 	}

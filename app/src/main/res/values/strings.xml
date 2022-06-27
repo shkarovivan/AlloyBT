@@ -43,5 +43,7 @@
     <string name="password_dialog_title">Для записи параметров введите пароль доступа</string>
     <string name="password_dialog_pos_button_text">Ок</string>
     <string name="password_dialog_neg_button_text">Отмена</string>
-    <string name="password_edit_text_hint_text">******</string>
+    <string name="password_edit_text_hint_text">* * * * *</string>
+    <string name="token_success_text">Изменение параметров разрешено</string>
+    <string name="token_fail_text">Неправильный пароль</string>
 </resources>

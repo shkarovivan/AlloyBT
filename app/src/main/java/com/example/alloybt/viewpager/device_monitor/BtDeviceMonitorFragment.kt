@@ -7,10 +7,12 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.ActivityInfo
 import android.os.BatteryManager
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -28,11 +30,13 @@ import com.example.alloybt.viewmodel.ControlViewModel
 import com.example.alloybt.viewmodel.MonitorMode
 import com.example.alloybt.viewmodel.ParamsViewModel
 import com.example.alloybt.viewpager.ViewPagerFragmentDirections
+import com.example.alloybt.viewpager.tune_param.PasswordRequest
 import com.squareup.moshi.Moshi
 import kotlinx.coroutines.*
 import no.nordicsemi.android.ble.livedata.state.ConnectionState
+import org.json.JSONObject
 
-open class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control),
+open class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control), PasswordRequest,
     GestureDetector.OnGestureListener {
 
     private var _binding: FragmentDeviceControlBinding? = null
@@ -47,6 +51,11 @@ open class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control),
     private var requestMonitorData: Boolean = false
     private var isReady: Boolean = false
     private var isPause: Boolean = true
+    private var userPassword: String? = null
+
+//    private val sharedPrefs by lazy {
+//        requireContext().getSharedPreferences(SHARED_PREFS_NAME, Context.MODE_PRIVATE)
+//    }
 
     //  private lateinit var gestureDetector: GestureDetector
 
@@ -92,12 +101,14 @@ open class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control),
         lifecycleScope.coroutineContext.cancelChildren()
     }
 
+    @RequiresApi(Build.VERSION_CODES.P)
     @SuppressLint("SourceLockedOrientationActivity")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val btDeviceInformation: BtDevice = BtDeviceInformation.btDeviceInformation
-        activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
+        activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
         btDevice = btDeviceInformation.device
+        Password.macAddress = btDeviceInformation.macAddress
         showConnectingBar()
         hideControlViews()
         isPause = false
@@ -105,50 +116,76 @@ open class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control),
         (activity as AppCompatActivity?)!!.supportActionBar!!.title =
             btDeviceInformation.model// + " № " + btDeviceInformation.seriesNumber
 
-
         getBatteryLevel()
 
         binding.curTextView.setOnClickListener {
-            val currentValue = TigParamsList.tigParamsMap["1007"]
-            showAlertDialog(requireContext())
-//            val action =
-//                ViewPagerFragmentDirections.actionViewPagerFragmentToFragmentBottomTune(currentValue!!)
-//            findNavController().navigate(action)
+            if (Password.token == null) {
+                requestToken()
+            } else {
+                val currentValue = TigParamsList.tigParamsMap["1007"]
+                val action =
+                    ViewPagerFragmentDirections.actionViewPagerFragmentToFragmentBottomTune(
+                        currentValue!!
+                    )
+                findNavController().navigate(action)
+            }
         }
 
         binding.weldTypeTextView.setOnClickListener {
-            val tigValue = TigParamsList.tigParamsMap["1000"]
-            val action =
-                ViewPagerFragmentDirections.actionViewPagerFragmentToFragmentBottomEnum(tigValue!!)
-            findNavController().navigate(action)
+            if (Password.token == null) {
+                requestToken()
+            } else {
+                val tigValue = TigParamsList.tigParamsMap["1000"]
+                val action =
+                    ViewPagerFragmentDirections.actionViewPagerFragmentToFragmentBottomEnum(tigValue!!)
+                findNavController().navigate(action)
+            }
         }
 
         binding.waveFormImageView.setOnClickListener {
-            val tigValue = TigParamsList.tigParamsMap["1003"]
-            val action =
-                ViewPagerFragmentDirections.actionViewPagerFragmentToFragmentBottomEnum(tigValue!!)
-            findNavController().navigate(action)
+            if (Password.token == null) {
+                requestToken()
+            } else {
+                val tigValue = TigParamsList.tigParamsMap["1003"]
+                val action =
+                    ViewPagerFragmentDirections.actionViewPagerFragmentToFragmentBottomEnum(tigValue!!)
+                findNavController().navigate(action)
+            }
         }
 
         binding.diamElectrodeTextView.setOnClickListener {
-            val diamValue = TigParamsList.tigParamsMap["101D"]
-            val action =
-                ViewPagerFragmentDirections.actionViewPagerFragmentToFragmentBottomTune(diamValue!!)
-            findNavController().navigate(action)
+            if (Password.token == null) {
+                requestToken()
+            } else {
+                val diamValue = TigParamsList.tigParamsMap["101D"]
+                val action =
+                    ViewPagerFragmentDirections.actionViewPagerFragmentToFragmentBottomTune(
+                        diamValue!!
+                    )
+                findNavController().navigate(action)
+            }
         }
 
         binding.torchModeTextView.setOnClickListener {
-            val tigValue = TigParamsList.tigParamsMap["1002"]
-            val action =
-                ViewPagerFragmentDirections.actionViewPagerFragmentToFragmentBottomEnum(tigValue!!)
-            findNavController().navigate(action)
+            if (Password.token == null) {
+                requestToken()
+            } else {
+                val tigValue = TigParamsList.tigParamsMap["1002"]
+                val action =
+                    ViewPagerFragmentDirections.actionViewPagerFragmentToFragmentBottomEnum(tigValue!!)
+                findNavController().navigate(action)
+            }
         }
 
         binding.lifTigImageView.setOnClickListener {
-            val tigValue = TigParamsList.tigParamsMap["1001"]
-            val action =
-                ViewPagerFragmentDirections.actionViewPagerFragmentToFragmentBottomEnum(tigValue!!)
-            findNavController().navigate(action)
+            if (Password.token == null) {
+                requestToken()
+            } else {
+                val tigValue = TigParamsList.tigParamsMap["1001"]
+                val action =
+                    ViewPagerFragmentDirections.actionViewPagerFragmentToFragmentBottomEnum(tigValue!!)
+                findNavController().navigate(action)
+            }
         }
 
 
@@ -187,6 +224,11 @@ open class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control),
                     binding.btStateTextView.text = ""
                     isReady = true
                     controlViewModel.monitorMode.postValue(MonitorMode.DEVICE_MONITOR)
+                    val password = checkBtPassword()
+                    if (password != null){
+                        Password.password = password
+                        sendPassword(Password.password!!)
+                    }
                 }
                 ConnectionState.State.DISCONNECTED -> {
                     showConnectingBar()
@@ -202,6 +244,19 @@ open class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control),
                 }
                 else -> binding.btStateTextView.visibility = View.INVISIBLE
             }
+        }
+    }
+
+    private fun getPasswordRequestJsonString(password: String): String {
+        val string = "{\"Write\":{\"Password\":$password}}"
+        Log.d("requestData", string)
+        return string
+
+    }
+
+    private fun sendPassword(password: String) {
+        lifecycleScope.launch(Dispatchers.IO) {
+            controlViewModel.setWeldData(getPasswordRequestJsonString(password))
         }
     }
 
@@ -226,7 +281,6 @@ open class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control),
 
     private fun hideControlViews() {
         with(binding) {
-            // croller.visibility = View.INVISIBLE
             curTextView.visibility = View.INVISIBLE
             currentHintTextView.visibility = View.INVISIBLE
             upPanelImageView.visibility = View.INVISIBLE
@@ -287,7 +341,37 @@ open class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control),
             }
 
         } catch (e: Exception) {
-            Log.d("requestData", e.toString())
+            try {
+                val jsonObject = JSONObject(data)
+                val token = jsonObject.getLong("Token")
+                Password.token = token
+                if( userPassword != null){
+                    Password.password = userPassword
+                    savePassword(userPassword!!)
+                }
+                toast(getString(R.string.token_success_text))
+                Log.d("token", "token ok")
+            } catch (e: Exception) {
+                try {
+                    val jsonObject = JSONObject(data)
+                    val token = jsonObject.getString("Token")
+                    if (token == "Error") {
+                        Password.password = null
+                        toast(getString(R.string.token_fail_text))
+                    }
+                } catch (e: Exception) {
+                }
+//
+//                val tokenAdapter = moshi.adapter(Token::class.java).nonNull()
+//                val token = tokenAdapter.fromJson(data)
+//                if (token != null) {
+//                    Password.token = token.token
+//                    toast(getString(R.string.token_success_text))
+//                    Log.d("token", "token ok")
+//                }
+//                Log.d("token", "token get")
+            } catch (e: Exception) {
+            }
         }
     }
 
@@ -394,12 +478,11 @@ open class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control),
                     //binding.batteryTextView.text = batteryPct!!.toInt().toString() + "%"
                     //binding.batteryImage.setImageLevel(batteryPct!!.toInt())
                     Log.d("batteryPct", "battery not null = $batteryPct")
-
                 }
 
                 delay(10000)
                 if (batteryPct != null) {
-                    binding.batteryTextView.text = batteryPct!!.toInt().toString() + "%"
+                    binding.batteryTextView.text = batteryPct.toInt().toString() + "%"
                 }
                 Log.d("batteryPct", "battery = $batteryPct")
             }
@@ -409,7 +492,7 @@ open class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control),
     private fun sendMonitorRequest() {
         lifecycleScope.launch(Dispatchers.IO) {
             Log.d("requestData", "lifecycleScope start")
-            val adapter = moshi.adapter(RequestMonitorParams::class.java).nonNull()
+            var adapter = moshi.adapter(RequestMonitorParams::class.java).nonNull()
             var requestMonitorJson = ""
             try {
                 requestMonitorJson = adapter.toJson(RequestMonitorParams())
@@ -420,8 +503,43 @@ open class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control),
                 sendText(requestMonitorJson)
                 Log.d("requestData", requestMonitorJson)
                 delay(200)
-
             }
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.P)
+    private fun requestToken() {
+        showAlertDialog(requireContext()) { password ->
+            sendPassword(password)
+            userPassword = password
+            Log.d("requestDataReceived", password)
+        }
+
+    }
+
+    private fun checkBtPassword(): String?{
+        val sharedPrefs =
+            requireContext().getSharedPreferences(SHARED_PREFS_NAME, Context.MODE_PRIVATE)
+        var password: String? = null
+        password = sharedPrefs.getString(Password.macAddress, null)
+//        lifecycleScope.launch(Dispatchers.IO) {
+//            password = sharedPrefs.getString(Password.macAddress, "44109")
+//            isPassword = sharedPrefs.contains (Password.macAddress,)
+//            password = sharedPrefs.getString("Test", "testFail")
+//        }
+        Log.d("token", "$password  - ${Password.macAddress}" )
+        return password
+    }
+
+    private fun savePassword(password: String) {
+
+       val sharedPrefs =
+            requireContext().getSharedPreferences(SHARED_PREFS_NAME, Context.MODE_PRIVATE)
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            sharedPrefs.edit()
+                .putString(Password.macAddress, password)
+                .apply()
         }
     }
 
@@ -464,5 +582,12 @@ open class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control),
         return true
     }
 
+    override fun requestPassword(password: String) {
+        toast(password)
+    }
+
+    companion object {
+        const val SHARED_PREFS_NAME = "alloy_passwords"
+    }
 }
 

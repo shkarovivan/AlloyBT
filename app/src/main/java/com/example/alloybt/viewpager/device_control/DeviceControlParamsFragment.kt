@@ -1,12 +1,15 @@
 package com.example.alloybt.viewpager.device_control
 
+import android.content.Context
 import android.content.pm.ActivityInfo
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -18,10 +21,12 @@ import com.example.alloybt.R
 import com.example.alloybt.TigControlParams
 import com.example.alloybt.databinding.FragmentDeviceParamsListBinding
 import com.example.alloybt.json_data.*
+import com.example.alloybt.utils.showAlertDialog
 import com.example.alloybt.viewmodel.ControlViewModel
 import com.example.alloybt.viewmodel.MonitorMode
 import com.example.alloybt.viewmodel.ParamsViewModel
 import com.example.alloybt.viewpager.ViewPagerFragmentDirections
+import com.example.alloybt.viewpager.device_monitor.BtDeviceMonitorFragment
 import com.skillbox.networking.utils.autoCleared
 import com.squareup.moshi.Moshi
 import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator
@@ -30,6 +35,7 @@ import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import no.nordicsemi.android.ble.livedata.state.ConnectionState
+import org.json.JSONObject
 
 class DeviceControlParamsFragment : Fragment(R.layout.fragment_device_params_list) {
 
@@ -42,7 +48,7 @@ class DeviceControlParamsFragment : Fragment(R.layout.fragment_device_params_lis
     private var deviceControlAdapter: DeviceControlAdapter by autoCleared()
     private var requestControlParams: Boolean = false
     private var isReady: Boolean = false
-
+    private var userPassword: String? = null
 
     val moshi: Moshi = Moshi.Builder().build()
 
@@ -72,6 +78,7 @@ class DeviceControlParamsFragment : Fragment(R.layout.fragment_device_params_lis
         lifecycleScope.coroutineContext.cancelChildren()
     }
 
+    @RequiresApi(Build.VERSION_CODES.P)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initList()
@@ -104,16 +111,27 @@ class DeviceControlParamsFragment : Fragment(R.layout.fragment_device_params_lis
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.P)
     private fun initList() {
         deviceControlAdapter = DeviceControlAdapter { position ->
 //
-            val tigValue = deviceControlAdapter.items[position]
-            if (tigValue.type != ParamType.ENUM){
-                val action = ViewPagerFragmentDirections.actionViewPagerFragmentToFragmentBottomTune(tigValue)
-                findNavController().navigate(action)
+            if (Password.token == null) {
+                requestToken()
             } else {
-                val action = ViewPagerFragmentDirections.actionViewPagerFragmentToFragmentBottomEnum(tigValue)
-                findNavController().navigate(action)
+                val tigValue = deviceControlAdapter.items[position]
+                if (tigValue.type != ParamType.ENUM) {
+                    val action =
+                        ViewPagerFragmentDirections.actionViewPagerFragmentToFragmentBottomTune(
+                            tigValue
+                        )
+                    findNavController().navigate(action)
+                } else {
+                    val action =
+                        ViewPagerFragmentDirections.actionViewPagerFragmentToFragmentBottomEnum(
+                            tigValue
+                        )
+                    findNavController().navigate(action)
+                }
             }
 
 //            val param = deviceControlAdapter.items[position]
@@ -157,7 +175,28 @@ class DeviceControlParamsFragment : Fragment(R.layout.fragment_device_params_lis
             }
 
         } catch (e: Exception) {
-            Log.d("requestDataReceived2", e.toString())
+            try {
+                val jsonObject = JSONObject(data)
+                val token = jsonObject.getLong("Token")
+                Password.token = token
+                if (userPassword != null) {
+                    Password.password = userPassword
+                    savePassword(userPassword!!)
+                }
+                toast(getString(R.string.token_success_text))
+                Log.d("token", "token ok")
+            } catch (e: Exception) {
+                try {
+                    val jsonObject = JSONObject(data)
+                    val token = jsonObject.getString("Token")
+                    if (token == "Error") {
+                        Password.password = null
+                        toast(getString(R.string.token_fail_text))
+                    }
+                } catch (e: Exception) {
+                }
+                Log.d("requestDataReceived2", e.toString())
+            }
         }
     }
 
@@ -174,14 +213,50 @@ class DeviceControlParamsFragment : Fragment(R.layout.fragment_device_params_lis
             } catch (e: Exception) {
                 // toast("movie to JSON error = ${e.message}")
             }
-                    while (requestControlParams){
-                    sendText(requestControlJson)
-                    Log.d("requestData", requestControlJson)
-                    delay(200)
-                    sendText(requestMonitorJson)
-                    delay(200)
-                }
+            while (requestControlParams) {
+                sendText(requestControlJson)
+                Log.d("requestData", requestControlJson)
+                delay(200)
+                sendText(requestMonitorJson)
+                delay(200)
             }
         }
     }
+
+    @RequiresApi(Build.VERSION_CODES.P)
+    private fun requestToken() {
+        showAlertDialog(requireContext()) { password ->
+            sendPassword(password)
+            userPassword = password
+            Log.d("requestDataReceived", password)
+        }
+    }
+
+    private fun sendPassword(password: String) {
+        lifecycleScope.launch(Dispatchers.IO) {
+            controlViewModel.setWeldData(getPasswordRequestJsonString(password))
+        }
+    }
+
+    private fun getPasswordRequestJsonString(password: String): String {
+        val string = "{\"Write\":{\"Password\":$password}}"
+        Log.d("requestData", string)
+        return string
+
+    }
+
+    private fun savePassword(password: String) {
+        val sharedPrefs =
+            requireContext().getSharedPreferences(
+                BtDeviceMonitorFragment.SHARED_PREFS_NAME,
+                Context.MODE_PRIVATE
+            )
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            sharedPrefs.edit()
+                .putString(Password.macAddress, password)
+                .apply()
+        }
+    }
+}
 
