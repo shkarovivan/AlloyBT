@@ -68,6 +68,9 @@
         <action
             android:id="@+id/action_viewPagerFragment_to_fragmentBottomEnum"
             app:destination="@id/fragmentBottomEnum" />
+        <action
+            android:id="@+id/action_viewPagerFragment_to_fragmentFastPrograms"
+            app:destination="@id/fragmentFastPrograms" />
     </fragment>
 
     <fragment
@@ -102,5 +105,14 @@
             android:name="value"
             app:argType="com.example.alloybt.json_data.TigValue" />
     </dialog>
+    <fragment
+        android:id="@+id/fragmentFastPrograms"
+        android:name="com.example.alloybt.viewpager.bottom_tune.FragmentFastPrograms"
+        android:label="FragmentFastPrograms"
+        tools:layout="@layout/fragment_dialog_fast_programs">
+        <argument
+            android:name="state"
+            app:argType="boolean" />
+    </fragment>
 
 </navigation>

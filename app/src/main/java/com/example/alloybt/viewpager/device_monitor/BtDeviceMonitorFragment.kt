@@ -30,13 +30,12 @@ import com.example.alloybt.viewmodel.ControlViewModel
 import com.example.alloybt.viewmodel.MonitorMode
 import com.example.alloybt.viewmodel.ParamsViewModel
 import com.example.alloybt.viewpager.ViewPagerFragmentDirections
-import com.example.alloybt.viewpager.tune_param.PasswordRequest
 import com.squareup.moshi.Moshi
 import kotlinx.coroutines.*
 import no.nordicsemi.android.ble.livedata.state.ConnectionState
 import org.json.JSONObject
 
-open class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control), PasswordRequest,
+open class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control),
     GestureDetector.OnGestureListener {
 
     private var _binding: FragmentDeviceControlBinding? = null
@@ -188,6 +187,16 @@ open class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control),
             }
         }
 
+        binding.fastProgramButton.setOnClickListener {
+            if (Password.token == null) {
+                requestToken()
+            } else {
+                val action = ViewPagerFragmentDirections.actionViewPagerFragmentToFragmentFastPrograms(true)
+                    findNavController().navigate(action)
+
+
+            }
+        }
 
         controlViewModel.dataFromBtDevice.observe(
             viewLifecycleOwner
@@ -580,10 +589,6 @@ open class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control),
     ): Boolean {
         toast("onDown")
         return true
-    }
-
-    override fun requestPassword(password: String) {
-        toast(password)
     }
 
     companion object {

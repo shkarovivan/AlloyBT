@@ -41,7 +41,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/main_margin"
-        android:layout_marginRight="@dimen/main_margin"
         android:text="TextView"
         android:textAlignment="textStart"
         android:textColor="@color/white"

@@ -46,4 +46,5 @@
     <string name="password_edit_text_hint_text">* * * * *</string>
     <string name="token_success_text">Изменение параметров разрешено</string>
     <string name="token_fail_text">Неправильный пароль</string>
+    <string name="fast_programs_button_text">Пусто</string>
 </resources>

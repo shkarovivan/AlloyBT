@@ -16,7 +16,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.example.alloybt.databinding.FragmentDialogTuneBinding
 import com.example.alloybt.json_data.ParamType
-import com.example.alloybt.json_data.RequestWriteParams
 import com.example.alloybt.viewmodel.ControlViewModel
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -51,6 +50,7 @@ class FragmentBottomTune : BottomSheetDialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         dialog = super.onCreateDialog(savedInstanceState) as BottomSheetDialog
+        Log.d("FastDialog", "onCreateDialog")
         return dialog
     }
 
