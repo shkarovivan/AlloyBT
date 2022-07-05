@@ -42,7 +42,7 @@ InfoFragment работает полностью
 
 28.06.2022
 
-
+не работает окно с кнопками программ - расправляется на весь экран
     <Button
         android:id="@+id/button2"
         android:layout_width="0dp"
