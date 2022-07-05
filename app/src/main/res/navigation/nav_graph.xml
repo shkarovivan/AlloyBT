@@ -58,9 +58,6 @@
             app:destination="@id/controlParamFragment"
             app:popUpTo="@id/viewPagerFragment" />
         <action
-            android:id="@+id/action_viewPagerFragment_to_tuneParamFragment"
-            app:destination="@id/tuneParamFragment" />
-        <action
             android:id="@+id/action_viewPagerFragment_to_fragmentBottomTune"
             app:destination="@id/fragmentBottomTune"
             app:enterAnim="@anim/bottom_up"
@@ -78,15 +75,6 @@
         android:name="com.example.alloybt.viewpager.control_param.ControlParamFragment"
         android:label="ControlParamFragment"
         tools:layout="@layout/fragment_control_param"/>
-    <fragment
-        android:id="@+id/tuneParamFragment"
-        android:name="com.example.alloybt.viewpager.tune_param.TuneParamFragment"
-        android:label="TuneParamFragment"
-        tools:layout="@layout/fragment_tune_param">
-        <argument
-            android:name="currentValue"
-            app:argType="integer" />
-    </fragment>
     <dialog
         android:id="@+id/fragmentBottomTune"
         android:name="com.example.alloybt.viewpager.bottom_tune.FragmentBottomTune"

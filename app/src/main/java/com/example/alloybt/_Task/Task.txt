@@ -87,3 +87,17 @@ InfoFragment работает полностью
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/button4"
         app:layout_constraintTop_toTopOf="parent" />
+
+   30.06.2022
+
+   21:36:21: Task execution finished 'lintVitalAnalyzeRelease'.
+
+   03.07.2022
+   Собрал релизную версию
+
+   Нужно переделать Android Extension на ViewBinding
+   При запуске не показывается прогрессбар, только после нажатия обновить поиск
+
+04.07.2022
+
+удален android-extension. Проект компилируется. Есть ошибки при запуске после code shrinking

@@ -3,22 +3,36 @@ package com.example.alloybt.viewpager
 import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
-import com.example.alloybt.BtDevice
 import com.example.alloybt.R
-import com.example.alloybt.viewmodel.ControlViewModel
+import com.example.alloybt.databinding.FragmentViewPagerBinding
 import com.google.android.material.badge.BadgeDrawable
 import com.google.android.material.tabs.TabLayoutMediator
-import kotlinx.android.synthetic.main.fragment_view_pager.*
 
 class ViewPagerFragment : Fragment(R.layout.fragment_view_pager), AddBadge {
 
+    private var _binding: FragmentViewPagerBinding? = null
+    private val binding get() = _binding!!
+
     private lateinit var pages: List<String>
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentViewPagerBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -47,22 +61,22 @@ class ViewPagerFragment : Fragment(R.layout.fragment_view_pager), AddBadge {
         //  val pageIndicator = findViewById<WormDotsIndicator>(R.id.worm_dots_indicator)
         //  val viewPager2 = findViewById<ViewPager2>(R.id.viewPager)
         val adapter = PageAdapter(pages.size, this)
-        viewPager.adapter = adapter
-        worm_dots_indicator.setViewPager2(viewPager)
+        binding.viewPager.adapter = adapter
+        binding.wormDotsIndicator.setViewPager2(binding.viewPager)
         //  pageIndicator.setViewPager2(viewPager2)
-        viewPager.offscreenPageLimit = 1
+        binding.viewPager.offscreenPageLimit = 1
 
-        viewPager.setPageTransformer(ZoomOutTransformation())
+        binding.viewPager.setPageTransformer(ZoomOutTransformation())
 
         // set TabLayout
-        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+        TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
             tab.text = pages[position]
         }.attach()
     }
 
     override fun addBadge() {
         val badgePosition = (pages.indices).random()
-        tabLayout.getTabAt(badgePosition)?.orCreateBadge?.apply {
+        binding.tabLayout.getTabAt(badgePosition)?.orCreateBadge?.apply {
             number += 1
             badgeGravity = BadgeDrawable.TOP_END
         }

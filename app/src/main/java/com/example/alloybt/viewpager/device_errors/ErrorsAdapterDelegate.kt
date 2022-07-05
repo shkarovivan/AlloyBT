@@ -1,16 +1,14 @@
-package com.skillbox.multithreading.adapters
+package com.example.alloybt.viewpager.device_errors
 
 import android.annotation.SuppressLint
-import android.view.View
+import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.alloybt.R
-import com.example.alloybt.utils.inflate
+import com.example.alloybt.databinding.ItemDeviceErrorBinding
 import com.example.alloybt.json_data.TigError
 import com.example.alloybt.json_data.tigErrorsDescriptions
 import com.hannesdorfmann.adapterdelegates4.AbsListItemAdapterDelegate
-import kotlinx.android.extensions.LayoutContainer
-import kotlinx.android.synthetic.main.item_device_error.*
+
 
 class ErrorsAdapterDelegate(
 	private val onItemClick: (position: Int) -> Unit,
@@ -26,7 +24,8 @@ class ErrorsAdapterDelegate(
 	}
 
 	override fun onCreateViewHolder(parent: ViewGroup): ErrorHolder {
-		return ErrorHolder(parent.inflate(R.layout.item_device_error), onItemClick)
+		val itemBinding = ItemDeviceErrorBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+		return ErrorHolder(itemBinding, onItemClick)
 	}
 
 	override fun onBindViewHolder(item: TigError, holder: ErrorHolder, payloads: MutableList<Any>) {
@@ -34,27 +33,27 @@ class ErrorsAdapterDelegate(
 	}
 
 	class ErrorHolder(
-		override val containerView: View,
+		private val binding: ItemDeviceErrorBinding,
 		onItemClick: (position: Int) -> Unit,
-	) : RecyclerView.ViewHolder(containerView), LayoutContainer {
+	) : RecyclerView.ViewHolder(binding.root) {
 
 		init {
-			containerView.setOnClickListener {
+			binding.root.setOnClickListener {
 				onItemClick(bindingAdapterPosition)
 			}
 		}
 
 		@SuppressLint("SetTextI18n")
 		fun bind(error: TigError) {
-			errorTimeTextView.text =
+			binding.errorTimeTextView.text =
 				when (error.code) {
 					else -> ""
 				}
 
-			errorNumTextView.text = (error.num +1).toString()
-			errorImage.setImageLevel(error.level)
+			binding.errorNumTextView.text = (error.num +1).toString()
+			binding.errorImage.setImageLevel(error.level)
 
-			errorDescrTextView.text = tigErrorsDescriptions[error.code]
+			binding.errorDescrTextView.text = tigErrorsDescriptions[error.code]
 
 			var dateString = ""
 			//errorTimeTextView.text = error.time.toString()
@@ -103,7 +102,7 @@ class ErrorsAdapterDelegate(
 				":$seconds"
 			}
 
-			errorTimeTextView.text = dateString
+			binding.errorTimeTextView.text = dateString
 				//"$year.$month.$date $hours:$minutes:$seconds"
 		}
 	}

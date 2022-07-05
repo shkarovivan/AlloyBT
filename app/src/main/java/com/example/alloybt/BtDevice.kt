@@ -2,7 +2,7 @@ package com.example.alloybt
 
 import android.bluetooth.BluetoothDevice
 import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class BtDevice(

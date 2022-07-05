@@ -27,7 +27,7 @@ import com.example.alloybt.viewmodel.MonitorMode
 import com.example.alloybt.viewmodel.ParamsViewModel
 import com.example.alloybt.viewpager.ViewPagerFragmentDirections
 import com.example.alloybt.viewpager.device_monitor.BtDeviceMonitorFragment
-import com.skillbox.networking.utils.autoCleared
+import com.example.alloybt.utils.autoCleared
 import com.squareup.moshi.Moshi
 import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator
 import kotlinx.coroutines.Dispatchers

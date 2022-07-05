@@ -7,10 +7,8 @@ import android.bluetooth.BluetoothManager
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
-import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -19,11 +17,9 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -33,17 +29,13 @@ import com.example.alloybt.databinding.FragmentSearchDevicesBinding
 import com.example.alloybt.viewmodel.BtDevicesViewModel
 import com.example.alloybt.viewmodel.DeviceViewModelFactory
 import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator
-import kotlinx.android.synthetic.main.fragment_search_devices.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-
 
 class SearchDevicesFragment : Fragment(R.layout.fragment_search_devices) {
 
     private var _binding: FragmentSearchDevicesBinding? = null
     private val binding get() = _binding!!
+
+    private var isPermissionsGranted = false
 
     lateinit var bluetooth: BluetoothManager
     private val btDevicesListViewModel: BtDevicesViewModel by viewModels {
@@ -64,22 +56,30 @@ class SearchDevicesFragment : Fragment(R.layout.fragment_search_devices) {
         return binding.root
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         bluetooth =
             requireContext().getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
 
         initList()
-       // setBtListVisible(true)
         checkLocation.launch(Manifest.permission.ACCESS_FINE_LOCATION)
 
         binding.searchFAB.setOnClickListener {
             if (bluetooth.adapter.isEnabled) {
-                binding.enableBtButton.isVisible = false
-                btDevicesListViewModel.refreshList()
-                btDevicesListViewModel.startScan()
-                setBtListVisible(false)
+                if (isPermissionsGranted) {
+                    binding.enableBtButton.isVisible = false
+                    btDevicesListViewModel.refreshList()
+                    Log.e("BluetoothScanner", "lifecycleScope")
+                    btDevicesListViewModel.startScan()
+                }
+                else {
+                    checkLocation.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+                }
             } else {
                 toast(resources.getString(R.string.not_bluetooth_enabled))
                 enableBluetoothButton()
@@ -156,6 +156,8 @@ class SearchDevicesFragment : Fragment(R.layout.fragment_search_devices) {
         if (granted) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                 checkBluetoothConnect.launch(android.Manifest.permission.BLUETOOTH_CONNECT)
+                isPermissionsGranted = true
+
             } else isBluetoothEnabled()
         }
     }
@@ -179,7 +181,7 @@ class SearchDevicesFragment : Fragment(R.layout.fragment_search_devices) {
                 btDevicesListViewModel.refreshList()
                 Log.e("BluetoothScanner", "lifecycleScope")
                 btDevicesListViewModel.startScan()
-                setBtListVisible(false)
+                //  setBtListVisible(false)
             }
         } else {
             toast(resources.getString(R.string.not_bluetooth_enabled))
@@ -192,7 +194,7 @@ class SearchDevicesFragment : Fragment(R.layout.fragment_search_devices) {
         if (bluetooth.adapter.isEnabled) {
             binding.enableBtButton.isVisible =  false
             btDevicesListViewModel.startScan()
-            setBtListVisible(true)
+            setBtListVisible(false)
             Log.e("BluetoothScanner", "isEnabled")
         } else {
             enableBluetoothButton()
@@ -204,7 +206,10 @@ class SearchDevicesFragment : Fragment(R.layout.fragment_search_devices) {
             .observe(viewLifecycleOwner) { btDevices ->
                 if (btDevices.isNotEmpty()) {
                     setBtListVisible(true)
+                } else if (isPermissionsGranted){
+                    setBtListVisible(false)
                 }
+
                 btDevicesAdapter?.items = btDevices
             }
 

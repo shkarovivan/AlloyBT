@@ -1,16 +1,13 @@
 package com.skillbox.multithreading.adapters
 
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.alloybt.R
-import com.example.alloybt.utils.inflate
+import com.example.alloybt.databinding.ItemDeviceParamBinding
 import com.example.alloybt.json_data.ParamType
 import com.example.alloybt.json_data.TigValue
 import com.hannesdorfmann.adapterdelegates4.AbsListItemAdapterDelegate
-import kotlinx.android.extensions.LayoutContainer
-import kotlinx.android.synthetic.main.item_device_param.*
-
 
 class DeviceControlAdapterDelegate(
 	private val onItemClick: (position: Int) -> Unit,
@@ -22,7 +19,8 @@ class DeviceControlAdapterDelegate(
 	}
 
 	override fun onCreateViewHolder(parent: ViewGroup): DeviceControlHolder {
-		return DeviceControlHolder(parent.inflate(R.layout.item_device_param), onItemClick)
+		val itemBinding = ItemDeviceParamBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+		return DeviceControlHolder(itemBinding , onItemClick)
 	}
 
 	override fun onBindViewHolder(item: TigValue, holder: DeviceControlHolder, payloads: MutableList<Any>) {
@@ -30,33 +28,33 @@ class DeviceControlAdapterDelegate(
 	}
 
 	class DeviceControlHolder(
-		override val containerView: View,
+		private val binding: ItemDeviceParamBinding,
 		onItemClick: (position: Int) -> Unit,
-	) : RecyclerView.ViewHolder(containerView), LayoutContainer {
+	) : RecyclerView.ViewHolder(binding.root) {
 
 		init {
-			containerView.setOnClickListener {
+			binding.root.setOnClickListener {
 				onItemClick(bindingAdapterPosition)
 			}
 		}
 
 		fun bind(tigValue: TigValue) {
-			descriptionTextView.text = tigValue.description
+			binding.descriptionTextView.text = tigValue.description
 			if (tigValue.type == ParamType.ENUM) {
-				minHintTextView.visibility = View.GONE
-				maxHintTextView.visibility = View.GONE
-				minTextView.visibility = View.GONE
-				maxTextView.visibility = View.GONE
+				binding.minHintTextView.visibility = View.GONE
+				binding.maxHintTextView.visibility = View.GONE
+				binding.minTextView.visibility = View.GONE
+				binding.maxTextView.visibility = View.GONE
 			}
 			else {
-				minHintTextView.visibility = View.VISIBLE
-				maxHintTextView.visibility = View.VISIBLE
-				minTextView.visibility = View.VISIBLE
-				maxTextView.visibility = View.VISIBLE
+				binding.minHintTextView.visibility = View.VISIBLE
+				binding.maxHintTextView.visibility = View.VISIBLE
+				binding.minTextView.visibility = View.VISIBLE
+				binding.maxTextView.visibility = View.VISIBLE
 			}
-			valueTextView.text = tigValue.value
-			maxTextView.text = tigValue.max
-			minTextView.text = tigValue.min
+			binding.valueTextView.text = tigValue.value
+			binding.maxTextView.text = tigValue.max
+			binding.minTextView.text = tigValue.min
 		}
 	}
 }

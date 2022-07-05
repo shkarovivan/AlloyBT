@@ -19,3 +19,8 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+-keep class androidx.fragment.app.FragmentContainerView { *; }
+-keepnames class androidx.navigation.fragment.NavHostFragment
+-keep class * extends androidx.fragment.app.Fragment{}
+-keep class com.example.alloybt.viewpager.device_control.** { *; }

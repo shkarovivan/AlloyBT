@@ -2,11 +2,10 @@ package com.example.alloybt
 
 import android.app.ActivityManager
 import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.WindowManager
-import com.example.alloybt.viewpager.AddBadge
-import com.example.alloybt.viewpager.device_monitor.BtDeviceMonitorFragment
+import androidx.appcompat.app.AppCompatActivity
+
 
 class MainActivity : AppCompatActivity(){
 	override fun onCreate(savedInstanceState: Bundle?) {

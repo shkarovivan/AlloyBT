@@ -96,30 +96,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <com.sdsmdg.harjot.crollerTest.Croller
-        android:id="@+id/croller"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="100dp"
-        app:back_circle_color="@color/black"
-        app:indicator_color="@color/dark_yellow"
-        app:indicator_width="15"
-        app:is_continuous="false"
-        app:label_color="@color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:main_circle_color="@color/black"
-        app:max="315"
-        app:min="0"
-        app:progress_primary_circle_size="20"
-        app:progress_primary_color="@color/dark_yellow"
-        app:progress_primary_stroke_width="30"
-        app:progress_secondary_color="@color/dark_yellow"
-        app:start_offset="45"
-        android:visibility="gone"/>
-
     <TextView
         android:id="@+id/curTextView"
         android:layout_width="wrap_content"

@@ -529,8 +529,7 @@ open class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control),
     private fun checkBtPassword(): String?{
         val sharedPrefs =
             requireContext().getSharedPreferences(SHARED_PREFS_NAME, Context.MODE_PRIVATE)
-        var password: String? = null
-        password = sharedPrefs.getString(Password.macAddress, null)
+        var password: String? = sharedPrefs.getString(Password.macAddress, null)
 //        lifecycleScope.launch(Dispatchers.IO) {
 //            password = sharedPrefs.getString(Password.macAddress, "44109")
 //            isPassword = sharedPrefs.contains (Password.macAddress,)

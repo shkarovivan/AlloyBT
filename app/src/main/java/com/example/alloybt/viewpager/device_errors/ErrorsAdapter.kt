@@ -2,7 +2,7 @@ package com.skillbox.multithreading.adapters
 
 import androidx.recyclerview.widget.DiffUtil
 import com.example.alloybt.json_data.TigError
-import com.example.alloybt.viewpager.device_errors.DeviceError
+import com.example.alloybt.viewpager.device_errors.ErrorsAdapterDelegate
 import com.hannesdorfmann.adapterdelegates4.AsyncListDifferDelegationAdapter
 
 class ErrorsAdapter(

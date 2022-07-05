@@ -45,7 +45,7 @@ fun showAlertDialog(context: Context, listener: (String) ->Unit) {
 		.setTitle(R.string.password_dialog_title)
 	.setView(layout)
 	.setPositiveButton(R.string.password_dialog_pos_button_text)
-	{ dialog, which ->
+	{ dialog, _ ->
 		run {
 			Password.password = edittext.text.toString()
 			listener(Password.password!!)
@@ -53,7 +53,7 @@ fun showAlertDialog(context: Context, listener: (String) ->Unit) {
 		}
 	}
 	.setNegativeButton(R.string.password_dialog_neg_button_text)
-	{ dialog, which ->
+	{ dialog, _ ->
 		run {
 			dialog.dismiss()
 		}

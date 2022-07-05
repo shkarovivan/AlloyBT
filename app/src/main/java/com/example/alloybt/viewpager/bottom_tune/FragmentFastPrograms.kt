@@ -14,7 +14,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import timber.log.Timber.d
 
-class FragmentFastPrograms: BottomSheetDialogFragment() {
+class FragmentFastPrograms: BottomSheetDialogFragment(){
 
  //   private val controlViewModel: ControlViewModel by activityViewModels()
     private var _binding: FragmentDialogFastProgramsBinding? = null

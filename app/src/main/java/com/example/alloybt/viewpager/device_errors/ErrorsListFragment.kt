@@ -18,7 +18,7 @@ import com.example.alloybt.json_data.*
 import com.example.alloybt.viewmodel.ControlViewModel
 import com.example.alloybt.viewmodel.MonitorMode
 import com.skillbox.multithreading.adapters.ErrorsAdapter
-import com.skillbox.networking.utils.autoCleared
+import com.example.alloybt.utils.autoCleared
 import com.squareup.moshi.Moshi
 import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator
 import kotlinx.coroutines.Dispatchers
@@ -85,7 +85,7 @@ class ErrorsListFragment : Fragment(R.layout.fragment_errors_list) {
     }
 
     private fun initList() {
-        errorsAdapter = ErrorsAdapter { position ->
+        errorsAdapter = ErrorsAdapter {
             ///  call listener
         }
 
@@ -104,7 +104,7 @@ class ErrorsListFragment : Fragment(R.layout.fragment_errors_list) {
             val response = jsonObject.getString("Response")
             if (response == "Errors") {
                 val tigErrorList = emptyList<TigError>().toMutableList()
-                val page = jsonObject.getInt("Page")
+                jsonObject.getInt("Page")
                 val valueArray = jsonObject.getJSONArray("Value")
                 (0 until valueArray.length()).map { index -> valueArray.getJSONObject(index) }
                     .map { movieJsonObject ->
