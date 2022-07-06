@@ -7,8 +7,10 @@ import android.bluetooth.BluetoothManager
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
+import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -29,6 +31,8 @@ import com.example.alloybt.databinding.FragmentSearchDevicesBinding
 import com.example.alloybt.viewmodel.BtDevicesViewModel
 import com.example.alloybt.viewmodel.DeviceViewModelFactory
 import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator
+
+
 
 class SearchDevicesFragment : Fragment(R.layout.fragment_search_devices) {
 
@@ -54,11 +58,6 @@ class SearchDevicesFragment : Fragment(R.layout.fragment_search_devices) {
     ): View {
         _binding = FragmentSearchDevicesBinding.inflate(inflater, container, false)
         return binding.root
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -135,7 +134,7 @@ class SearchDevicesFragment : Fragment(R.layout.fragment_search_devices) {
         val btDeviceInformation = btDevicesListViewModel.btDevicesList.value?.get(position)!!
         BtDeviceInformation.btDeviceInformation = btDeviceInformation
         val action = SearchDevicesFragmentDirections.actionSearchDevicesFragmentToViewPagerFragment(
-            btDeviceInformation
+
         )
         findNavController().navigate(action)
     }

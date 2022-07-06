@@ -20,7 +20,13 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
--keep class androidx.fragment.app.FragmentContainerView { *; }
--keepnames class androidx.navigation.fragment.NavHostFragment
--keep class * extends androidx.fragment.app.Fragment{}
--keep class com.example.alloybt.viewpager.device_control.** { *; }
+
+# keep the class and specified members from being removed or renamed
+-keep class com.example.alloybt.json_data.TigValue { *; }
+
+# keep the specified class members from being removed or renamed
+# only if the class is preserved
+-keepclassmembers class com.example.alloybt.json_data.TigValue { *; }
+
+# keep the class and specified members from being renamed only
+-keepnames class com.example.alloybt.json_data.TigValue { *; }

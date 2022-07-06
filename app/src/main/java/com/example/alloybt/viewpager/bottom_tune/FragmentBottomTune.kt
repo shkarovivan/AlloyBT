@@ -47,7 +47,6 @@ class FragmentBottomTune : BottomSheetDialogFragment() {
     val moshi: Moshi = Moshi.Builder().build()
     private val args: FragmentBottomTuneArgs by navArgs()
 
-
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         dialog = super.onCreateDialog(savedInstanceState) as BottomSheetDialog
         Log.d("FastDialog", "onCreateDialog")

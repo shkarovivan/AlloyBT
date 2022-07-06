@@ -136,7 +136,9 @@ open class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control),
             } else {
                 val tigValue = TigParamsList.tigParamsMap["1000"]
                 val action =
-                    ViewPagerFragmentDirections.actionViewPagerFragmentToFragmentBottomEnum(tigValue!!)
+                    ViewPagerFragmentDirections.actionViewPagerFragmentToFragmentBottomEnum(
+                        tigValue!!
+                    )
                 findNavController().navigate(action)
             }
         }
@@ -147,7 +149,9 @@ open class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control),
             } else {
                 val tigValue = TigParamsList.tigParamsMap["1003"]
                 val action =
-                    ViewPagerFragmentDirections.actionViewPagerFragmentToFragmentBottomEnum(tigValue!!)
+                    ViewPagerFragmentDirections.actionViewPagerFragmentToFragmentBottomEnum(
+                        tigValue!!
+                    )
                 findNavController().navigate(action)
             }
         }
@@ -171,7 +175,9 @@ open class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control),
             } else {
                 val tigValue = TigParamsList.tigParamsMap["1002"]
                 val action =
-                    ViewPagerFragmentDirections.actionViewPagerFragmentToFragmentBottomEnum(tigValue!!)
+                    ViewPagerFragmentDirections.actionViewPagerFragmentToFragmentBottomEnum(
+                        tigValue!!
+                    )
                 findNavController().navigate(action)
             }
         }
@@ -182,7 +188,9 @@ open class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control),
             } else {
                 val tigValue = TigParamsList.tigParamsMap["1001"]
                 val action =
-                    ViewPagerFragmentDirections.actionViewPagerFragmentToFragmentBottomEnum(tigValue!!)
+                    ViewPagerFragmentDirections.actionViewPagerFragmentToFragmentBottomEnum(
+                        tigValue!!
+                    )
                 findNavController().navigate(action)
             }
         }
@@ -191,7 +199,7 @@ open class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control),
             if (Password.token == null) {
                 requestToken()
             } else {
-                val action = ViewPagerFragmentDirections.actionViewPagerFragmentToFragmentFastPrograms(true)
+                val action = ViewPagerFragmentDirections.actionViewPagerFragmentToFragmentFastPrograms()
                     findNavController().navigate(action)
 
 

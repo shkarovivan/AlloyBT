@@ -41,18 +41,18 @@
         android:name="com.example.alloybt.viewpager.device_monitor.BtDeviceMonitorFragment"
         android:label="BtDeviceControl"
         tools:layout="@layout/fragment_device_control">
-        <argument
+   <!--     <argument
             android:name="bt_device_information"
-            app:argType="com.example.alloybt.BtDevice" />
+            app:argType="com.example.alloybt.BtDevice" />-->
     </fragment>
     <fragment
         android:id="@+id/viewPagerFragment"
         android:name="com.example.alloybt.viewpager.ViewPagerFragment"
         android:label="ViewPagerFragment"
         tools:layout="@layout/fragment_view_pager">
-        <argument
+      <!--  <argument
             android:name="bt_device_information"
-            app:argType="com.example.alloybt.BtDevice" />
+            app:argType="com.example.alloybt.BtDevice" />  -->
         <action
             android:id="@+id/action_viewPagerFragment_to_controlParamFragment"
             app:destination="@id/controlParamFragment"
@@ -80,27 +80,24 @@
         android:name="com.example.alloybt.viewpager.bottom_tune.FragmentBottomTune"
         android:label="FragmentBottomTune"
         tools:layout="@layout/fragment_dialog_tune">
-        <argument
-            android:name="value"
-            app:argType="com.example.alloybt.json_data.TigValue" />
-    </dialog>
-    <dialog
-        android:id="@+id/fragmentBottomEnum"
-        android:name="com.example.alloybt.viewpager.bottom_tune.FragmentBottomEnum"
-        android:label="FragmentBottomEnum"
-        tools:layout="@layout/fragment_dialog_enum">
-        <argument
-            android:name="value"
-            app:argType="com.example.alloybt.json_data.TigValue" />
+           <argument
+               android:name="value"
+               app:argType="com.example.alloybt.json_data.TigValue" />
+       </dialog>
+       <dialog
+           android:id="@+id/fragmentBottomEnum"
+           android:name="com.example.alloybt.viewpager.bottom_tune.FragmentBottomEnum"
+           android:label="FragmentBottomEnum"
+           tools:layout="@layout/fragment_dialog_enum">
+           <argument
+               android:name="value"
+               app:argType="com.example.alloybt.json_data.TigValue" />
     </dialog>
     <fragment
         android:id="@+id/fragmentFastPrograms"
         android:name="com.example.alloybt.viewpager.bottom_tune.FragmentFastPrograms"
         android:label="FragmentFastPrograms"
         tools:layout="@layout/fragment_dialog_fast_programs">
-        <argument
-            android:name="state"
-            app:argType="boolean" />
     </fragment>
 
 </navigation>
