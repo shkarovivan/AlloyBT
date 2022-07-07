@@ -1,4 +1,4 @@
-package com.example.alloybt
+package com.alloynn.alloybt
 
 import org.junit.Test
 
