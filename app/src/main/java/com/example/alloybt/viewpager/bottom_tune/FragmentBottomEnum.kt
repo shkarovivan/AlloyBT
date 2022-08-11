@@ -14,6 +14,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.example.alloybt.databinding.FragmentDialogEnumBinding
 import com.example.alloybt.viewmodel.ControlViewModel
+import com.example.alloybt.viewpager.device_monitor.BtDeviceMonitorFragment
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -53,6 +54,7 @@ class FragmentBottomEnum : BottomSheetDialogFragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        BtDeviceMonitorFragment.bottomSheetIsEnabled = false
         _binding = null
     }
 
@@ -64,6 +66,7 @@ class FragmentBottomEnum : BottomSheetDialogFragment() {
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        BtDeviceMonitorFragment.bottomSheetIsEnabled = true
         dialog.behavior.state = BottomSheetBehavior.STATE_EXPANDED
 
         val tigValue = args.value

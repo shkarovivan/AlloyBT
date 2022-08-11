@@ -97,7 +97,7 @@ public class ControlViewModel extends AndroidViewModel {
 	/**
 	 * Disconnect from peripheral.
 	 */
-	private void disconnect() {
+	public void disconnect() {
 		btDevice = null;
 		if (connectRequest != null) {
 			connectRequest.cancelPendingConnection();

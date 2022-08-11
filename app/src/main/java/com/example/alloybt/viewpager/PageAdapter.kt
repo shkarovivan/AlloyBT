@@ -6,9 +6,10 @@ import com.example.alloybt.viewpager.device_monitor.BtDeviceMonitorFragment
 import com.example.alloybt.viewpager.device_control.DeviceControlParamsFragment
 import com.example.alloybt.viewpager.device_errors.ErrorsListFragment
 import com.example.alloybt.viewpager.device_info.DeviceInfoFragment
+import com.example.alloybt.viewpager.device_program.ProgramsListFragment
 
 class PageAdapter(
-    val size: Int,
+    private val size: Int,
     activity: ViewPagerFragment,
 ) : FragmentStateAdapter(activity) {
 
@@ -21,7 +22,9 @@ class PageAdapter(
             0 -> BtDeviceMonitorFragment()
             1 -> DeviceControlParamsFragment()
             2 -> ErrorsListFragment()
-            else -> DeviceInfoFragment()
+            3 -> DeviceInfoFragment()
+          //  4 -> ProgramsListFragment()
+            else -> BtDeviceMonitorFragment()
         }
     }
 

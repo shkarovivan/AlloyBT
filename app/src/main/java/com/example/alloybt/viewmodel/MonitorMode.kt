@@ -4,5 +4,6 @@ enum class MonitorMode {
     DEVICE_MONITOR,
     DEVICE_CONTROL,
     DEVICE_ERRORS,
-    DEVICE_INFO
+    DEVICE_INFO,
+    DEVICE_PROGRAM
 }

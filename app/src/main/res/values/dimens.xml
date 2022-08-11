@@ -6,7 +6,7 @@
     <dimen name="current_text_width">300dp</dimen>
     <dimen name="scale_image_size">150dp</dimen>
     <dimen name="item_image_size">80dp</dimen>
-    <dimen name="error_image_size">60dp</dimen>
+    <dimen name="menu_image_size">60dp</dimen>
     <dimen name="rssi_image_size">50dp</dimen>
     <dimen name="battery_image_size">40dp</dimen>
     <dimen name="text_margin">16dp</dimen>

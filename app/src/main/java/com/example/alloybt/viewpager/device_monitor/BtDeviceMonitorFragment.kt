@@ -12,6 +12,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
@@ -26,6 +27,7 @@ import com.example.alloybt.utils.showAlertDialog
 import com.example.alloybt.control.ControlManager
 import com.example.alloybt.databinding.FragmentDeviceControlBinding
 import com.example.alloybt.json_data.*
+import com.example.alloybt.utils.showBackPressDialog
 import com.example.alloybt.viewmodel.ControlViewModel
 import com.example.alloybt.viewmodel.MonitorMode
 import com.example.alloybt.viewmodel.ParamsViewModel
@@ -63,6 +65,14 @@ open class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        requireActivity().onBackPressedDispatcher.addCallback(this) {
+
+            showBackPressDialog(requireContext()) {
+                controlViewModel.disconnect()
+                findNavController().popBackStack()
+            }
+
+        }
         // Initializing the gesture detector
         //  gestureDetector = GestureDetector(requireContext(), GestureDetector.OnGestureListener() )
     }
@@ -90,7 +100,6 @@ open class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control),
         getBatteryLevel()
         Log.d("requestData", "onResume")
     }
-
 
     override fun onPause() {
         super.onPause()
@@ -126,7 +135,8 @@ open class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control),
                     ViewPagerFragmentDirections.actionViewPagerFragmentToFragmentBottomTune(
                         currentValue!!
                     )
-                findNavController().navigate(action)
+                if (!bottomSheetIsEnabled) {
+                findNavController().navigate(action)}
             }
         }
 
@@ -139,7 +149,8 @@ open class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control),
                     ViewPagerFragmentDirections.actionViewPagerFragmentToFragmentBottomEnum(
                         tigValue!!
                     )
-                findNavController().navigate(action)
+                if (!bottomSheetIsEnabled) {
+                findNavController().navigate(action)}
             }
         }
 
@@ -152,7 +163,8 @@ open class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control),
                     ViewPagerFragmentDirections.actionViewPagerFragmentToFragmentBottomEnum(
                         tigValue!!
                     )
-                findNavController().navigate(action)
+                if (!bottomSheetIsEnabled) {
+                findNavController().navigate(action)}
             }
         }
 
@@ -165,7 +177,8 @@ open class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control),
                     ViewPagerFragmentDirections.actionViewPagerFragmentToFragmentBottomTune(
                         diamValue!!
                     )
-                findNavController().navigate(action)
+                if (!bottomSheetIsEnabled) {
+                findNavController().navigate(action)}
             }
         }
 
@@ -178,7 +191,8 @@ open class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control),
                     ViewPagerFragmentDirections.actionViewPagerFragmentToFragmentBottomEnum(
                         tigValue!!
                     )
-                findNavController().navigate(action)
+                if (!bottomSheetIsEnabled) {
+                findNavController().navigate(action)}
             }
         }
 
@@ -191,18 +205,20 @@ open class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control),
                     ViewPagerFragmentDirections.actionViewPagerFragmentToFragmentBottomEnum(
                         tigValue!!
                     )
-                findNavController().navigate(action)
+                if (!bottomSheetIsEnabled) {
+                findNavController().navigate(action)}
             }
         }
 
-        binding.fastProgramButton.setOnClickListener {
+        binding.imageBackGround.setOnClickListener {
             if (Password.token == null) {
                 requestToken()
             } else {
-                val action = ViewPagerFragmentDirections.actionViewPagerFragmentToFragmentFastPrograms()
+                val action =
+                    ViewPagerFragmentDirections.actionViewPagerFragmentToFragmentBottomPrograms()
+                if (!bottomSheetIsEnabled) {
                     findNavController().navigate(action)
-
-
+                }
             }
         }
 
@@ -242,7 +258,7 @@ open class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control),
                     isReady = true
                     controlViewModel.monitorMode.postValue(MonitorMode.DEVICE_MONITOR)
                     val password = checkBtPassword()
-                    if (password != null){
+                    if (password != null) {
                         Password.password = password
                         sendPassword(Password.password!!)
                     }
@@ -362,7 +378,7 @@ open class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control),
                 val jsonObject = JSONObject(data)
                 val token = jsonObject.getLong("Token")
                 Password.token = token
-                if( userPassword != null){
+                if (userPassword != null) {
                     Password.password = userPassword
                     savePassword(userPassword!!)
                 }
@@ -534,7 +550,7 @@ open class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control),
 
     }
 
-    private fun checkBtPassword(): String?{
+    private fun checkBtPassword(): String? {
         val sharedPrefs =
             requireContext().getSharedPreferences(SHARED_PREFS_NAME, Context.MODE_PRIVATE)
         var password: String? = sharedPrefs.getString(Password.macAddress, null)
@@ -543,13 +559,13 @@ open class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control),
 //            isPassword = sharedPrefs.contains (Password.macAddress,)
 //            password = sharedPrefs.getString("Test", "testFail")
 //        }
-        Log.d("token", "$password  - ${Password.macAddress}" )
+        Log.d("token", "$password  - ${Password.macAddress}")
         return password
     }
 
     private fun savePassword(password: String) {
 
-       val sharedPrefs =
+        val sharedPrefs =
             requireContext().getSharedPreferences(SHARED_PREFS_NAME, Context.MODE_PRIVATE)
 
         lifecycleScope.launch(Dispatchers.IO) {
@@ -600,6 +616,7 @@ open class BtDeviceMonitorFragment : Fragment(R.layout.fragment_device_control),
 
     companion object {
         const val SHARED_PREFS_NAME = "alloy_passwords"
+        var bottomSheetIsEnabled = false
     }
 }
 

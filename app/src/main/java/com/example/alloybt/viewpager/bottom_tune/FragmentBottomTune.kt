@@ -14,9 +14,11 @@ import androidx.annotation.RequiresApi
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
+import com.example.alloybt.R
 import com.example.alloybt.databinding.FragmentDialogTuneBinding
 import com.example.alloybt.json_data.ParamType
 import com.example.alloybt.viewmodel.ControlViewModel
+import com.example.alloybt.viewpager.device_monitor.BtDeviceMonitorFragment
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.squareup.moshi.Moshi
@@ -64,6 +66,7 @@ class FragmentBottomTune : BottomSheetDialogFragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        BtDeviceMonitorFragment.bottomSheetIsEnabled = false
         _binding = null
     }
 
@@ -71,6 +74,7 @@ class FragmentBottomTune : BottomSheetDialogFragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        BtDeviceMonitorFragment.bottomSheetIsEnabled = true
         var tigValueMax = 0
         val tigValue = args.value
         address = tigValue.address

@@ -72,8 +72,8 @@
 
     <ImageView
         android:id="@+id/infoImageView"
-        android:layout_width="@dimen/error_image_size"
-        android:layout_height="@dimen/error_image_size"
+        android:layout_width="@dimen/menu_image_size"
+        android:layout_height="@dimen/menu_image_size"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/infoTitleTextView"
         app:layout_constraintStart_toStartOf="parent"

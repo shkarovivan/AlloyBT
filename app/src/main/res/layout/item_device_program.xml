@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/programNumberTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/main_margin"
+        android:text="1"
+        android:textColor="@color/dark_yellow"
+        android:textSize="@dimen/large_text_size"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineInfo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/programDescriptionTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/main_margin"
+        android:singleLine="false"
+        android:text="@string/program_default_text"
+
+        android:textColor="@color/white"
+        android:textSize="@dimen/normal_text_size"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+
+        app:layout_constraintEnd_toStartOf="@+id/imageDownload"
+        app:layout_constraintStart_toStartOf="@+id/guidelineInfo"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="75dp" />
+
+    <ImageView
+        android:id="@+id/imageDownload"
+        android:layout_width="@dimen/menu_image_size"
+        android:layout_height="@dimen/menu_image_size"
+        android:layout_margin="@dimen/main_margin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/imageUpload"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_prog_save" />
+
+    <ImageView
+        android:id="@+id/imageUpload"
+        android:layout_width="@dimen/menu_image_size"
+        android:layout_height="@dimen/menu_image_size"
+        android:layout_margin="@dimen/main_margin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_prog_upload" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

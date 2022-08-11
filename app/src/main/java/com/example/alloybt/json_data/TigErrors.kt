@@ -1,6 +1,5 @@
 package com.example.alloybt.json_data
 
-import com.example.alloybt.TigAllParams
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
@@ -46,5 +45,4 @@ val tigErrorsDescriptions = mapOf(
     17 to "Ошибка датчика контроля фаз",
     18 to "Ошибка потока газа",
     19 to "Ошибка давления газа",
-    )
-
+)

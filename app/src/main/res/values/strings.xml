@@ -26,6 +26,7 @@
     <string name="page_head_text_control">Настройки</string>
     <string name="page_head_text_errors">Ошибки</string>
     <string name="page_head_text_stat">Инфо</string>
+    <string name="page_head_text_programs">Программы</string>
     <string name="default_error_text">12:03:2022 14:56</string>
     <string name="default_info_text">26:12:34:56</string>
     <string name="default_error_description_text">Ошибка обмена информацией между платой источника питания и платой механизма подачи проволоки</string>
@@ -41,10 +42,13 @@
     <string name="not_bluetooth_enabled">Для поиска устройств требуется включить Bluetooth</string>
     <string name="enable_bluetooth_text">Включить Bluetooth</string>
     <string name="password_dialog_title">Для записи параметров введите пароль доступа</string>
+    <string name="backstack_dialog_title">Отключиться от управления данным аппаратом</string>
     <string name="password_dialog_pos_button_text">Ок</string>
     <string name="password_dialog_neg_button_text">Отмена</string>
     <string name="password_edit_text_hint_text">* * * * *</string>
     <string name="token_success_text">Изменение параметров разрешено</string>
     <string name="token_fail_text">Неправильный пароль</string>
     <string name="fast_programs_button_text">Пусто</string>
+    <string name="program_default_text">Пусто</string>
+    <string name="no_password_entered">Нет доступа к записи. Необходимо ввести пароль</string>
 </resources>

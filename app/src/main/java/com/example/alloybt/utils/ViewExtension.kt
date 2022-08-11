@@ -60,3 +60,23 @@ fun showAlertDialog(context: Context, listener: (String) ->Unit) {
 	}
 	.show()
 }
+
+
+fun showBackPressDialog(context: Context, listener: () ->Unit){
+	AlertDialog.Builder(context,R.style.AlertDialogCustom)
+		.setTitle(R.string.backstack_dialog_title)
+		.setPositiveButton(R.string.password_dialog_pos_button_text)
+		{ dialog, _ ->
+			run {
+				listener()
+				dialog.dismiss()
+			}
+		}
+		.setNegativeButton(R.string.password_dialog_neg_button_text)
+		{ dialog, _ ->
+			run {
+				dialog.dismiss()
+			}
+		}
+		.show()
+}

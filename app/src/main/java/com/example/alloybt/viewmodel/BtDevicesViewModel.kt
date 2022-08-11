@@ -3,32 +3,21 @@ package com.example.alloybt.viewmodel
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Application
-import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.le.*
-import android.content.Context
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.ParcelUuid
 import android.util.Log
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat.startActivity
-import androidx.core.util.containsValue
-import androidx.core.util.forEach
 import androidx.lifecycle.*
 import com.example.alloybt.BluetoothAdapterProvider
 import com.example.alloybt.BtDevice
 import com.example.alloybt.SingleLiveEvent
 import com.example.alloybt.json_data.TigParamsList
-import com.example.alloybt.viewpager.device_control.ControlParam
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import java.lang.IllegalArgumentException
 import java.nio.charset.StandardCharsets
-import java.security.AccessControlContext
-import java.security.AccessController.getContext
+
 
 @SuppressLint("StaticFieldLeak")
 class BtDevicesViewModel(

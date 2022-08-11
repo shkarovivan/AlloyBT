@@ -72,8 +72,8 @@
 
     <ImageView
         android:id="@+id/errorImage"
-        android:layout_width="@dimen/error_image_size"
-        android:layout_height="@dimen/error_image_size"
+        android:layout_width="@dimen/menu_image_size"
+        android:layout_height="@dimen/menu_image_size"
         android:layout_marginStart="@dimen/main_margin"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"

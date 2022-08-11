@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="bottom_sheet_delay_ms">5000</integer>
+
+    <integer-array
+        name="integer_array_name">
+        <item>5</item>
+    </integer-array>
+
+</resources>

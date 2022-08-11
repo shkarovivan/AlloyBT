@@ -60,6 +60,8 @@ class SearchDevicesFragment : Fragment(R.layout.fragment_search_devices) {
         return binding.root
     }
 
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         bluetooth =
@@ -95,7 +97,8 @@ class SearchDevicesFragment : Fragment(R.layout.fragment_search_devices) {
     override fun onResume() {
         super.onResume()
         (activity as AppCompatActivity?)!!.supportActionBar!!.show()
-        activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED;
+        activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+        btDevicesListViewModel.refreshList()
     }
 
     override fun onDestroyView() {
