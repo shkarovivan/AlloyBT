@@ -24,6 +24,7 @@
     <string name="diameter_electrode_text">1.0 мм</string>
     <string name="page_head_text_monitor">Монитор</string>
     <string name="page_head_text_control">Настройки</string>
+    <string name="page_head_text_graph">График</string>
     <string name="page_head_text_errors">Ошибки</string>
     <string name="page_head_text_stat">Инфо</string>
     <string name="page_head_text_programs">Программы</string>

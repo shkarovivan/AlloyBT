@@ -3,7 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/AndroidStudio projects/AllotBT/AlloyBT/app/src/main/res/layout-land/fragment_device_control.xml" value="0.35" />
+        <entry key="..\:/AndroidStudio projects/AllotBT/AlloyBT/app/src/main/res/layout-land/fragment_device_control.xml" value="0.22" />
         <entry key="..\:/AndroidStudio projects/AllotBT/AlloyBT/app/src/main/res/layout-land/fragment_dialog_programs.xml" value="0.18" />
         <entry key="..\:/AndroidStudio projects/AllotBT/AlloyBT/app/src/main/res/layout-port/fragment_device_control.xml" value="0.2989583333333333" />
         <entry key="..\:/AndroidStudio projects/AllotBT/AlloyBT/app/src/main/res/layout-port/fragment_dialog_programs.xml" value="0.28229166666666666" />
@@ -12,6 +12,7 @@
         <entry key="..\:/AndroidStudio projects/AllotBT/AlloyBT/app/src/main/res/layout/fragment_dialog_fast_programs.xml" value="0.28229166666666666" />
         <entry key="..\:/AndroidStudio projects/AllotBT/AlloyBT/app/src/main/res/layout/fragment_dialog_tune.xml" value="0.28229166666666666" />
         <entry key="..\:/AndroidStudio projects/AllotBT/AlloyBT/app/src/main/res/layout/fragment_errors_list.xml" value="0.28229166666666666" />
+        <entry key="..\:/AndroidStudio projects/AllotBT/AlloyBT/app/src/main/res/layout/fragment_graph_param.xml" value="0.22" />
         <entry key="..\:/AndroidStudio projects/AllotBT/AlloyBT/app/src/main/res/layout/fragment_programs_list.xml" value="0.29791666666666666" />
         <entry key="..\:/AndroidStudio projects/AllotBT/AlloyBT/app/src/main/res/layout/item_device_info.xml" value="0.2989583333333333" />
         <entry key="..\:/AndroidStudio projects/AllotBT/AlloyBT/app/src/main/res/layout/item_device_program.xml" value="0.22" />
