@@ -9,11 +9,10 @@ plugins {
 android {
     signingConfigs {
         release {
-            storeFile file('F:\\AndroidStudio projects\\AllotBT\\AlloyBT\\AlloyBtKeystore.jks')
-            // storeFile file('C:\\Users\\79101\\Desktop\\Bluetooth\\AlloyBT\\AlloyBtKeystore.jks')
-            storePassword '571637'
-            keyAlias 'alloyBtRelease'
-            keyPassword '571637'
+//            storeFile file('Enter your jks file')
+//            storePassword 'Enter your password'
+//            keyAlias 'Enter your keyAlias'
+//            keyPassword 'Enter your password'
         }
     }
     compileSdk 32
