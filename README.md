@@ -1,6 +1,9 @@
 # AlloyBT
 
-## _Приложение для управления оборудованием Эллой через Bluetooh_
+## _Приложение для управления сварочным оборудованием Эллой через Bluetooth_
+
+https://play.google.com/store/apps/details?id=com.alloynn.alloybt
+
 
 Управляйте с вашего мобильного устройства сварочным оборудованием Эллой через Bluetooth подключение. Подключайтесь к оборудованию, просматривайте основные параметры через клон лицевой панели, регулируйте все параметры, просматривайте сообщения об ошибках и событиях, смотрите статистику работы оборудования. Для возможности регулировать параметры необходимо знать пароль от оборудования (прописан в паспорте оборудования). Поддерживается сварочное оборудование МС -315/500Т2 AC/DC, МС-400ТР
 
@@ -21,29 +24,13 @@
 
 ![Screenshot_20220704-133850_ BT_google-pixel4-clearlywhite-landscape](https://user-images.githubusercontent.com/48612375/210385028-d9e6153b-a4df-4c71-b376-b6f1a8dc87c8.png)
 
-- view detail photo information
-- download photo
-- share photo link
-- view photo location
-- like photo
+- просматривайте события и ошибки
 
-![Screenshot_20230103-173153_SplashPhotos_google-pixel4-clearlywhite-portrait](https://user-images.githubusercontent.com/48612375/210379138-73c1c56e-8d7e-430d-86fe-d0ccfa159328.png)
+![Screenshot_20220704-133905_ BT_google-pixel4-clearlywhite-landscape](https://user-images.githubusercontent.com/48612375/210436099-7a65d605-821d-4729-967b-0941271a7796.png)
 
-- view collections
+- анализируйте статистику работы оборудования
 
-![Screenshot_20230103-165123_SplashPhotos_google-pixel4-clearlywhite-portrait](https://user-images.githubusercontent.com/48612375/210376876-26dd043e-83ce-4fd0-921a-047101de0c48.png)
-
-- view collection photos
-
-![Screenshot_20230103-165133_SplashPhotos_google-pixel4-clearlywhite-portrait](https://user-images.githubusercontent.com/48612375/210377262-68f1f505-2fda-466d-b3e5-95763577b737.png)
-
-- view profile
-
-![Screenshot_20230103-165208_SplashPhotos_google-pixel4-clearlywhite-portrait](https://user-images.githubusercontent.com/48612375/210377416-2a5793f1-41f4-4276-87d5-cdc94e2d561d.png)
-
-- logout
-
-![Screenshot_20230103-165216_SplashPhotos_google-pixel4-clearlywhite-portrait](https://user-images.githubusercontent.com/48612375/210379515-12bfe2a9-fa9e-43f4-80b3-fe2fe87632de.png)
+![Screenshot_20220704-133911_ BT_google-pixel4-clearlywhite-landscape](https://user-images.githubusercontent.com/48612375/210436182-5117e546-d55b-49bd-b9da-13cb115f4d9b.png)
 
 
 
